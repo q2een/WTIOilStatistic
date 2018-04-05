@@ -1,0 +1,38 @@
+Q:\vsproj\WtiOil\WtiOil\bin\Debug\WtiOil.exe
+Q:\vsproj\WtiOil\WtiOil\bin\Debug\WtiOil.pdb
+Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\ResolveAssemblyReference.cache
+Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\WtiOil.MainMDI.resources
+Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\WtiOil.Properties.Resources.resources
+Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\GenerateResource.read.1.tlog
+Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\GenerateResource.write.1.tlog
+Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\WtiOil.exe
+Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\WtiOil.pdb
+Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\WtiOil.DataForm.resources
+Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\WtiOil.ChartForm.resources
+Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\WtiOil.StatisticForm.resources
+E:\it's my\univer\5-й\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.exe
+E:\it's my\univer\5-й\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.pdb
+E:\it's my\univer\5-й\КП СМОД\WtiOil\WtiOil\bin\Debug\WtiOil.exe
+E:\it's my\univer\5-й\КП СМОД\WtiOil\WtiOil\bin\Debug\WtiOil.pdb
+E:\it's my\univer\5-й\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.csprojResolveAssemblyReference.cache
+E:\it's my\univer\5-й\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.ChartForm.resources
+E:\it's my\univer\5-й\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.DataForm.resources
+E:\it's my\univer\5-й\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.MainMDI.resources
+E:\it's my\univer\5-й\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.Properties.Resources.resources
+E:\it's my\univer\5-й\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.StatisticForm.resources
+E:\it's my\univer\5-й\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.csproj.GenerateResource.Cache
+E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.exe
+E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.pdb
+E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\bin\Debug\WtiOil.exe
+E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\bin\Debug\WtiOil.pdb
+E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.csprojResolveAssemblyReference.cache
+E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.ChartForm.resources
+E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.DataForm.resources
+E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.MainMDI.resources
+E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.Properties.Resources.resources
+E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.StatisticForm.resources
+E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.csproj.GenerateResource.Cache
+E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.DateRangePickerForm.resources
+E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.PolynomialForm.resources
+Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\WtiOil.DateRangePickerForm.resources
+Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\WtiOil.PolynomialForm.resources
