@@ -1,6 +1,6 @@
 ﻿namespace WtiOil
 {
-    partial class StatisticForm
+    partial class InformationForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,25 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatisticForm));
-            this.dgvStatistics = new System.Windows.Forms.DataGridView();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InformationForm));
+            this.dgvInformation = new System.Windows.Forms.DataGridView();
             this.colParam = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStatistics)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInformation)).BeginInit();
             this.SuspendLayout();
             // 
-            // dgvStatistics
+            // dgvInformation
             // 
-            this.dgvStatistics.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvStatistics.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStatistics.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvInformation.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvInformation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvInformation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colParam,
             this.colValue});
-            this.dgvStatistics.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvStatistics.Location = new System.Drawing.Point(0, 0);
-            this.dgvStatistics.Name = "dgvStatistics";
-            this.dgvStatistics.Size = new System.Drawing.Size(515, 432);
-            this.dgvStatistics.TabIndex = 0;
+            this.dgvInformation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvInformation.Location = new System.Drawing.Point(0, 0);
+            this.dgvInformation.Name = "dgvInformation";
+            this.dgvInformation.Size = new System.Drawing.Size(515, 432);
+            this.dgvInformation.TabIndex = 0;
             // 
             // colParam
             // 
@@ -60,24 +60,23 @@
             this.colValue.Name = "colValue";
             this.colValue.ReadOnly = true;
             // 
-            // StatisticForm
+            // InformationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(515, 432);
-            this.Controls.Add(this.dgvStatistics);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Controls.Add(this.dgvInformation);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "StatisticForm";
+            this.Name = "InformationForm";
             this.Text = "Элементарные статистики";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStatistics)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInformation)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgvStatistics;
+        private System.Windows.Forms.DataGridView dgvInformation;
         private System.Windows.Forms.DataGridViewTextBoxColumn colParam;
         private System.Windows.Forms.DataGridViewTextBoxColumn colValue;
     }

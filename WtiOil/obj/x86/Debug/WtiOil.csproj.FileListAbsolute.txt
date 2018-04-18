@@ -36,3 +36,17 @@ E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.D
 E:\it's my\Drive\5й Курс\КП СМОД\WtiOil\WtiOil\obj\x86\Debug\WtiOil.PolynomialForm.resources
 Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\WtiOil.DateRangePickerForm.resources
 Q:\vsproj\WtiOil\WtiOil\obj\x86\Debug\WtiOil.PolynomialForm.resources
+Q:\git\СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.exe
+Q:\git\СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.pdb
+Q:\git\СМОД\WTIOilStatistic\WtiOil\bin\Debug\WtiOil.exe
+Q:\git\СМОД\WTIOilStatistic\WtiOil\bin\Debug\WtiOil.pdb
+Q:\git\СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\ResolveAssemblyReference.cache
+Q:\git\СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.ChartForm.resources
+Q:\git\СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.DataForm.resources
+Q:\git\СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.DateRangePickerForm.resources
+Q:\git\СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.MainMDI.resources
+Q:\git\СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.Properties.Resources.resources
+Q:\git\СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\GenerateResource.read.1.tlog
+Q:\git\СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\GenerateResource.write.1.tlog
+Q:\git\СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.InformationForm.resources
+Q:\git\СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.CountSetForm.resources

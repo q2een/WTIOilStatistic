@@ -51,7 +51,7 @@
             this.chartMI = new System.Windows.Forms.ToolStripMenuItem();
             this.drawChartMI = new System.Windows.Forms.ToolStripMenuItem();
             this.drawTrendLineMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.legendSeparatorMI = new System.Windows.Forms.ToolStripSeparator();
             this.showLegendMI = new System.Windows.Forms.ToolStripMenuItem();
             this.statisticsMI = new System.Windows.Forms.ToolStripMenuItem();
             this.calculateMI = new System.Windows.Forms.ToolStripMenuItem();
@@ -102,10 +102,12 @@
             this.drawChartTSB = new System.Windows.Forms.ToolStripButton();
             this.calculateTSB = new System.Windows.Forms.ToolStripButton();
             this.repotTSB = new System.Windows.Forms.ToolStripButton();
-            this.tbDegree = new System.Windows.Forms.ToolStripTextBox();
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.lblFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.fourierMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.waveletMI = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusBar.SuspendLayout();
@@ -115,8 +117,8 @@
             // 
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileMI,
-            this.editMI,
             this.dataMI,
+            this.editMI,
             this.chartMI,
             this.statisticsMI,
             this.reportMI,
@@ -178,6 +180,7 @@
             this.saveMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveMI.Size = new System.Drawing.Size(234, 22);
             this.saveMI.Text = "&Сохранить";
+            this.saveMI.Visible = false;
             // 
             // saveAsMI
             // 
@@ -186,6 +189,7 @@
                         | System.Windows.Forms.Keys.S)));
             this.saveAsMI.Size = new System.Drawing.Size(234, 22);
             this.saveAsMI.Text = "Сохранить &как";
+            this.saveAsMI.Visible = false;
             this.saveAsMI.Click += new System.EventHandler(this.saveAsMI_Click);
             // 
             // toolStripSeparator4
@@ -270,16 +274,20 @@
             // dataMI
             // 
             this.dataMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dateRangeMI});
+            this.dateRangeMI,
+            this.toolStripMenuItem5,
+            this.fourierMI,
+            this.waveletMI});
             this.dataMI.Name = "dataMI";
-            this.dataMI.Size = new System.Drawing.Size(63, 20);
-            this.dataMI.Text = "Данные";
+            this.dataMI.Size = new System.Drawing.Size(105, 20);
+            this.dataMI.Text = "Временной ряд";
+            this.dataMI.Visible = false;
             // 
             // dateRangeMI
             // 
             this.dateRangeMI.Name = "dateRangeMI";
-            this.dateRangeMI.Size = new System.Drawing.Size(168, 22);
-            this.dateRangeMI.Text = "Указать период";
+            this.dateRangeMI.Size = new System.Drawing.Size(177, 22);
+            this.dateRangeMI.Text = "Указать период...";
             this.dateRangeMI.Click += new System.EventHandler(this.dateRangeMI_Click);
             // 
             // chartMI
@@ -287,7 +295,7 @@
             this.chartMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.drawChartMI,
             this.drawTrendLineMI,
-            this.toolStripMenuItem3,
+            this.legendSeparatorMI,
             this.showLegendMI});
             this.chartMI.Name = "chartMI";
             this.chartMI.Size = new System.Drawing.Size(60, 20);
@@ -297,21 +305,21 @@
             // 
             this.drawChartMI.Image = ((System.Drawing.Image)(resources.GetObject("drawChartMI.Image")));
             this.drawChartMI.Name = "drawChartMI";
-            this.drawChartMI.Size = new System.Drawing.Size(223, 22);
+            this.drawChartMI.Size = new System.Drawing.Size(232, 22);
             this.drawChartMI.Text = "Построить график";
             this.drawChartMI.Click += new System.EventHandler(this.drawChartMI_Click);
             // 
             // drawTrendLineMI
             // 
             this.drawTrendLineMI.Name = "drawTrendLineMI";
-            this.drawTrendLineMI.Size = new System.Drawing.Size(223, 22);
-            this.drawTrendLineMI.Text = "Построить линию тренда";
+            this.drawTrendLineMI.Size = new System.Drawing.Size(232, 22);
+            this.drawTrendLineMI.Text = "Построить линию тренда...";
             this.drawTrendLineMI.Click += new System.EventHandler(this.drawTrendLineMI_Click);
             // 
-            // toolStripMenuItem3
+            // legendSeparatorMI
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(220, 6);
+            this.legendSeparatorMI.Name = "legendSeparatorMI";
+            this.legendSeparatorMI.Size = new System.Drawing.Size(229, 6);
             // 
             // showLegendMI
             // 
@@ -319,7 +327,7 @@
             this.showLegendMI.CheckOnClick = true;
             this.showLegendMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showLegendMI.Name = "showLegendMI";
-            this.showLegendMI.Size = new System.Drawing.Size(223, 22);
+            this.showLegendMI.Size = new System.Drawing.Size(232, 22);
             this.showLegendMI.Text = "Показать легенду";
             this.showLegendMI.Click += new System.EventHandler(this.showLegendMI_Click);
             // 
@@ -548,7 +556,7 @@
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
-            this.optionsToolStripMenuItem.Text = "&Параметры";
+            this.optionsToolStripMenuItem.Text = "&Параметры...";
             // 
             // toolStripMenuItem2
             // 
@@ -585,6 +593,7 @@
             this.windowsMI.Name = "windowsMI";
             this.windowsMI.Size = new System.Drawing.Size(47, 20);
             this.windowsMI.Text = "&Окна";
+            this.windowsMI.Visible = false;
             // 
             // cascadeMI
             // 
@@ -657,8 +666,7 @@
             this.editSeparatorTS,
             this.drawChartTSB,
             this.calculateTSB,
-            this.repotTSB,
-            this.tbDegree});
+            this.repotTSB});
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(735, 25);
@@ -693,6 +701,7 @@
             this.saveTSB.Name = "saveTSB";
             this.saveTSB.Size = new System.Drawing.Size(23, 22);
             this.saveTSB.Text = "Сохранить";
+            this.saveTSB.Visible = false;
             // 
             // toolStripSeparator1
             // 
@@ -760,12 +769,6 @@
             this.repotTSB.Size = new System.Drawing.Size(23, 22);
             this.repotTSB.Text = "Сформировать отчет";
             // 
-            // tbDegree
-            // 
-            this.tbDegree.Name = "tbDegree";
-            this.tbDegree.Size = new System.Drawing.Size(100, 25);
-            this.tbDegree.Text = "5";
-            // 
             // statusBar
             // 
             this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -781,6 +784,24 @@
             this.lblFileName.Name = "lblFileName";
             this.lblFileName.Size = new System.Drawing.Size(65, 17);
             this.lblFileName.Text = "Состояние";
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(174, 6);
+            // 
+            // fourierMI
+            // 
+            this.fourierMI.Name = "fourierMI";
+            this.fourierMI.Size = new System.Drawing.Size(177, 22);
+            this.fourierMI.Text = "Фурье-анализ";
+            this.fourierMI.Click += new System.EventHandler(this.fourierMI_Click);
+            // 
+            // waveletMI
+            // 
+            this.waveletMI.Name = "waveletMI";
+            this.waveletMI.Size = new System.Drawing.Size(177, 22);
+            this.waveletMI.Text = "Вейвлет-анализ";
             // 
             // MainMDI
             // 
@@ -864,7 +885,7 @@
         private System.Windows.Forms.ToolStripMenuItem skewnessMI;
         private System.Windows.Forms.ToolStripMenuItem showStatusBarMI;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripSeparator legendSeparatorMI;
         private System.Windows.Forms.ToolStripMenuItem showLegendMI;
         private System.Windows.Forms.ToolStripMenuItem reportMI;
         private System.Windows.Forms.ToolStripMenuItem createReportMI;
@@ -884,7 +905,9 @@
         private System.Windows.Forms.ToolStripMenuItem dataMI;
         private System.Windows.Forms.ToolStripMenuItem dateRangeMI;
         private System.Windows.Forms.ToolStripMenuItem drawTrendLineMI;
-        private System.Windows.Forms.ToolStripTextBox tbDegree;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem fourierMI;
+        private System.Windows.Forms.ToolStripMenuItem waveletMI;
     }
 }
 

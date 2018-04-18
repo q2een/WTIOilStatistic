@@ -36,6 +36,10 @@ namespace WtiOil
             {
                 return BindingData.ToList();
             }
+            set
+            {
+                BindingData = new BindingList<ItemWTI>(value);
+            }
         }
 
         public void AddRow()

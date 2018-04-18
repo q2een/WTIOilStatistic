@@ -47,40 +47,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculations\FourierTransform.cs" />
     <Compile Include="ChartForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ChartForm.Designer.cs">
       <DependentUpon>ChartForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\Harmonic.cs" />
     <Compile Include="DateRangePickerForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DateRangePickerForm.Designer.cs">
       <DependentUpon>DateRangePickerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="IData.cs" />
-    <Compile Include="PolynomialForm.cs">
+    <Compile Include="Data\IData.cs" />
+    <Compile Include="CountSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PolynomialForm.Designer.cs">
-      <DependentUpon>PolynomialForm.cs</DependentUpon>
+    <Compile Include="CountSetForm.Designer.cs">
+      <DependentUpon>CountSetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PolynomialRegression.cs" />
-    <Compile Include="StatisticForm.cs">
+    <Compile Include="Calculations\PolynomialRegression.cs" />
+    <Compile Include="InformationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StatisticForm.Designer.cs">
-      <DependentUpon>StatisticForm.cs</DependentUpon>
+    <Compile Include="InformationForm.Designer.cs">
+      <DependentUpon>InformationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Statistics.cs" />
+    <Compile Include="Calculations\Statistics.cs" />
     <Compile Include="DataForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DataForm.Designer.cs">
       <DependentUpon>DataForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ItemWTI.cs" />
+    <Compile Include="Data\ItemWTI.cs" />
     <Compile Include="MainMDI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,8 +104,8 @@
       <DependentUpon>MainMDI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PolynomialForm.resx">
-      <DependentUpon>PolynomialForm.cs</DependentUpon>
+    <EmbeddedResource Include="CountSetForm.resx">
+      <DependentUpon>CountSetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -114,8 +116,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="StatisticForm.resx">
-      <DependentUpon>StatisticForm.cs</DependentUpon>
+    <EmbeddedResource Include="InformationForm.resx">
+      <DependentUpon>InformationForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -127,6 +129,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

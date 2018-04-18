@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WtiOil
@@ -12,6 +7,9 @@ namespace WtiOil
     public partial class ChartForm : Form, IData
     {
         #region IData Implementation
+
+        public List<ItemWTI> FullData { get; set; }
+
         private List<ItemWTI> data;
         public List<ItemWTI> Data
         {
@@ -22,103 +20,100 @@ namespace WtiOil
             set
             {
                 data = value;
-                DrawChart(data);
+                DrawChart(this);
             }
         }
         #endregion
 
         // Конструктор класса.
-        public ChartForm():this(null)
-        {
-        }
-
-        // Конструктор класса.
-        public ChartForm(List<ItemWTI> data)
+        public ChartForm()
         {
             InitializeComponent();
-            this.Data = data;
         }
 
         /// <summary>
         /// Отображает исходные данные на графике.
         /// </summary>
         /// <param name="dataValues">Коллекция данных</param>
-        public void DrawChart(List<ItemWTI> dataValues)
+        public void DrawChart(IData data)
         {
-            /* Возможный вариант
-            chart.DataSource = data;
-            chart.Series["main"].XValueMember = "Date";
-            chart.Series["main"].YValueMembers = "Value";
-            chart.DataBind();*/
-
-            if (dataValues == null)
-                return;
-            
-            if(this.Data != dataValues)
-                this.Data = dataValues;
+            this.data = data.Data;
+            this.FullData = data.FullData;
 
             // Убрать линию тренда с графика.
             chart.Series["trend"].Enabled = false;
-            chart.Series["trend"].Points.Clear();            
+            chart.Series["trend"].Points.Clear();
+
+            // Убрать Фурье-анализ с графика.
+            chart.Series["fourier"].Enabled = false;
+            chart.Series["fourier"].Points.Clear(); 
             
             chart.Series["main"].Points.Clear();
 
-            foreach (var wti in dataValues)
+            foreach (var wti in Data)
             {
                 chart.Series["main"].Points.AddXY(wti.Date, wti.Value); 
             }
 
-            if (dataValues.Count < 1)
+            if (Data.Count < 1)
                 return;
-
-            // Верхняя и нижняя границы.
-            chart.ChartAreas[0].AxisY.Maximum = Math.Round(dataValues.Max(), 1);
-            chart.ChartAreas[0].AxisY.Minimum = Math.Round(dataValues.Min(), 1);
             
-            // Интервал У
-            chart.ChartAreas[0].AxisY.Interval = dataValues.Interval() < 30 ? Math.Floor(dataValues.Interval()/10): chart.ChartAreas[0].AxisY.Interval;
+            // Верхняя и нижняя границы.
+            chart.ChartAreas[0].AxisY.Maximum = Math.Round(Data.Max(), 1);
+            chart.ChartAreas[0].AxisY.Minimum = Math.Round(Data.Min(), 1);
+            
+            // Интервал У.
+            chart.ChartAreas[0].AxisY.Interval = Data.Interval() < 20 ?  1 : Math.Floor(Data.Interval() / 20);
 
             // Интревал х. Если диапазон значений - менсяц, то интервал равен 1, если нет - 2.   
-            chart.ChartAreas[0].AxisX.MajorGrid.Interval = dataValues.Count <= 31 ? 1 : 2;
+            chart.ChartAreas[0].AxisX.MajorGrid.Interval = Data.Count <= 31 ? 1 : 2;
 
             // Если диапазон значений - менсяц. Выводить метку каждый день. Если нет - общее количество / 30.
-            chart.ChartAreas[0].AxisX.Interval = dataValues.Count <= 31 ? 31 : dataValues.Count / 30;
+            chart.ChartAreas[0].AxisX.Interval = Data.Count <= 31 ? 1 : Data.Count / 30;
+        }
+
+        /// <summary>
+        /// Отображает функцию на графике.
+        /// </summary>
+        /// <param name="seriesName">Наименование <c>Series</c></param>
+        /// <param name="data">Экземаляр класса, реализующего IData</param>
+        /// <param name="polinomialDegree">Стиепень полинома для полиномиальной регрессии</param>
+        private void DrawFunction(string seriesName, IData data, double[] yValues)
+        {
+            if (!chart.Series.Contains(chart.Series[seriesName]))
+                throw new Exception();
+
+            // Построить график исходной функции.
+            DrawChart(data);
+
+            // Очищаем данные линии тренда и делаем ее видимой.
+            chart.Series[seriesName].Points.Clear();
+            chart.Series[seriesName].Enabled = true;
+
+            for (int i = 0; i < yValues.Length; i++)
+            {
+                chart.Series[seriesName].Points.AddXY(Data[i].Date, yValues[i]);
+            }
         }
 
         /// <summary>
         /// Отображает линию тренда на графике.
         /// </summary>
-        /// <param name="dataValues">Коллекция данных</param>
+        /// <param name="data">Экземаляр класса, реализующего IData</param>
         /// <param name="polinomialDegree">Стиепень полинома для полиномиальной регрессии</param>
-        public void DrawTrend(List<ItemWTI> dataValues, byte polinomialDegree)
+        public void DrawTrend(IData data, double[] yValues)
         {
-            // Построить график исходной функции.
-            DrawChart(dataValues);
-            
-            // Очищаем данные линии тренда и делаем ее видимой.
-            chart.Series["trend"].Points.Clear();
-            chart.Series["trend"].Enabled = true;
-
-            // Расчетные значения у.
-            var y = GetRegressionCoefficients(polinomialDegree);
-
-            for (int i = 0; i < y.Length; i++)
-            {
-                chart.Series["trend"].Points.AddXY(dataValues[i].Date, y[i]);
-            }
+            DrawFunction("trend", data, yValues);
         }
 
         /// <summary>
-        /// Возвращает массив расчетных значений f(x) для полиномиальной регрессии.
+        /// Отображает результат Фурье-анализа.
         /// </summary>
-        /// <param name="polinomialDegree">Степень полинома</param>
-        /// <returns>Массив расчетных значений f(x)</returns>
-        private double[] GetRegressionCoefficients(byte polinomialDegree)
+        /// <param name="data">Экземаляр класса, реализующего IData</param>
+        /// <param name="polinomialDegree">Стиепень полинома для полиномиальной регрессии</param>
+        public void DrawFourier(IData data, double[] yValues)
         {
-            var xvalues = Enumerable.Range(1,Data.Count).Select(z => z + 0.0).ToArray();
-            var coeff = PolynomialRegression.GetCoefficients(xvalues, Data.Select(i => i.Value).ToArray(), polinomialDegree);
-            
-            return PolynomialRegression.GetYFromXValue(coeff, xvalues);
+            DrawFunction("fourier", data, yValues);
         }
 
         /// <summary>

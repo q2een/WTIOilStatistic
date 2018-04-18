@@ -11,15 +11,15 @@ namespace WtiOil
 {
     public partial class DateRangePickerForm : Form
     {
-        private DataForm dataForm;
+        private IData data;
 
-        public DateRangePickerForm(DataForm dataForm)
+        public DateRangePickerForm(IData data)
         {
             InitializeComponent();
-            this.dataForm = dataForm;
-            tbDateFrom.Text = dataForm.Data[0].Date.Date + "";
-            tbDateTo.Text = dataForm.Data.Last().Date.Date + "";
-            lblRange.Text = String.Format("c {0:MM/dd/yyyy}\nпо {1:MM/dd/yyyy}", dataForm.Data[0].Date, dataForm.Data.Last().Date.Date);
+            this.data = data;
+            tbDateFrom.Text = data.Data[0].Date.Date + "";
+            tbDateTo.Text = data.Data.Last().Date.Date + "";
+            lblRange.Text = String.Format("c {0:dd/MM/yyyy}\nпо {1:dd/MM/yyyy}", data.FullData[0].Date, data.FullData.Last().Date.Date);
         }
 
         private void btnConfirm_Click(object sender, EventArgs e)
@@ -32,15 +32,15 @@ namespace WtiOil
                 if (from > to)
                     throw new Exception("Конечное значение должно быть больше начального");
 
-                if (from < dataForm.FullData[0].Date || to > dataForm.FullData.Last().Date)
+                if (from < data.FullData[0].Date || to > data.FullData.Last().Date)
                     throw new Exception(String.Format("Начально значение должно быть не раньше {0}, а конечное не позже чем {1}", 
-                        dataForm.FullData[0].Date.ToString("MM/dd/yyyy"), dataForm.FullData.Last().Date.ToString("MM/dd/yyyy")));
+                        data.FullData[0].Date.ToString("MM/dd/yyyy"), data.FullData.Last().Date.ToString("MM/dd/yyyy")));
 
                 // TODO проверка даты по индексам, чтобы не было ошибок, если пропущена дата.
-                var start = dataForm.FullData.IndexOf(dataForm.FullData.First(z => z.Date == from));
-                var end = dataForm.FullData.IndexOf(dataForm.FullData.First(z => z.Date == to));
+                var start = data.FullData.IndexOf(data.FullData.First(z => z.Date == from));
+                var end = data.FullData.IndexOf(data.FullData.First(z => z.Date == to));
 
-                dataForm.BindingData = new System.ComponentModel.BindingList<ItemWTI>(dataForm.FullData.Skip(start).Take(end - start).ToList());
+                data.Data = data.FullData.Skip(start).Take(end+1 - start).ToList();
 
                 this.Close();
             }

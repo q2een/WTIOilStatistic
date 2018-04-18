@@ -7,6 +7,7 @@ namespace WtiOil
 {
     public interface IData
     {
-        List<ItemWTI> Data { get;}
+        List<ItemWTI> FullData { get; }
+        List<ItemWTI> Data { get; set; }
     }
 }
