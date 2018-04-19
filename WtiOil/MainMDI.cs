@@ -121,6 +121,7 @@ namespace WtiOil
         public void InitialElementsState()
         {
             SetEditMenuItemsState(false);
+            SetDataMenuitems(false, false);
             SetChartMenuItemsState(false,false,false);
             SetStatisticItemsState(false);
             SetReportItemsState(false);
@@ -138,17 +139,18 @@ namespace WtiOil
         // Состояние элементов меню "Временной ряд".
         private void SetDataMenuitems(bool isFourier, bool isWavelet)
         {
-            fourierMI.Visible = isFourier;
-            waveletMI.Visible = isWavelet;
+            fourierMI.Visible = fourierTSB.Visible = isFourier;
+            waveletMI.Visible = waveletTSB.Visible = isWavelet;
+            dataSeparatorTSB.Visible = isFourier || isWavelet;
         }
 
         // Состояние элементов меню "График".
         private void SetChartMenuItemsState(bool isDrawChart, bool isLegend, bool isDrawTrend)
         {
-            chartMI.Visible = isDrawChart || isDrawTrend;
+            chartMI.Visible = chartSeparatorTSB.Visible = isDrawChart || isDrawTrend;
             drawChartMI.Visible = drawChartTSB.Visible = isDrawChart;
             showLegendMI.Visible = legendSeparatorMI.Visible = isLegend;
-            drawTrendLineMI.Visible = isDrawTrend;
+            drawTrendLineMI.Visible = drawTrendLineTSB.Visible = isDrawTrend;
         }
 
         // Состояние элементов меню "Правка".

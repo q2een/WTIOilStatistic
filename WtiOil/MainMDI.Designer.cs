@@ -39,6 +39,11 @@
             this.saveAsMI = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.exitMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.dateRangeMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.fourierMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.waveletMI = new System.Windows.Forms.ToolStripMenuItem();
             this.editMI = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,8 +51,6 @@
             this.insertMI = new System.Windows.Forms.ToolStripMenuItem();
             this.editRowMI = new System.Windows.Forms.ToolStripMenuItem();
             this.removeMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.dateRangeMI = new System.Windows.Forms.ToolStripMenuItem();
             this.chartMI = new System.Windows.Forms.ToolStripMenuItem();
             this.drawChartMI = new System.Windows.Forms.ToolStripMenuItem();
             this.drawTrendLineMI = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,9 +108,11 @@
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.lblFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.fourierMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.waveletMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.drawTrendLineTSB = new System.Windows.Forms.ToolStripButton();
+            this.chartSeparatorTSB = new System.Windows.Forms.ToolStripSeparator();
+            this.fourierTSB = new System.Windows.Forms.ToolStripButton();
+            this.waveletTSB = new System.Windows.Forms.ToolStripButton();
+            this.dataSeparatorTSB = new System.Windows.Forms.ToolStripSeparator();
             this.menu.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusBar.SuspendLayout();
@@ -205,6 +210,46 @@
             this.exitMI.Text = "В&ыход";
             this.exitMI.Click += new System.EventHandler(this.ExitToolsStripMenuItem_Click);
             // 
+            // dataMI
+            // 
+            this.dataMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dateRangeMI,
+            this.toolStripMenuItem5,
+            this.fourierMI,
+            this.waveletMI});
+            this.dataMI.Name = "dataMI";
+            this.dataMI.Size = new System.Drawing.Size(105, 20);
+            this.dataMI.Text = "Временной ряд";
+            this.dataMI.Visible = false;
+            // 
+            // dateRangeMI
+            // 
+            this.dateRangeMI.Image = ((System.Drawing.Image)(resources.GetObject("dateRangeMI.Image")));
+            this.dateRangeMI.Name = "dateRangeMI";
+            this.dateRangeMI.Size = new System.Drawing.Size(177, 22);
+            this.dateRangeMI.Text = "Указать период...";
+            this.dateRangeMI.Click += new System.EventHandler(this.dateRangeMI_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(174, 6);
+            // 
+            // fourierMI
+            // 
+            this.fourierMI.Image = ((System.Drawing.Image)(resources.GetObject("fourierMI.Image")));
+            this.fourierMI.Name = "fourierMI";
+            this.fourierMI.Size = new System.Drawing.Size(177, 22);
+            this.fourierMI.Text = "Фурье-анализ";
+            this.fourierMI.Click += new System.EventHandler(this.fourierMI_Click);
+            // 
+            // waveletMI
+            // 
+            this.waveletMI.Image = ((System.Drawing.Image)(resources.GetObject("waveletMI.Image")));
+            this.waveletMI.Name = "waveletMI";
+            this.waveletMI.Size = new System.Drawing.Size(177, 22);
+            this.waveletMI.Text = "Вейвлет-анализ";
+            // 
             // editMI
             // 
             this.editMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -271,25 +316,6 @@
             this.removeMI.Text = "&Удалить";
             this.removeMI.Click += new System.EventHandler(this.CopyToolStripMenuItem_Click);
             // 
-            // dataMI
-            // 
-            this.dataMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dateRangeMI,
-            this.toolStripMenuItem5,
-            this.fourierMI,
-            this.waveletMI});
-            this.dataMI.Name = "dataMI";
-            this.dataMI.Size = new System.Drawing.Size(105, 20);
-            this.dataMI.Text = "Временной ряд";
-            this.dataMI.Visible = false;
-            // 
-            // dateRangeMI
-            // 
-            this.dateRangeMI.Name = "dateRangeMI";
-            this.dateRangeMI.Size = new System.Drawing.Size(177, 22);
-            this.dateRangeMI.Text = "Указать период...";
-            this.dateRangeMI.Click += new System.EventHandler(this.dateRangeMI_Click);
-            // 
             // chartMI
             // 
             this.chartMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -311,6 +337,7 @@
             // 
             // drawTrendLineMI
             // 
+            this.drawTrendLineMI.Image = ((System.Drawing.Image)(resources.GetObject("drawTrendLineMI.Image")));
             this.drawTrendLineMI.Name = "drawTrendLineMI";
             this.drawTrendLineMI.Size = new System.Drawing.Size(232, 22);
             this.drawTrendLineMI.Text = "Построить линию тренда...";
@@ -665,6 +692,11 @@
             this.removeTSB,
             this.editSeparatorTS,
             this.drawChartTSB,
+            this.drawTrendLineTSB,
+            this.chartSeparatorTSB,
+            this.fourierTSB,
+            this.waveletTSB,
+            this.dataSeparatorTSB,
             this.calculateTSB,
             this.repotTSB});
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
@@ -785,23 +817,44 @@
             this.lblFileName.Size = new System.Drawing.Size(65, 17);
             this.lblFileName.Text = "Состояние";
             // 
-            // toolStripMenuItem5
+            // drawTrendLineTSB
             // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(174, 6);
+            this.drawTrendLineTSB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.drawTrendLineTSB.Image = ((System.Drawing.Image)(resources.GetObject("drawTrendLineTSB.Image")));
+            this.drawTrendLineTSB.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.drawTrendLineTSB.Name = "drawTrendLineTSB";
+            this.drawTrendLineTSB.Size = new System.Drawing.Size(23, 22);
+            this.drawTrendLineTSB.Text = "Построить линию тренда";
+            this.drawTrendLineTSB.Click += new System.EventHandler(this.drawTrendLineMI_Click);
             // 
-            // fourierMI
+            // chartSeparatorTSB
             // 
-            this.fourierMI.Name = "fourierMI";
-            this.fourierMI.Size = new System.Drawing.Size(177, 22);
-            this.fourierMI.Text = "Фурье-анализ";
-            this.fourierMI.Click += new System.EventHandler(this.fourierMI_Click);
+            this.chartSeparatorTSB.Name = "chartSeparatorTSB";
+            this.chartSeparatorTSB.Size = new System.Drawing.Size(6, 25);
             // 
-            // waveletMI
+            // fourierTSB
             // 
-            this.waveletMI.Name = "waveletMI";
-            this.waveletMI.Size = new System.Drawing.Size(177, 22);
-            this.waveletMI.Text = "Вейвлет-анализ";
+            this.fourierTSB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fourierTSB.Image = ((System.Drawing.Image)(resources.GetObject("fourierTSB.Image")));
+            this.fourierTSB.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fourierTSB.Name = "fourierTSB";
+            this.fourierTSB.Size = new System.Drawing.Size(23, 22);
+            this.fourierTSB.Text = "Фурье-анализ";
+            this.fourierTSB.Click += new System.EventHandler(this.fourierMI_Click);
+            // 
+            // waveletTSB
+            // 
+            this.waveletTSB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.waveletTSB.Image = ((System.Drawing.Image)(resources.GetObject("waveletTSB.Image")));
+            this.waveletTSB.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.waveletTSB.Name = "waveletTSB";
+            this.waveletTSB.Size = new System.Drawing.Size(23, 22);
+            this.waveletTSB.Text = "Вейвлет-анализ";
+            // 
+            // dataSeparatorTSB
+            // 
+            this.dataSeparatorTSB.Name = "dataSeparatorTSB";
+            this.dataSeparatorTSB.Size = new System.Drawing.Size(6, 25);
             // 
             // MainMDI
             // 
@@ -908,6 +961,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem fourierMI;
         private System.Windows.Forms.ToolStripMenuItem waveletMI;
+        private System.Windows.Forms.ToolStripButton drawTrendLineTSB;
+        private System.Windows.Forms.ToolStripSeparator chartSeparatorTSB;
+        private System.Windows.Forms.ToolStripButton fourierTSB;
+        private System.Windows.Forms.ToolStripButton waveletTSB;
+        private System.Windows.Forms.ToolStripSeparator dataSeparatorTSB;
     }
 }
 
