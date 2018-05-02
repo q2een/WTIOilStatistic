@@ -69,6 +69,13 @@
       <DependentUpon>CountSetForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Calculations\PolynomialRegression.cs" />
+    <Compile Include="HTMLReportBuilder.cs" />
+    <Compile Include="HTMLReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HTMLReportForm.Designer.cs">
+      <DependentUpon>HTMLReportForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="InformationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +106,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DateRangePickerForm.resx">
       <DependentUpon>DateRangePickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HTMLReportForm.resx">
+      <DependentUpon>HTMLReportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainMDI.resx">
       <DependentUpon>MainMDI.cs</DependentUpon>

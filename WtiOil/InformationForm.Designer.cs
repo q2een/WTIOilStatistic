@@ -30,8 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InformationForm));
             this.dgvInformation = new System.Windows.Forms.DataGridView();
-            this.colParam = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInformation)).BeginInit();
             this.SuspendLayout();
             // 
@@ -39,26 +37,11 @@
             // 
             this.dgvInformation.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvInformation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvInformation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colParam,
-            this.colValue});
             this.dgvInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvInformation.Location = new System.Drawing.Point(0, 0);
             this.dgvInformation.Name = "dgvInformation";
             this.dgvInformation.Size = new System.Drawing.Size(515, 432);
             this.dgvInformation.TabIndex = 0;
-            // 
-            // colParam
-            // 
-            this.colParam.HeaderText = "Параметр";
-            this.colParam.Name = "colParam";
-            this.colParam.ReadOnly = true;
-            // 
-            // colValue
-            // 
-            this.colValue.HeaderText = "Значение";
-            this.colValue.Name = "colValue";
-            this.colValue.ReadOnly = true;
             // 
             // InformationForm
             // 
@@ -77,7 +60,5 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvInformation;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colParam;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colValue;
     }
 }

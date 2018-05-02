@@ -432,9 +432,102 @@ namespace WtiOil
             polynimForm.Show(this);
         }
 
+        public void BuildReport(string path,
+                                 bool isStatisticsBlock,
+                                 bool isAverage,
+                                 bool isStandardError,
+                                 bool isMediana,
+                                 bool isMode,
+                                 bool isStandardDeviation,
+                                 bool isDispersion,
+                                 bool isSkewness,
+                                 bool isKurtosis,
+                                 bool isInterval,
+                                 bool isMin,
+                                 bool isMax,
+                                 bool isSum,
+                                 bool isRegressionBlock,
+                                 int degree,
+                                 bool isFourierBlock,
+                                 int harmonicsCount)
+        {
+            string resources = path + @"/resources";
+            Directory.CreateDirectory(resources);
+            HTMLReportBuilder html = new HTMLReportBuilder();
+            string statisticsBlock = "", regressionBlock = "", fourierBlock = "";
+
+            // Images.
+            var sourceFunc = resources + "//sourcefunc.png";
+            var trend = resources + "//trend.png";
+            var fourier = resources + "//fourier.png";
+            
+            var iData = (this.ActiveMdiChild as IData);
+            var data = iData.Data;
+
+            double[] xValues = Enumerable.Range(1, data.Count).Select(z => z + 0.0).ToArray();
+            double[] yValues = data.Select(i => i.Value).ToArray();
+
+            var chart = new ChartForm();
+            chart.Size = new System.Drawing.Size(1280, 720);
+            chart.DrawChart(iData);
+            chart.SaveChart(sourceFunc);
+
+            var dataBlock = html.GetDataBlock(data, sourceFunc);
+
+            var inform = new InformationForm(InformationType.Statistics);
+            
+            if (isStatisticsBlock)
+            {
+                var statistics = inform.ShowStatistic(iData, isAverage, isStandardError, isMediana, isMode, isStandardDeviation, isDispersion, isSkewness, isKurtosis, isInterval, isMin, isMax, isSum);
+
+                statisticsBlock = html.GetStatisticsBlock(statistics);
+            }
+
+            if (isRegressionBlock)
+            {
+                var coeff = PolynomialRegression.GetCoefficients(xValues, yValues, (byte)degree);
+                var y = PolynomialRegression.GetYFromXValue(coeff, xValues);
+                var regressionInfo = inform.ShowRegression(iData, coeff, y);
+                chart.DrawTrend(iData, y);
+                chart.SaveChart(trend);
+                regressionBlock = html.GetRegressionBlock(regressionInfo, trend);
+            }
+
+            if (isFourierBlock)
+            {
+                var harmonics = FourierTransform.GetHarmonics(1.0 / (double)((double)1 * xValues.Length), 1, harmonicsCount, yValues);
+                var yFourier = FourierTransform.GetYFromXValue(harmonics, xValues, yValues);
+                var harmonicsInfo = inform.ShowFourier(iData, harmonics, yFourier);
+                chart.DrawFourier(iData, yFourier);
+                chart.SaveChart(fourier);
+                fourierBlock = html.GetFourierBlock(harmonicsInfo,fourier);
+            }
+
+            var body = dataBlock + statisticsBlock + regressionBlock + fourierBlock;
+            var report = html.GetDocumentStructure("Отчет", body);
+            File.WriteAllText(path+@"/report.html", report);
+        }
+
+        private void CreateReport(string path)
+        {
+            Directory.CreateDirectory(path+@"/resources");
+            var sourceFunc = path+@"/resources/sourcefunc.png";
+            var iData = (this.ActiveMdiChild as IData);
+
+            var chart = new ChartForm();
+            chart.Size = new System.Drawing.Size(1280, 720);
+            chart.DrawChart(iData);
+            chart.SaveChart(sourceFunc);
+
+            HTMLReportBuilder html = new HTMLReportBuilder();
+            var s = html.GetDocumentStructure("Отчет", html.GetDataBlock(iData.Data, sourceFunc));
+            File.WriteAllText("report.html", s);
+        }
+
         private void createReportMI_Click(object sender, EventArgs e)
         {
-
+            //CreateReport(Directory.GetCurrentDirectory());
+            new HTMLReportForm().Show(this);
         }
 
         private void dateRangeMI_Click(object sender, EventArgs e)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Drawing.Imaging;
 
 namespace WtiOil
 {
@@ -70,6 +71,11 @@ namespace WtiOil
 
             // Если диапазон значений - менсяц. Выводить метку каждый день. Если нет - общее количество / 30.
             chart.ChartAreas[0].AxisX.Interval = Data.Count <= 31 ? 1 : Data.Count / 30;
+        }
+
+        public void SaveChart(string path)
+        {
+            chart.SaveImage(path, ImageFormat.Png);
         }
 
         /// <summary>

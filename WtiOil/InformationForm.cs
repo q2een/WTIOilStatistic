@@ -54,100 +54,83 @@ namespace WtiOil
         }
 
         /// <summary>
-        /// Добавляет строку в элементу управления DataGridView.
-        /// </summary>
-        /// <param name="parameter">Параметр (первый столбец)</param>
-        /// <param name="value">Значние (второй столбец) в формате 0.000</param>
-        private void AddInformationDataGridRow(string parameter, double? value)
-        {
-            AddInformationDataGridRow(parameter, String.Format("{0:0.000}", value));
-        }
-
-        /// <summary>
-        /// Добавляет строку в элементу управления DataGridView.
-        /// </summary>
-        /// <param name="parameter">Параметр (первый столбец)</param>
-        /// <param name="value">Значние (второй столбец)</param>
-        private void AddInformationDataGridRow(string parameter, string value)
-        {
-            var row = new DataGridViewRow();
-            row.CreateCells(dgvInformation);
-
-            row.Cells[0].Value = parameter;
-            row.Cells[1].Value = value;
-
-            dgvInformation.Rows.Add(row);
-        }
-
-        /// <summary>
-        /// Отображает данные, полученные при расчете полиномиальной регрессии.
+        /// Отображает данные, полученные при расчете полиномиальной регрессии, и возвращает отображаемую коллекцию.
         /// </summary>
         /// <param name="data">Экземпляр класса, реализующего интерфейс IData</param>
         /// <param name="coefficients">Коллекция коэффициентов полинома</param>
         /// <param name="yValues">Значение расчетных У</param>
-        public void ShowRegression(IData data, double[] coefficients, double[] yValues)
+        public List<InformationItem> ShowRegression(IData data, double[] coefficients, double[] yValues)
         {
             this.Data = data.Data;
             this.FullData = data.FullData;
             this.YValues = yValues;
-            
-            dgvInformation.Rows.Clear();
+
+            var regression = new List<InformationItem>();
             double error = PolynomialRegression.GetError(Data.Select(i => i.Value).ToArray(), yValues);
 
-            AddInformationDataGridRow("Степень полинома", (coefficients.Length - 1) + "");
-            AddInformationDataGridRow("Погрешность", error);
-            AddInformationDataGridRow("Коэффициенты", "");
+            regression.Add(new InformationItem("Степень полинома", (coefficients.Length - 1) + ""));
+            regression.Add(new InformationItem("Погрешность", error));
+            regression.Add(new InformationItem("Коэффициенты", ""));
 
             for (int i = 0; i < coefficients.Length; i++)
             {
                 var format = Math.Round(Math.Abs(coefficients[i]), 3) < 0.001 ? "{0:e3}" : "{0:0.000}";
-                AddInformationDataGridRow("A[" + i + "]", String.Format(format, coefficients[i]));
+                regression.Add(new InformationItem("A[" + i + "]", String.Format(format, coefficients[i])));
             }
 
-            AddInformationDataGridRow("Расчетные значения: ", "");
+            regression.Add(new InformationItem("Расчетные значения: ", ""));
 
             for (int i = 0; i < yValues.Length; i++)
             {
-                AddInformationDataGridRow(Data[i].Date.ToString("dd/MM/yyyy"), yValues[i]);
+                regression.Add(new InformationItem(Data[i].Date.ToString("dd/MM/yyyy"), yValues[i]));
             }
+
+            dgvInformation.DataSource = regression;
+
+            return regression;
         }
 
         /// <summary>
-        /// Отображает данные, полученные при Фурье-анализе.
+        /// Отображает данные, полученные при Фурье-анализе и возвращает коллекцию отображаемых данных.
         /// </summary>
         /// <param name="data">Экземпляр класса, реализующего интерфейс IData</param>
         /// <param name="harmonics">Коллекция гармоник</param>
         /// <param name="yValues">Значение расчетных У</param>
-        public void ShowFourier(IData data, List<Harmonic> harmonics, double[] yValues)
+        public List<InformationItem> ShowFourier(IData data, List<Harmonic> harmonics, double[] yValues)
         {
             this.Data = data.Data;
             this.FullData = data.FullData;
             YValues = yValues;
 
             if (harmonics == null)
-                return;
+                return new List<InformationItem>();
 
-            dgvInformation.Rows.Clear();
+            var fourier = new List<InformationItem>();
+
             double error = FourierTransform.GetError(harmonics, data.Data.Select(i=>i.Value).ToArray(), yValues);
-            AddInformationDataGridRow("Период", yValues.Length * 0.2);
-            AddInformationDataGridRow("Δt", 0.200);
-            AddInformationDataGridRow("Погрешность", error);
-            AddInformationDataGridRow("Число гармоник", harmonics.Count + "");
+            fourier.Add(new InformationItem("Период", yValues.Length * 0.2));
+            fourier.Add(new InformationItem("Δt", 0.200));
+            fourier.Add(new InformationItem("Погрешность", error));
+            fourier.Add(new InformationItem("Число гармоник", harmonics.Count + ""));
 
             for (int i = 1; i < harmonics.Count; i++)
             {
-                AddInformationDataGridRow(i + " Гармоника", "");
-                AddInformationDataGridRow("Частота", harmonics[i].Frequency);
-                AddInformationDataGridRow("Коэффициет Фурье a[" + i + "]",harmonics[i].A);
-                AddInformationDataGridRow("Коэффициет Фурье b[" + i + "]",harmonics[i].B);
-                AddInformationDataGridRow("Амплитуда", harmonics[i].Аmplitude);
-                AddInformationDataGridRow("Фаза, °", harmonics[i].Phase * (180 / Math.PI));
-            } 
+                fourier.Add(new InformationItem(i + " Гармоника", ""));
+                fourier.Add(new InformationItem("Частота", harmonics[i].Frequency));
+                fourier.Add(new InformationItem("Коэффициет Фурье a[" + i + "]",harmonics[i].A));
+                fourier.Add(new InformationItem("Коэффициет Фурье b[" + i + "]",harmonics[i].B));
+                fourier.Add(new InformationItem("Амплитуда", harmonics[i].Аmplitude));
+                fourier.Add(new InformationItem("Фаза, °", harmonics[i].Phase * (180 / Math.PI)));
+            }
+
+            dgvInformation.DataSource = fourier;
+
+            return fourier;
 
         }
 
         /// <summary>
-        /// Отображает элементарные статистики
+        /// Отображает элементарные статистики и возвращает отображаемую коллекцию.
         /// </summary>
         /// <param name="data">Экземпляр класса, реализующего интерфейс IData</param>
         /// <param name="isAverage">Отображать среднее значение</param>
@@ -162,7 +145,7 @@ namespace WtiOil
         /// <param name="isMin">Отображать минимальное значение</param>
         /// <param name="isMax">Отображать максимальное значение</param>
         /// <param name="isSum">Отображать сумму элементов</param>
-        public void ShowStatistic(IData data, bool isAverage, 
+        public List<InformationItem> ShowStatistic(IData data, bool isAverage, 
                                                       bool isStandardError, 
                                                       bool isMediana, 
                                                       bool isMode, 
@@ -176,47 +159,51 @@ namespace WtiOil
                                                       bool isSum)
         {
             this.Data = data.Data;
-            this.FullData = data.FullData; 
+            this.FullData = data.FullData;
 
-            dgvInformation.Rows.Clear();
+            var statistics = new List<InformationItem>();
 
             if (isAverage)
-                AddInformationDataGridRow("Среднее", Data.Average());
+                statistics.Add(new InformationItem("Среднее", Data.Average()));
 
             if (isStandardError)
-                AddInformationDataGridRow("Станд. ошибка", Data.StandardError());
+                statistics.Add(new InformationItem("Станд. ошибка", Data.StandardError()));
 
             if (isMediana)
-                AddInformationDataGridRow("Медиана", Data.Median());
+                statistics.Add(new InformationItem("Медиана", Data.Median()));
 
             if (isMode)
-                AddInformationDataGridRow("Мода", Data.Mode());
+                statistics.Add(new InformationItem("Мода", Data.Mode()));
 
             if (isStandardDeviation)
-                AddInformationDataGridRow("Станд. отклонение", Data.StandardDeviation());
+                statistics.Add(new InformationItem("Станд. отклонение", Data.StandardDeviation()));
 
             if (isDispersion)
-                AddInformationDataGridRow("Дисперсия выборки", Data.Dispersion());
+                statistics.Add(new InformationItem("Дисперсия выборки", Data.Dispersion()));
 
             if (isSkewness)
-                AddInformationDataGridRow("Эксцесс", Data.Skewness());
+                statistics.Add(new InformationItem("Эксцесс", Data.Skewness()));
 
             if (isKurtosis)
-                AddInformationDataGridRow("Асимметричность", Data.Kurtosis());
+                statistics.Add(new InformationItem("Асимметричность", Data.Kurtosis()));
 
             if (isInterval)
-                AddInformationDataGridRow("Интервал", Data.Interval());
+                statistics.Add(new InformationItem("Интервал", Data.Interval()));
 
             if (isMin)
-                AddInformationDataGridRow("Минимум", Data.Min());
+                statistics.Add(new InformationItem("Минимум", Data.Min()));
 
             if (isMax)
-                AddInformationDataGridRow("Максимум", Data.Max());
+                statistics.Add(new InformationItem("Максимум", Data.Max()));
 
             if (isSum)
-                AddInformationDataGridRow("Сумма", Data.Sum());
+                statistics.Add(new InformationItem("Сумма", Data.Sum()));
 
-                AddInformationDataGridRow("Счет", Data.Count());
+            statistics.Add(new InformationItem("Счет", Data.Count()));
+
+            dgvInformation.DataSource = statistics;
+
+            return statistics;
         }
 
     }
@@ -230,5 +217,26 @@ namespace WtiOil
         Regression,
         Fourier,
         Wavelet 
+    }
+
+    public class InformationItem
+    {
+        [DisplayName("Параметр")]
+        public string Parameter { get; set; }
+
+        [DisplayName("Значение")]
+        public string Value { get; set; }
+
+        public InformationItem(string parameter, string value)
+        {
+            this.Parameter = parameter;
+            this.Value = value;
+        }
+
+        public InformationItem(string parameter, double? value)
+        {
+            this.Parameter = parameter;
+            this.Value = String.Format("{0:0.000}",value);
+        }
     }
 }
