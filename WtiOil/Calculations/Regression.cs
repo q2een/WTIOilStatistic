@@ -5,9 +5,9 @@ using System.Linq;
 namespace WtiOil
 {
     /// <summary>
-    /// <c>PolynomialRegression</c> - Класс, обеспечивающий нахождение коэффициентов полиномиальной регресии.
+    /// <c>Regression</c> - Класс, обеспечивающий нахождение коэффициентов полиномиальной регресии.
     /// </summary>
-    class PolynomialRegression
+    class Regression
     {
         // Выборки значений Х и Y.
         private readonly double[] sampleX, sampleY;
@@ -29,12 +29,12 @@ namespace WtiOil
         public double[] coefficients;
 
         /// <summary>
-        /// <c>PolynomialRegression</c> - Класс, обеспечивающий нахождение коэффициентов полиномиальной регресии.
+        /// <c>Regression</c> - Класс, обеспечивающий нахождение коэффициентов полиномиальной регресии.
         /// </summary>
         /// <param name="xPoints">Массив точек Х</param>
         /// <param name="yPoints">Массив точек Y(Х)</param>
         /// <param name="error">Допустимая погрешность</param>
-        private PolynomialRegression(double[] xPoints, double[] yPoints, double error)
+        private Regression(double[] xPoints, double[] yPoints, double error)
             :this(0,xPoints, yPoints)
         {
             if (error <= 0)
@@ -43,12 +43,12 @@ namespace WtiOil
         }
 
         /// <summary>
-        /// <c>PolynomialRegression</c> - Класс, обеспечивающий нахождение коэффициентов полиномиальной регресии.
+        /// <c>Regression</c> - Класс, обеспечивающий нахождение коэффициентов полиномиальной регресии.
         /// </summary>
         /// <param name="polynomialDegree">Степень полинома</param>
         /// <param name="xPoints">Массив точек Х</param>
         /// <param name="yPoints">Массив точек Y(Х)</param>
-        private PolynomialRegression(byte polynomialDegree, double[] xPoints, double[] yPoints)
+        private Regression(byte polynomialDegree, double[] xPoints, double[] yPoints)
 	    {
             if (xPoints.Length != yPoints.Length)
                 throw new Exception("Размеры массивов Х и У должны совпадать");
@@ -57,6 +57,14 @@ namespace WtiOil
             this.length = xPoints.Length;
             this.polynomialDegree = ++polynomialDegree;
 	    }
+
+        /// <summary>
+        /// <c>Regression</c> - Класс, обеспечивающий нахождение коэффициентов регрессии
+        /// </summary>
+        private Regression()
+        {
+        
+        }
 
         /// <summary>
         /// Производит расчеты и возвращает массив коэффициентов полинома.
@@ -128,25 +136,27 @@ namespace WtiOil
                     linearSystemMatrix[i,j] = C[k++];                               
             }
 
-            SolveMatrix();
+            coefficients = SolveMatrix(polynomialDegree, linearSystemMatrix, linearSystemRightSide);
         }
-
+        
         /// <summary>
         /// Производит решение матрицы методом Гаусса с выбором главного элемента.
         /// </summary>
-        private void SolveMatrix()
+        private double[] SolveMatrix(int polynomDegree, double[,] leftSide, double[] rightSide)
         {
-            for (int i = 0; i < polynomialDegree - 1; i++)
+            double[] coeffs = new double[polynomDegree];
+
+            for (int i = 0; i < polynomDegree - 1; i++)
             {
                 // Поиск главного элемента в столбце.
-                double max = Math.Abs(linearSystemMatrix[i, i]);
+                double max = Math.Abs(leftSide[i, i]);
                 int index = i;
 
-                for (int j = i + 1; j < polynomialDegree; j++)
+                for (int j = i + 1; j < polynomDegree; j++)
                 {
-                    if (Math.Abs(linearSystemMatrix[j, i]) > max)
+                    if (Math.Abs(leftSide[j, i]) > max)
                     {
-                        max = Math.Abs(linearSystemMatrix[j, i]);
+                        max = Math.Abs(leftSide[j, i]);
                         index = j;
                     }
                 }
@@ -154,46 +164,48 @@ namespace WtiOil
                 // Поднимаем строку с главным элементом вверх.
                 if (index > i)
                 {
-                    Invert(ref linearSystemRightSide[index], ref linearSystemRightSide[i]);
+                    Invert(ref rightSide[index], ref rightSide[i]);
 
-                    for (int j = 0; j < polynomialDegree; j++)
-                        Invert(ref linearSystemMatrix[index, j], ref linearSystemMatrix[i, j]);
+                    for (int j = 0; j < polynomDegree; j++)
+                        Invert(ref leftSide[index, j], ref leftSide[i, j]);
                 }
 
                 // Вычисление масштабирующих множителей.
-                for (int j = i + 1; j < polynomialDegree; j++)
+                for (int j = i + 1; j < polynomDegree; j++)
                 {
                     // Если главный элемент - ноль, переход на следующую итерацию итерацию
-                    if (linearSystemMatrix[i, i] == 0)
+                    if (leftSide[i, i] == 0)
                         continue;
 
-                    double tmp = linearSystemMatrix[j, i] / linearSystemMatrix[i, i];
+                    double tmp = leftSide[j, i] / leftSide[i, i];
 
-                    for (int k = i; k < polynomialDegree; k++)
-                        linearSystemMatrix[j, k] -= linearSystemMatrix[i, k] * tmp;
+                    for (int k = i; k < polynomDegree; k++)
+                        leftSide[j, k] -= leftSide[i, k] * tmp;
 
-                    linearSystemRightSide[j] -= linearSystemRightSide[i] * tmp;
+                    rightSide[j] -= rightSide[i] * tmp;
                 }
             }
 
             // Итоговое решение СЛАУ.
-            for (int i = polynomialDegree - 1; i >= 0; i--)
+            for (int i = polynomDegree - 1; i >= 0; i--)
             {
-                coefficients[i] = linearSystemRightSide[i];
+                coeffs[i] = rightSide[i];
 
-                for (int j = polynomialDegree - 1; j > i; j--)
-                    coefficients[i] -= linearSystemMatrix[i, j] * coefficients[j];
+                for (int j = polynomDegree - 1; j > i; j--)
+                    coeffs[i] -= leftSide[i, j] * coeffs[j];
 
-                if (linearSystemMatrix[i, i] == 0)
+                if (leftSide[i, i] == 0)
                 {
-                    if (linearSystemRightSide[i] == 0)
+                    if (rightSide[i] == 0)
                         throw new Exception("СЛАУ имеет множество решений");
                     else
                         throw new Exception("СЛАУ не имеет решений");
                 }
 
-                coefficients[i] /= linearSystemMatrix[i, i];
+                coeffs[i] /= leftSide[i, i];
             }
+
+            return coeffs;
         }
 
         /// <summary>
@@ -229,7 +241,52 @@ namespace WtiOil
             a = b;
             b = temp;
         }
-        
+
+        /// <summary>
+        /// Возвращает результат суммы произведений элементов массивов x и y
+        /// </summary>
+        /// <param name="x">Массив элементов</param>
+        /// <param name="y">Массив элементов</param>
+        /// <returns>Сумма произведений элементов</returns>
+        private double GetSumOfMultiplication(double[] x, double[] y)
+        {
+            double sum = 0;
+            for (int i = 0; i < x.Length; i++)
+                sum += x[i] * y[i];
+
+            return sum;
+        }
+
+        /// <summary>
+        /// Многофакторная регрессия. Возвращает массив коэффициентов полинома y*(x1,x2)
+        /// </summary>
+        /// <param name="y">Массив значений зависимой переменной многофакторной регрессии</param>
+        /// <param name="x1">Массив значений независимой переменной многофакторной регрессии</param>
+        /// <param name="x2">Массив значений независимой переменной многофакторной регрессии</param>
+        /// <returns>Массив коэффициентов полинома y*(x1,x2)</returns>
+        private double[] CalculateMultipleRegression(double[] y, double[] x1, double[] x2)
+        {
+            double[,] leftSide = {{y.Length, x1.Sum(), x2.Sum()},
+                                 {x1.Sum(), x1.Sum(z => z * z),GetSumOfMultiplication(x1, x2)},
+                                 {x2.Sum(),GetSumOfMultiplication(x1, x2),x2.Sum(z => z * z)}};
+
+            double[] rightSide = { y.Sum(), GetSumOfMultiplication(x1, y), GetSumOfMultiplication(x2, y) };
+
+            return SolveMatrix(3, leftSide, rightSide);
+        }
+
+        /// <summary>
+        /// Многофакторная регрессия. Возвращает массив коэффициентов полинома y*(x1,x2)
+        /// </summary>
+        /// <param name="y">Массив значений зависимой переменной многофакторной регрессии</param>
+        /// <param name="x1">Массив значений независимой переменной многофакторной регрессии</param>
+        /// <param name="x2">Массив значений независимой переменной многофакторной регрессии</param>
+        /// <returns>Массив коэффициентов полинома y*(x1,x2)</returns>
+        public static double[] GetMultipleRegressionCoefficients(double[] y, double[] x1, double[] x2)
+        {
+            return new Regression().CalculateMultipleRegression(y, x1, x2);
+        }
+
         /// <summary>
         /// Возвращает массив коэффициентов полинома y*(X) с допустимой погрешностью.
         /// </summary>
@@ -242,7 +299,7 @@ namespace WtiOil
         /// <returns>Массив коэффициентов полинома</returns>
         public static double[] GetCoefficients(double[] xPoints, double[] yPoints, double error)
         {
-            return new PolynomialRegression(xPoints, yPoints, error).GetCoefficients();
+            return new Regression(xPoints, yPoints, error).GetCoefficients();
         }
 
         /// <summary>
@@ -257,7 +314,27 @@ namespace WtiOil
         /// <returns>Массив коэффициентов полинома</returns>
         public static double[] GetCoefficients(double[] xPoints, double[] yPoints, byte polynomialDegree)
         {
-            return new PolynomialRegression(polynomialDegree, xPoints, yPoints).GetCoefficients();
+            return new Regression(polynomialDegree, xPoints, yPoints).GetCoefficients();
+        }
+
+        /// <summary>
+        /// Возвращает массив значений y*(<c>x1</c>,<c>x2</c>), при коэффициентах <c>coefficients</c>.
+        /// </summary>
+        /// <remarks>
+        /// y*(x1,x2) = a[0] + a[1]*x1 + a[2]*x2.
+        /// </remarks>
+        /// <param name="coefficients">Массив коэффициентов регрессии</param>
+        /// <param name="x1">Массив значений независимой переменной многофакторной регрессии</param>
+        /// <param name="x2">Массив значений независимой переменной многофакторной регрессии</param>
+        /// <returns></returns>
+        public static double[] GetMultipleYFromXValue(double[] coefficients, double[] x1, double[] x2)
+        { 
+            double[] y = new double[x1.Length];
+
+            for (int i = 0; i < x1.Length; i++)
+                y[i] = coefficients[0] + coefficients[1] * x1[i] + coefficients[2] * x2[i]; 
+
+            return y;
         }
 
         /// <summary>
@@ -292,7 +369,7 @@ namespace WtiOil
         /// <returns>Массив значений y*(Х)</returns>
         public static double[] GetYFromXValue(double[] xPoints, double[] yPoints, double error)
         {
-            var polinom = new PolynomialRegression(xPoints, yPoints, error);
+            var polinom = new Regression(xPoints, yPoints, error);
             polinom.GetCoefficients();
             return polinom.GetYFromXValue();
         }
@@ -309,7 +386,7 @@ namespace WtiOil
         /// <returns>Массив значений y*(Х)</returns>
         public static double[] GetYFromXValue(double[] xPoints, double[] yPoints, byte polynomialDegree)
         {
-            var polinom = new PolynomialRegression(polynomialDegree, xPoints, yPoints);
+            var polinom = new Regression(polynomialDegree, xPoints, yPoints);
             polinom.GetCoefficients();
             return polinom.GetYFromXValue();
         }
@@ -322,15 +399,14 @@ namespace WtiOil
         /// <returns>Среднеквадратичная погрешность</returns>
         public static double GetError(double[] yPoints, double[] polynomY)
         {
-            double result = 0;
-
+            double error = 1.0 / (yPoints.Length + 1);
+            double sum = 0;
             for (int i = 0; i < yPoints.Length; i++)
             {
-                result += Math.Pow(((yPoints[i] - polynomY[i]) / (double)yPoints[i]), 2) / (double)(yPoints.Length + 1);
+                sum += Math.Pow(yPoints[i] - polynomY[i], 2);
             }
 
-            return Math.Sqrt(result);
+            return Math.Sqrt(error * sum);
         }
-
     }
 }

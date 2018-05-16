@@ -54,7 +54,9 @@
     <Compile Include="ChartForm.Designer.cs">
       <DependentUpon>ChartForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\DataItem.cs" />
     <Compile Include="Data\Harmonic.cs" />
+    <Compile Include="Date.cs" />
     <Compile Include="DateRangePickerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,7 +70,7 @@
     <Compile Include="CountSetForm.Designer.cs">
       <DependentUpon>CountSetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Calculations\PolynomialRegression.cs" />
+    <Compile Include="Calculations\Regression.cs" />
     <Compile Include="HTMLReportBuilder.cs" />
     <Compile Include="HTMLReportForm.cs">
       <SubType>Form</SubType>
@@ -96,6 +98,12 @@
     <Compile Include="MainMDI.Designer.cs">
       <DependentUpon>MainMDI.cs</DependentUpon>
     </Compile>
+    <Compile Include="MultipleRegressionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MultipleRegressionForm.Designer.cs">
+      <DependentUpon>MultipleRegressionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChartForm.resx">
@@ -116,6 +124,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CountSetForm.resx">
       <DependentUpon>CountSetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MultipleRegressionForm.resx">
+      <DependentUpon>MultipleRegressionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

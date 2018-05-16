@@ -66,7 +66,7 @@ namespace WtiOil
             this.YValues = yValues;
 
             var regression = new List<InformationItem>();
-            double error = PolynomialRegression.GetError(Data.Select(i => i.Value).ToArray(), yValues);
+            double error = Regression.GetError(Data.Select(i => i.Value).ToArray(), yValues);
 
             regression.Add(new InformationItem("Степень полинома", (coefficients.Length - 1) + ""));
             regression.Add(new InformationItem("Погрешность", error));

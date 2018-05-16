@@ -45,9 +45,9 @@ namespace WtiOil
         /// <param name="yValues">Значения У(Х)</param>
         private void CalculateRegression(byte count, double[] xValues, double[] yValues )
         {
-            var coeff = PolynomialRegression.GetCoefficients(xValues, yValues, count);
+            var coeff = Regression.GetCoefficients(xValues, yValues, count);
 
-            var y = PolynomialRegression.GetYFromXValue(coeff, xValues);
+            var y = Regression.GetYFromXValue(coeff, xValues);
 
             (this.Owner as MainMDI).ShowLineTrend(cbShowInformation.Checked, coeff, y);
         }

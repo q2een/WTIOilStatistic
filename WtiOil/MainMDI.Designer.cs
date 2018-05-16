@@ -103,16 +103,18 @@
             this.removeTSB = new System.Windows.Forms.ToolStripButton();
             this.editSeparatorTS = new System.Windows.Forms.ToolStripSeparator();
             this.drawChartTSB = new System.Windows.Forms.ToolStripButton();
-            this.calculateTSB = new System.Windows.Forms.ToolStripButton();
-            this.repotTSB = new System.Windows.Forms.ToolStripButton();
-            this.statusBar = new System.Windows.Forms.StatusStrip();
-            this.lblFileName = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.drawTrendLineTSB = new System.Windows.Forms.ToolStripButton();
             this.chartSeparatorTSB = new System.Windows.Forms.ToolStripSeparator();
             this.fourierTSB = new System.Windows.Forms.ToolStripButton();
             this.waveletTSB = new System.Windows.Forms.ToolStripButton();
             this.dataSeparatorTSB = new System.Windows.Forms.ToolStripSeparator();
+            this.calculateTSB = new System.Windows.Forms.ToolStripButton();
+            this.repotTSB = new System.Windows.Forms.ToolStripButton();
+            this.statusBar = new System.Windows.Forms.StatusStrip();
+            this.lblFileName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.miltipleMI = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusBar.SuspendLayout();
@@ -216,7 +218,9 @@
             this.dateRangeMI,
             this.toolStripMenuItem5,
             this.fourierMI,
-            this.waveletMI});
+            this.waveletMI,
+            this.toolStripMenuItem3,
+            this.miltipleMI});
             this.dataMI.Name = "dataMI";
             this.dataMI.Size = new System.Drawing.Size(105, 20);
             this.dataMI.Text = "Временной ряд";
@@ -226,20 +230,20 @@
             // 
             this.dateRangeMI.Image = ((System.Drawing.Image)(resources.GetObject("dateRangeMI.Image")));
             this.dateRangeMI.Name = "dateRangeMI";
-            this.dateRangeMI.Size = new System.Drawing.Size(177, 22);
+            this.dateRangeMI.Size = new System.Drawing.Size(237, 22);
             this.dateRangeMI.Text = "Указать период...";
             this.dateRangeMI.Click += new System.EventHandler(this.dateRangeMI_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(174, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(234, 6);
             // 
             // fourierMI
             // 
             this.fourierMI.Image = ((System.Drawing.Image)(resources.GetObject("fourierMI.Image")));
             this.fourierMI.Name = "fourierMI";
-            this.fourierMI.Size = new System.Drawing.Size(177, 22);
+            this.fourierMI.Size = new System.Drawing.Size(237, 22);
             this.fourierMI.Text = "Фурье-анализ";
             this.fourierMI.Click += new System.EventHandler(this.fourierMI_Click);
             // 
@@ -247,7 +251,7 @@
             // 
             this.waveletMI.Image = ((System.Drawing.Image)(resources.GetObject("waveletMI.Image")));
             this.waveletMI.Name = "waveletMI";
-            this.waveletMI.Size = new System.Drawing.Size(177, 22);
+            this.waveletMI.Size = new System.Drawing.Size(237, 22);
             this.waveletMI.Text = "Вейвлет-анализ";
             // 
             // editMI
@@ -782,41 +786,6 @@
             this.drawChartTSB.Text = "Построить график";
             this.drawChartTSB.Click += new System.EventHandler(this.drawChartMI_Click);
             // 
-            // calculateTSB
-            // 
-            this.calculateTSB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.calculateTSB.Image = ((System.Drawing.Image)(resources.GetObject("calculateTSB.Image")));
-            this.calculateTSB.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.calculateTSB.Name = "calculateTSB";
-            this.calculateTSB.Size = new System.Drawing.Size(23, 22);
-            this.calculateTSB.Text = "Расчитать статистики";
-            this.calculateTSB.Click += new System.EventHandler(this.calculateMI_Click);
-            // 
-            // repotTSB
-            // 
-            this.repotTSB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.repotTSB.Image = ((System.Drawing.Image)(resources.GetObject("repotTSB.Image")));
-            this.repotTSB.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.repotTSB.Name = "repotTSB";
-            this.repotTSB.Size = new System.Drawing.Size(23, 22);
-            this.repotTSB.Text = "Сформировать отчет";
-            // 
-            // statusBar
-            // 
-            this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblFileName});
-            this.statusBar.Location = new System.Drawing.Point(0, 431);
-            this.statusBar.Name = "statusBar";
-            this.statusBar.Size = new System.Drawing.Size(735, 22);
-            this.statusBar.TabIndex = 2;
-            this.statusBar.Text = "StatusStrip";
-            // 
-            // lblFileName
-            // 
-            this.lblFileName.Name = "lblFileName";
-            this.lblFileName.Size = new System.Drawing.Size(65, 17);
-            this.lblFileName.Text = "Состояние";
-            // 
             // drawTrendLineTSB
             // 
             this.drawTrendLineTSB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -855,6 +824,53 @@
             // 
             this.dataSeparatorTSB.Name = "dataSeparatorTSB";
             this.dataSeparatorTSB.Size = new System.Drawing.Size(6, 25);
+            // 
+            // calculateTSB
+            // 
+            this.calculateTSB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.calculateTSB.Image = ((System.Drawing.Image)(resources.GetObject("calculateTSB.Image")));
+            this.calculateTSB.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.calculateTSB.Name = "calculateTSB";
+            this.calculateTSB.Size = new System.Drawing.Size(23, 22);
+            this.calculateTSB.Text = "Расчитать статистики";
+            this.calculateTSB.Click += new System.EventHandler(this.calculateMI_Click);
+            // 
+            // repotTSB
+            // 
+            this.repotTSB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.repotTSB.Image = ((System.Drawing.Image)(resources.GetObject("repotTSB.Image")));
+            this.repotTSB.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.repotTSB.Name = "repotTSB";
+            this.repotTSB.Size = new System.Drawing.Size(23, 22);
+            this.repotTSB.Text = "Сформировать отчет";
+            // 
+            // statusBar
+            // 
+            this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblFileName});
+            this.statusBar.Location = new System.Drawing.Point(0, 431);
+            this.statusBar.Name = "statusBar";
+            this.statusBar.Size = new System.Drawing.Size(735, 22);
+            this.statusBar.TabIndex = 2;
+            this.statusBar.Text = "StatusStrip";
+            // 
+            // lblFileName
+            // 
+            this.lblFileName.Name = "lblFileName";
+            this.lblFileName.Size = new System.Drawing.Size(65, 17);
+            this.lblFileName.Text = "Состояние";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(234, 6);
+            // 
+            // miltipleMI
+            // 
+            this.miltipleMI.Name = "miltipleMI";
+            this.miltipleMI.Size = new System.Drawing.Size(237, 22);
+            this.miltipleMI.Text = "Многофакторная регрессия";
+            this.miltipleMI.Click += new System.EventHandler(this.miltipleMI_Click);
             // 
             // MainMDI
             // 
@@ -966,6 +982,8 @@
         private System.Windows.Forms.ToolStripButton fourierTSB;
         private System.Windows.Forms.ToolStripButton waveletTSB;
         private System.Windows.Forms.ToolStripSeparator dataSeparatorTSB;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem miltipleMI;
     }
 }
 

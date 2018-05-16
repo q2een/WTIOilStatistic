@@ -26,13 +26,13 @@ namespace WtiOil
 
         /// <summary>
         /// Получает структурированные данные из файла <c>path</c> 
-        /// и возвращает эти данные как коллекцию объектов <c>ItemWTI</c>.
+        /// и возвращает эти данные как коллекцию объектов <c>DataItem</c>.
         /// </summary>
         /// <param name="path">Путь к *.csv файлу</param>
         /// <returns>Коллекция объектов <c>ItemWTI</c></returns>
-        private List<ItemWTI> GetDataFromTextFile(string path)
+        public List<DataItem> GetDataFromTextFile(string path)
         {
-            var result = new List<ItemWTI>();
+            var result = new List<DataItem>();
             try
             {                
                 string fileData = File.ReadAllText(path);
@@ -42,7 +42,7 @@ namespace WtiOil
                         var line = i.Split(';');
                         var date = DateTime.Parse(line[0]);
                         var value = Double.Parse(line[1].Replace('.', ','));
-                        return new ItemWTI(date, value);
+                        return new DataItem(date, value);
                     }).OrderBy(x=> x.Date).ToList();
             }
             catch (Exception ex)
@@ -113,6 +113,19 @@ namespace WtiOil
                 inform.Activate();
             }
                         
+        }
+
+        public void ShowMultiple(double[] yValues, double[] DowJones, double[] gold)
+        {
+            var data = this.ActiveMdiChild as IData;
+
+            if (data == null)
+                return;
+
+            var chart = GetForm<ChartForm>();
+            chart.DrawMultipleRegression(data, yValues);
+            chart.Show();
+            chart.Activate();
         }
 
         #region Состояние элементов управления.
@@ -232,7 +245,7 @@ namespace WtiOil
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 string FileName = openFileDialog.FileName;
-                var data = GetDataFromTextFile(FileName);
+                var data = GetDataFromTextFile(FileName).Select(i=> new ItemWTI(i.Date, i.Value)).ToList();
                 var form = GetNewDataForm(FileName, data);
                 form.Show();
             }
@@ -485,8 +498,8 @@ namespace WtiOil
 
             if (isRegressionBlock)
             {
-                var coeff = PolynomialRegression.GetCoefficients(xValues, yValues, (byte)degree);
-                var y = PolynomialRegression.GetYFromXValue(coeff, xValues);
+                var coeff = Regression.GetCoefficients(xValues, yValues, (byte)degree);
+                var y = Regression.GetYFromXValue(coeff, xValues);
                 var regressionInfo = inform.ShowRegression(iData, coeff, y);
                 chart.DrawTrend(iData, y);
                 chart.SaveChart(trend);
@@ -548,6 +561,12 @@ namespace WtiOil
         }
 
         #endregion
+
+        private void miltipleMI_Click(object sender, EventArgs e)
+        {
+            var data = this.ActiveMdiChild as IData;
+            new MultipleRegressionForm(data).Show(this);
+        }
 
     }
 }

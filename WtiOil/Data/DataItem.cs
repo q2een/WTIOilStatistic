@@ -6,21 +6,21 @@ using System.ComponentModel;
 
 namespace WtiOil
 {
-    public class ItemWTI:DataItem
+    public class DataItem
     {
         [DisplayName("Дата")]
         public DateTime Date { get; set; }
 
-        [DisplayName("Долларов за баррель")]
+        [DisplayName("Значение")]
         public double Value { get; set; }
 
-        public ItemWTI(DateTime date, double value)
+        public DataItem(DateTime date, double value)
         {
             this.Date = date;
             this.Value = value;
         }
 
-        public ItemWTI():this(DateTime.Now.Date, 0)
+        public DataItem()
         {
 
         }

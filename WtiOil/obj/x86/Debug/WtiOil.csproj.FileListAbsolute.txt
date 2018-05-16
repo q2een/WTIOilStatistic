@@ -65,3 +65,4 @@ Q:\git\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.InformationForm.resources
 Q:\git\WTIOilStatistic\WtiOil\obj\x86\Debug\GenerateResource.read.1.tlog
 Q:\git\WTIOilStatistic\WtiOil\obj\x86\Debug\GenerateResource.write.1.tlog
 Q:\git\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.HTMLReportForm.resources
+Q:\git\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.MultipleRegressionForm.resources

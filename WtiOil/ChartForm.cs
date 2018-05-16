@@ -122,6 +122,11 @@ namespace WtiOil
             DrawFunction("fourier", data, yValues);
         }
 
+        public void DrawMultipleRegression(IData data, double[] yValues)
+        {
+            DrawFunction("multiple", data,yValues);
+        }
+
         /// <summary>
         /// Отображает/скрывает легенду исходя из флага <c>isEnabled</c>.
         /// </summary>
