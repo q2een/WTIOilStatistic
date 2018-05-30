@@ -49,6 +49,9 @@ namespace WtiOil
                 case InformationType.Wavelet:
                     this.Text = "Анализ временного ряда: вейвлет-анализ";
                     break;
+                case InformationType.MultipleRegression:
+                    this.Text = "Многофакторная регрессия (цена на золото, индекс Доу-Джонса)";
+                    break;
             }
 
         }
@@ -84,6 +87,25 @@ namespace WtiOil
             {
                 regression.Add(new InformationItem(Data[i].Date.ToString("dd/MM/yyyy"), yValues[i]));
             }
+
+            dgvInformation.DataSource = regression;
+
+            return regression;
+        }
+
+        public List<InformationItem> ShowMultipleRegression(IData data, double[] coefficients)
+        {
+            this.Data = data.Data;
+            this.FullData = data.FullData;
+
+            if (coefficients.Length != 3)
+                throw new ArgumentException("coefficients");
+
+            var regression = new List<InformationItem>();
+
+            regression.Add(new InformationItem("Y-пересечение", coefficients[0]));
+            regression.Add(new InformationItem("Переменная X1", coefficients[1]));
+            regression.Add(new InformationItem("Переменная X2", coefficients[2]));
 
             dgvInformation.DataSource = regression;
 
@@ -215,6 +237,7 @@ namespace WtiOil
     { 
         Statistics,
         Regression,
+        MultipleRegression,
         Fourier,
         Wavelet 
     }

@@ -10,6 +10,17 @@ using System.IO;
 
 namespace WtiOil
 {
+    /* TODO
+     0. Добавить работу с периодами даты
+     1. Рассчитать вейвлеты
+     2. Сделать прогноз на дату
+     3. Сделать отчеты
+     4. Работа с графиками
+     5. Добавить справку
+     6. О программе.
+     
+     
+     */
     public partial class MainMDI : Form
     {
         /// <summary>
@@ -115,7 +126,7 @@ namespace WtiOil
                         
         }
 
-        public void ShowMultiple(double[] yValues, double[] DowJones, double[] gold)
+        public void ShowMultiple(double[] yValues, double[] coefficients)
         {
             var data = this.ActiveMdiChild as IData;
 
@@ -126,6 +137,10 @@ namespace WtiOil
             chart.DrawMultipleRegression(data, yValues);
             chart.Show();
             chart.Activate();
+
+            var inform = GetInformationForm(InformationType.MultipleRegression);
+            inform.ShowMultipleRegression(data, coefficients);
+            inform.Show();
         }
 
         #region Состояние элементов управления.
@@ -134,7 +149,7 @@ namespace WtiOil
         public void InitialElementsState()
         {
             SetEditMenuItemsState(false);
-            SetDataMenuitems(false, false);
+            SetDataMenuitems(false, false, false);
             SetChartMenuItemsState(false,false,false);
             SetStatisticItemsState(false);
             SetReportItemsState(false);
@@ -150,11 +165,12 @@ namespace WtiOil
         }
 
         // Состояние элементов меню "Временной ряд".
-        private void SetDataMenuitems(bool isFourier, bool isWavelet)
+        private void SetDataMenuitems(bool isFourier, bool isWavelet, bool isMultiple)
         {
             fourierMI.Visible = fourierTSB.Visible = isFourier;
             waveletMI.Visible = waveletTSB.Visible = isWavelet;
-            dataSeparatorTSB.Visible = isFourier || isWavelet;
+            multipleMI.Visible = isMultiple;
+            dataSeparatorTSB.Visible = isFourier || isWavelet || isMultiple;
         }
 
         // Состояние элементов меню "График".
@@ -337,7 +353,7 @@ namespace WtiOil
             {
                 bool state = this.ActiveMdiChild is DataForm;
 
-                SetDataMenuitems(true, true);
+                SetDataMenuitems(true, true, true);
                 SetEditMenuItemsState(state);
                 SetChartMenuItemsState(true, !state, true);
                 SetStatisticItemsState(state);
@@ -355,7 +371,7 @@ namespace WtiOil
                     case InformationType.Statistics:
                         SetStatisticItemsState(true);
                         SetChartMenuItemsState(false, false, false);
-                        SetDataMenuitems(false, false);
+                        SetDataMenuitems(false, false, false);
                         break;
                     case InformationType.Regression:
                         SetStatisticItemsState(false);
@@ -364,12 +380,12 @@ namespace WtiOil
                     case InformationType.Fourier:
                         SetChartMenuItemsState(true, false, false);
                         SetStatisticItemsState(false);
-                        SetDataMenuitems(true, false);
+                        SetDataMenuitems(true, false,false);
                         break;
                     case InformationType.Wavelet:
                         SetChartMenuItemsState(true, false, false);
                         SetStatisticItemsState(false);
-                        SetDataMenuitems(false, true);
+                        SetDataMenuitems(false, true, false);
                         break;
                 }
             }
@@ -560,12 +576,25 @@ namespace WtiOil
             polynimForm.Show(this);
         }
 
-        #endregion
-
         private void miltipleMI_Click(object sender, EventArgs e)
         {
             var data = this.ActiveMdiChild as IData;
             new MultipleRegressionForm(data).Show(this);
+        }
+
+        #endregion
+
+        private void waveletMI_Click(object sender, EventArgs e)
+        {
+            var data = (this.ActiveMdiChild as IData).Data.Select(i => i.Value).Take(256).ToArray();
+            var y = Wavelet.D4Transform(data);
+            y = Wavelet.InverseD4Transform(y);
+
+            var chart = GetForm<ChartForm>();
+            chart.DrawMultipleRegression(this.ActiveMdiChild as IData, y);
+            chart.Show();
+            chart.Activate();
+
         }
 
     }

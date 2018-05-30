@@ -44,6 +44,8 @@
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.fourierMI = new System.Windows.Forms.ToolStripMenuItem();
             this.waveletMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.multipleMI = new System.Windows.Forms.ToolStripMenuItem();
             this.editMI = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -113,8 +115,6 @@
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.lblFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.miltipleMI = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusBar.SuspendLayout();
@@ -220,7 +220,7 @@
             this.fourierMI,
             this.waveletMI,
             this.toolStripMenuItem3,
-            this.miltipleMI});
+            this.multipleMI});
             this.dataMI.Name = "dataMI";
             this.dataMI.Size = new System.Drawing.Size(105, 20);
             this.dataMI.Text = "Временной ряд";
@@ -253,6 +253,19 @@
             this.waveletMI.Name = "waveletMI";
             this.waveletMI.Size = new System.Drawing.Size(237, 22);
             this.waveletMI.Text = "Вейвлет-анализ";
+            this.waveletMI.Click += new System.EventHandler(this.waveletMI_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(234, 6);
+            // 
+            // multipleMI
+            // 
+            this.multipleMI.Name = "multipleMI";
+            this.multipleMI.Size = new System.Drawing.Size(237, 22);
+            this.multipleMI.Text = "Многофакторная регрессия";
+            this.multipleMI.Click += new System.EventHandler(this.miltipleMI_Click);
             // 
             // editMI
             // 
@@ -860,18 +873,6 @@
             this.lblFileName.Size = new System.Drawing.Size(65, 17);
             this.lblFileName.Text = "Состояние";
             // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(234, 6);
-            // 
-            // miltipleMI
-            // 
-            this.miltipleMI.Name = "miltipleMI";
-            this.miltipleMI.Size = new System.Drawing.Size(237, 22);
-            this.miltipleMI.Text = "Многофакторная регрессия";
-            this.miltipleMI.Click += new System.EventHandler(this.miltipleMI_Click);
-            // 
             // MainMDI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -983,7 +984,7 @@
         private System.Windows.Forms.ToolStripButton waveletTSB;
         private System.Windows.Forms.ToolStripSeparator dataSeparatorTSB;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem miltipleMI;
+        private System.Windows.Forms.ToolStripMenuItem multipleMI;
     }
 }
 

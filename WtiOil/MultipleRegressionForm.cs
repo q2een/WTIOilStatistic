@@ -52,17 +52,15 @@ namespace WtiOil
             var end = data.FullData.IndexOf(data.FullData.First(z => z.Date == coll[min-1].Date));
 
             data.Data = data.FullData.Skip(start).Take(end + 1 - start).ToList();
-
-
+            
             double[] yValues = data.Data.Select(i => i.Value).ToArray();
             double[] x1 = DowJones.Select(i => i.Value).ToArray();
             double[] x2 = gold.Select(i=> i.Value).ToArray();
             
-
             var coeffs = Regression.GetMultipleRegressionCoefficients(yValues, x1, x2);
             var newY = Regression.GetMultipleYFromXValue(coeffs, x1, x2);
 
-            main.ShowMultiple(newY, null, null);
+            main.ShowMultiple(newY, coeffs);
             this.Close();
         }
     }
