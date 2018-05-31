@@ -115,6 +115,7 @@
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.lblFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.seriesSeparatorMI = new System.Windows.Forms.ToolStripSeparator();
             this.menu.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusBar.SuspendLayout();
@@ -151,7 +152,7 @@
             this.exitMI});
             this.fileMI.ImageTransparentColor = System.Drawing.SystemColors.ActiveBorder;
             this.fileMI.Name = "fileMI";
-            this.fileMI.Size = new System.Drawing.Size(48, 20);
+            this.fileMI.Size = new System.Drawing.Size(45, 20);
             this.fileMI.Text = "&Файл";
             // 
             // newMI
@@ -160,7 +161,7 @@
             this.newMI.ImageTransparentColor = System.Drawing.Color.Black;
             this.newMI.Name = "newMI";
             this.newMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newMI.Size = new System.Drawing.Size(234, 22);
+            this.newMI.Size = new System.Drawing.Size(229, 22);
             this.newMI.Text = "&Создать";
             this.newMI.Click += new System.EventHandler(this.ShowNewForm);
             // 
@@ -170,14 +171,14 @@
             this.openMI.ImageTransparentColor = System.Drawing.Color.Black;
             this.openMI.Name = "openMI";
             this.openMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openMI.Size = new System.Drawing.Size(234, 22);
+            this.openMI.Size = new System.Drawing.Size(229, 22);
             this.openMI.Text = "&Открыть";
             this.openMI.Click += new System.EventHandler(this.OpenFile);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(231, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(226, 6);
             // 
             // saveMI
             // 
@@ -185,7 +186,7 @@
             this.saveMI.ImageTransparentColor = System.Drawing.Color.Black;
             this.saveMI.Name = "saveMI";
             this.saveMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveMI.Size = new System.Drawing.Size(234, 22);
+            this.saveMI.Size = new System.Drawing.Size(229, 22);
             this.saveMI.Text = "&Сохранить";
             this.saveMI.Visible = false;
             // 
@@ -194,7 +195,7 @@
             this.saveAsMI.Name = "saveAsMI";
             this.saveAsMI.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
                         | System.Windows.Forms.Keys.S)));
-            this.saveAsMI.Size = new System.Drawing.Size(234, 22);
+            this.saveAsMI.Size = new System.Drawing.Size(229, 22);
             this.saveAsMI.Text = "Сохранить &как";
             this.saveAsMI.Visible = false;
             this.saveAsMI.Click += new System.EventHandler(this.saveAsMI_Click);
@@ -202,13 +203,13 @@
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(231, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(226, 6);
             // 
             // exitMI
             // 
             this.exitMI.Name = "exitMI";
             this.exitMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitMI.Size = new System.Drawing.Size(234, 22);
+            this.exitMI.Size = new System.Drawing.Size(229, 22);
             this.exitMI.Text = "В&ыход";
             this.exitMI.Click += new System.EventHandler(this.ExitToolsStripMenuItem_Click);
             // 
@@ -222,7 +223,7 @@
             this.toolStripMenuItem3,
             this.multipleMI});
             this.dataMI.Name = "dataMI";
-            this.dataMI.Size = new System.Drawing.Size(105, 20);
+            this.dataMI.Size = new System.Drawing.Size(95, 20);
             this.dataMI.Text = "Временной ряд";
             this.dataMI.Visible = false;
             // 
@@ -230,20 +231,20 @@
             // 
             this.dateRangeMI.Image = ((System.Drawing.Image)(resources.GetObject("dateRangeMI.Image")));
             this.dateRangeMI.Name = "dateRangeMI";
-            this.dateRangeMI.Size = new System.Drawing.Size(237, 22);
+            this.dateRangeMI.Size = new System.Drawing.Size(226, 22);
             this.dateRangeMI.Text = "Указать период...";
             this.dateRangeMI.Click += new System.EventHandler(this.dateRangeMI_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(234, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(223, 6);
             // 
             // fourierMI
             // 
             this.fourierMI.Image = ((System.Drawing.Image)(resources.GetObject("fourierMI.Image")));
             this.fourierMI.Name = "fourierMI";
-            this.fourierMI.Size = new System.Drawing.Size(237, 22);
+            this.fourierMI.Size = new System.Drawing.Size(226, 22);
             this.fourierMI.Text = "Фурье-анализ";
             this.fourierMI.Click += new System.EventHandler(this.fourierMI_Click);
             // 
@@ -251,19 +252,19 @@
             // 
             this.waveletMI.Image = ((System.Drawing.Image)(resources.GetObject("waveletMI.Image")));
             this.waveletMI.Name = "waveletMI";
-            this.waveletMI.Size = new System.Drawing.Size(237, 22);
+            this.waveletMI.Size = new System.Drawing.Size(226, 22);
             this.waveletMI.Text = "Вейвлет-анализ";
             this.waveletMI.Click += new System.EventHandler(this.waveletMI_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(234, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(223, 6);
             // 
             // multipleMI
             // 
             this.multipleMI.Name = "multipleMI";
-            this.multipleMI.Size = new System.Drawing.Size(237, 22);
+            this.multipleMI.Size = new System.Drawing.Size(226, 22);
             this.multipleMI.Text = "Многофакторная регрессия";
             this.multipleMI.Click += new System.EventHandler(this.miltipleMI_Click);
             // 
@@ -277,7 +278,7 @@
             this.editRowMI,
             this.removeMI});
             this.editMI.Name = "editMI";
-            this.editMI.Size = new System.Drawing.Size(60, 20);
+            this.editMI.Size = new System.Drawing.Size(56, 20);
             this.editMI.Text = "&Правка";
             // 
             // undoToolStripMenuItem
@@ -286,7 +287,7 @@
             this.undoToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Black;
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.undoToolStripMenuItem.Text = "&Отменить";
             // 
             // redoToolStripMenuItem
@@ -295,13 +296,13 @@
             this.redoToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Black;
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.redoToolStripMenuItem.Text = "&Вернуть";
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(181, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(180, 6);
             // 
             // insertMI
             // 
@@ -309,7 +310,7 @@
             this.insertMI.ImageTransparentColor = System.Drawing.Color.Black;
             this.insertMI.Name = "insertMI";
             this.insertMI.ShortcutKeys = System.Windows.Forms.Keys.Insert;
-            this.insertMI.Size = new System.Drawing.Size(184, 22);
+            this.insertMI.Size = new System.Drawing.Size(183, 22);
             this.insertMI.Text = "&Вставить";
             this.insertMI.Click += new System.EventHandler(this.PasteToolStripMenuItem_Click);
             // 
@@ -319,7 +320,7 @@
             this.editRowMI.ImageTransparentColor = System.Drawing.Color.Black;
             this.editRowMI.Name = "editRowMI";
             this.editRowMI.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.editRowMI.Size = new System.Drawing.Size(184, 22);
+            this.editRowMI.Size = new System.Drawing.Size(183, 22);
             this.editRowMI.Text = "&Редактировать";
             this.editRowMI.Click += new System.EventHandler(this.CutToolStripMenuItem_Click);
             // 
@@ -329,7 +330,7 @@
             this.removeMI.ImageTransparentColor = System.Drawing.Color.Black;
             this.removeMI.Name = "removeMI";
             this.removeMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.removeMI.Size = new System.Drawing.Size(184, 22);
+            this.removeMI.Size = new System.Drawing.Size(183, 22);
             this.removeMI.Text = "&Удалить";
             this.removeMI.Click += new System.EventHandler(this.CopyToolStripMenuItem_Click);
             // 
@@ -339,16 +340,17 @@
             this.drawChartMI,
             this.drawTrendLineMI,
             this.legendSeparatorMI,
-            this.showLegendMI});
+            this.showLegendMI,
+            this.seriesSeparatorMI});
             this.chartMI.Name = "chartMI";
-            this.chartMI.Size = new System.Drawing.Size(60, 20);
+            this.chartMI.Size = new System.Drawing.Size(57, 20);
             this.chartMI.Text = "График";
             // 
             // drawChartMI
             // 
             this.drawChartMI.Image = ((System.Drawing.Image)(resources.GetObject("drawChartMI.Image")));
             this.drawChartMI.Name = "drawChartMI";
-            this.drawChartMI.Size = new System.Drawing.Size(232, 22);
+            this.drawChartMI.Size = new System.Drawing.Size(227, 22);
             this.drawChartMI.Text = "Построить график";
             this.drawChartMI.Click += new System.EventHandler(this.drawChartMI_Click);
             // 
@@ -356,14 +358,14 @@
             // 
             this.drawTrendLineMI.Image = ((System.Drawing.Image)(resources.GetObject("drawTrendLineMI.Image")));
             this.drawTrendLineMI.Name = "drawTrendLineMI";
-            this.drawTrendLineMI.Size = new System.Drawing.Size(232, 22);
+            this.drawTrendLineMI.Size = new System.Drawing.Size(227, 22);
             this.drawTrendLineMI.Text = "Построить линию тренда...";
             this.drawTrendLineMI.Click += new System.EventHandler(this.drawTrendLineMI_Click);
             // 
             // legendSeparatorMI
             // 
             this.legendSeparatorMI.Name = "legendSeparatorMI";
-            this.legendSeparatorMI.Size = new System.Drawing.Size(229, 6);
+            this.legendSeparatorMI.Size = new System.Drawing.Size(224, 6);
             // 
             // showLegendMI
             // 
@@ -371,7 +373,7 @@
             this.showLegendMI.CheckOnClick = true;
             this.showLegendMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showLegendMI.Name = "showLegendMI";
-            this.showLegendMI.Size = new System.Drawing.Size(232, 22);
+            this.showLegendMI.Size = new System.Drawing.Size(227, 22);
             this.showLegendMI.Text = "Показать легенду";
             this.showLegendMI.Click += new System.EventHandler(this.showLegendMI_Click);
             // 
@@ -400,14 +402,14 @@
             // 
             this.calculateMI.Image = ((System.Drawing.Image)(resources.GetObject("calculateMI.Image")));
             this.calculateMI.Name = "calculateMI";
-            this.calculateMI.Size = new System.Drawing.Size(221, 22);
+            this.calculateMI.Size = new System.Drawing.Size(216, 22);
             this.calculateMI.Text = "Расчитать";
             this.calculateMI.Click += new System.EventHandler(this.calculateMI_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(218, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(213, 6);
             // 
             // sumMI
             // 
@@ -415,7 +417,7 @@
             this.sumMI.CheckOnClick = true;
             this.sumMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.sumMI.Name = "sumMI";
-            this.sumMI.Size = new System.Drawing.Size(221, 22);
+            this.sumMI.Size = new System.Drawing.Size(216, 22);
             this.sumMI.Text = "Сумма";
             // 
             // minMI
@@ -424,7 +426,7 @@
             this.minMI.CheckOnClick = true;
             this.minMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.minMI.Name = "minMI";
-            this.minMI.Size = new System.Drawing.Size(221, 22);
+            this.minMI.Size = new System.Drawing.Size(216, 22);
             this.minMI.Text = "Максимальное значение";
             // 
             // maxMI
@@ -433,7 +435,7 @@
             this.maxMI.CheckOnClick = true;
             this.maxMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.maxMI.Name = "maxMI";
-            this.maxMI.Size = new System.Drawing.Size(221, 22);
+            this.maxMI.Size = new System.Drawing.Size(216, 22);
             this.maxMI.Text = "Минимальное значение";
             // 
             // intervalMI
@@ -442,7 +444,7 @@
             this.intervalMI.CheckOnClick = true;
             this.intervalMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.intervalMI.Name = "intervalMI";
-            this.intervalMI.Size = new System.Drawing.Size(221, 22);
+            this.intervalMI.Size = new System.Drawing.Size(216, 22);
             this.intervalMI.Text = "Интервал";
             // 
             // averageMI
@@ -451,7 +453,7 @@
             this.averageMI.CheckOnClick = true;
             this.averageMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.averageMI.Name = "averageMI";
-            this.averageMI.Size = new System.Drawing.Size(221, 22);
+            this.averageMI.Size = new System.Drawing.Size(216, 22);
             this.averageMI.Text = "Среднее значение";
             // 
             // dispersionMI
@@ -460,7 +462,7 @@
             this.dispersionMI.CheckOnClick = true;
             this.dispersionMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.dispersionMI.Name = "dispersionMI";
-            this.dispersionMI.Size = new System.Drawing.Size(221, 22);
+            this.dispersionMI.Size = new System.Drawing.Size(216, 22);
             this.dispersionMI.Text = "Дисперсия";
             // 
             // standardErrorMI
@@ -469,7 +471,7 @@
             this.standardErrorMI.CheckOnClick = true;
             this.standardErrorMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.standardErrorMI.Name = "standardErrorMI";
-            this.standardErrorMI.Size = new System.Drawing.Size(221, 22);
+            this.standardErrorMI.Size = new System.Drawing.Size(216, 22);
             this.standardErrorMI.Text = "Стандартная ошибка";
             // 
             // standardDeviationMI
@@ -478,7 +480,7 @@
             this.standardDeviationMI.CheckOnClick = true;
             this.standardDeviationMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.standardDeviationMI.Name = "standardDeviationMI";
-            this.standardDeviationMI.Size = new System.Drawing.Size(221, 22);
+            this.standardDeviationMI.Size = new System.Drawing.Size(216, 22);
             this.standardDeviationMI.Text = "Стандартное отклонение";
             // 
             // medianMI
@@ -487,7 +489,7 @@
             this.medianMI.CheckOnClick = true;
             this.medianMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.medianMI.Name = "medianMI";
-            this.medianMI.Size = new System.Drawing.Size(221, 22);
+            this.medianMI.Size = new System.Drawing.Size(216, 22);
             this.medianMI.Text = "Медиана";
             // 
             // modeMI
@@ -496,21 +498,21 @@
             this.modeMI.CheckOnClick = true;
             this.modeMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.modeMI.Name = "modeMI";
-            this.modeMI.Size = new System.Drawing.Size(221, 22);
+            this.modeMI.Size = new System.Drawing.Size(216, 22);
             this.modeMI.Text = "Мода";
             // 
             // kurtosisMI
             // 
             this.kurtosisMI.CheckOnClick = true;
             this.kurtosisMI.Name = "kurtosisMI";
-            this.kurtosisMI.Size = new System.Drawing.Size(221, 22);
+            this.kurtosisMI.Size = new System.Drawing.Size(216, 22);
             this.kurtosisMI.Text = "Асимметричность";
             // 
             // skewnessMI
             // 
             this.skewnessMI.CheckOnClick = true;
             this.skewnessMI.Name = "skewnessMI";
-            this.skewnessMI.Size = new System.Drawing.Size(221, 22);
+            this.skewnessMI.Size = new System.Drawing.Size(216, 22);
             this.skewnessMI.Text = "Эксцесс";
             // 
             // reportMI
@@ -531,14 +533,14 @@
             // 
             this.createReportMI.Image = ((System.Drawing.Image)(resources.GetObject("createReportMI.Image")));
             this.createReportMI.Name = "createReportMI";
-            this.createReportMI.Size = new System.Drawing.Size(302, 22);
+            this.createReportMI.Size = new System.Drawing.Size(292, 22);
             this.createReportMI.Text = "Сформировать отчет";
             this.createReportMI.Click += new System.EventHandler(this.createReportMI_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(299, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(289, 6);
             // 
             // оторбражатьИсходныеДанныеToolStripMenuItem
             // 
@@ -546,7 +548,7 @@
             this.оторбражатьИсходныеДанныеToolStripMenuItem.CheckOnClick = true;
             this.оторбражатьИсходныеДанныеToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.оторбражатьИсходныеДанныеToolStripMenuItem.Name = "оторбражатьИсходныеДанныеToolStripMenuItem";
-            this.оторбражатьИсходныеДанныеToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.оторбражатьИсходныеДанныеToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.оторбражатьИсходныеДанныеToolStripMenuItem.Text = "Оторбражать исходные данные";
             // 
             // отображатьЭлементарныеСтатитстикиToolStripMenuItem
@@ -555,7 +557,7 @@
             this.отображатьЭлементарныеСтатитстикиToolStripMenuItem.CheckOnClick = true;
             this.отображатьЭлементарныеСтатитстикиToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.отображатьЭлементарныеСтатитстикиToolStripMenuItem.Name = "отображатьЭлементарныеСтатитстикиToolStripMenuItem";
-            this.отображатьЭлементарныеСтатитстикиToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.отображатьЭлементарныеСтатитстикиToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.отображатьЭлементарныеСтатитстикиToolStripMenuItem.Text = "Отображать элементарные статитстики";
             // 
             // отображатьРезультатРегрессииToolStripMenuItem
@@ -564,7 +566,7 @@
             this.отображатьРезультатРегрессииToolStripMenuItem.CheckOnClick = true;
             this.отображатьРезультатРегрессииToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.отображатьРезультатРегрессииToolStripMenuItem.Name = "отображатьРезультатРегрессииToolStripMenuItem";
-            this.отображатьРезультатРегрессииToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.отображатьРезультатРегрессииToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.отображатьРезультатРегрессииToolStripMenuItem.Text = "Отображать результат регрессии";
             // 
             // отображатьРядФурьеToolStripMenuItem
@@ -573,7 +575,7 @@
             this.отображатьРядФурьеToolStripMenuItem.CheckOnClick = true;
             this.отображатьРядФурьеToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.отображатьРядФурьеToolStripMenuItem.Name = "отображатьРядФурьеToolStripMenuItem";
-            this.отображатьРядФурьеToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.отображатьРядФурьеToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.отображатьРядФурьеToolStripMenuItem.Text = "Отображать ряд Фурье";
             // 
             // отображатьВейвлетToolStripMenuItem
@@ -582,7 +584,7 @@
             this.отображатьВейвлетToolStripMenuItem.CheckOnClick = true;
             this.отображатьВейвлетToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.отображатьВейвлетToolStripMenuItem.Name = "отображатьВейвлетToolStripMenuItem";
-            this.отображатьВейвлетToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.отображатьВейвлетToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.отображатьВейвлетToolStripMenuItem.Text = "Отображать вейвлет";
             // 
             // toolsMenu
@@ -593,19 +595,19 @@
             this.showToolBarMI,
             this.showStatusBarMI});
             this.toolsMenu.Name = "toolsMenu";
-            this.toolsMenu.Size = new System.Drawing.Size(59, 20);
+            this.toolsMenu.Size = new System.Drawing.Size(55, 20);
             this.toolsMenu.Text = "&Сервис";
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.optionsToolStripMenuItem.Text = "&Параметры...";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(202, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(193, 6);
             // 
             // showToolBarMI
             // 
@@ -613,7 +615,7 @@
             this.showToolBarMI.CheckOnClick = true;
             this.showToolBarMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showToolBarMI.Name = "showToolBarMI";
-            this.showToolBarMI.Size = new System.Drawing.Size(205, 22);
+            this.showToolBarMI.Size = new System.Drawing.Size(196, 22);
             this.showToolBarMI.Text = "&Панель инструментов";
             this.showToolBarMI.Click += new System.EventHandler(this.showToolBarMI_Click);
             // 
@@ -623,7 +625,7 @@
             this.showStatusBarMI.CheckOnClick = true;
             this.showStatusBarMI.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showStatusBarMI.Name = "showStatusBarMI";
-            this.showStatusBarMI.Size = new System.Drawing.Size(205, 22);
+            this.showStatusBarMI.Size = new System.Drawing.Size(196, 22);
             this.showStatusBarMI.Text = "&Строка состояния";
             this.showStatusBarMI.Click += new System.EventHandler(this.showStatusBarMI_Click);
             // 
@@ -635,35 +637,35 @@
             this.tileHorizontalMI,
             this.closeAllMI});
             this.windowsMI.Name = "windowsMI";
-            this.windowsMI.Size = new System.Drawing.Size(47, 20);
+            this.windowsMI.Size = new System.Drawing.Size(45, 20);
             this.windowsMI.Text = "&Окна";
             this.windowsMI.Visible = false;
             // 
             // cascadeMI
             // 
             this.cascadeMI.Name = "cascadeMI";
-            this.cascadeMI.Size = new System.Drawing.Size(165, 22);
+            this.cascadeMI.Size = new System.Drawing.Size(161, 22);
             this.cascadeMI.Text = "&Каскадом";
             this.cascadeMI.Click += new System.EventHandler(this.CascadeMI_Click);
             // 
             // tileVerticalMI
             // 
             this.tileVerticalMI.Name = "tileVerticalMI";
-            this.tileVerticalMI.Size = new System.Drawing.Size(165, 22);
+            this.tileVerticalMI.Size = new System.Drawing.Size(161, 22);
             this.tileVerticalMI.Text = "С&лева направо";
             this.tileVerticalMI.Click += new System.EventHandler(this.TileVerticalMI_Click);
             // 
             // tileHorizontalMI
             // 
             this.tileHorizontalMI.Name = "tileHorizontalMI";
-            this.tileHorizontalMI.Size = new System.Drawing.Size(165, 22);
+            this.tileHorizontalMI.Size = new System.Drawing.Size(161, 22);
             this.tileHorizontalMI.Text = "С&верху вниз";
             this.tileHorizontalMI.Click += new System.EventHandler(this.TileHorizontalMI_Click);
             // 
             // closeAllMI
             // 
             this.closeAllMI.Name = "closeAllMI";
-            this.closeAllMI.Size = new System.Drawing.Size(165, 22);
+            this.closeAllMI.Size = new System.Drawing.Size(161, 22);
             this.closeAllMI.Text = "&Закрыть все";
             this.closeAllMI.Click += new System.EventHandler(this.CloseAllMI_Click);
             // 
@@ -674,7 +676,7 @@
             this.toolStripSeparator8,
             this.aboutMI});
             this.helpMI.Name = "helpMI";
-            this.helpMI.Size = new System.Drawing.Size(65, 20);
+            this.helpMI.Size = new System.Drawing.Size(62, 20);
             this.helpMI.Text = "&Справка";
             // 
             // helpMeMI
@@ -683,18 +685,18 @@
             this.helpMeMI.ImageTransparentColor = System.Drawing.Color.Black;
             this.helpMeMI.Name = "helpMeMI";
             this.helpMeMI.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.helpMeMI.Size = new System.Drawing.Size(157, 22);
+            this.helpMeMI.Size = new System.Drawing.Size(149, 22);
             this.helpMeMI.Text = "&Справка";
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(154, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(146, 6);
             // 
             // aboutMI
             // 
             this.aboutMI.Name = "aboutMI";
-            this.aboutMI.Size = new System.Drawing.Size(157, 22);
+            this.aboutMI.Size = new System.Drawing.Size(149, 22);
             this.aboutMI.Text = "&О программе";
             // 
             // toolStrip
@@ -832,6 +834,7 @@
             this.waveletTSB.Name = "waveletTSB";
             this.waveletTSB.Size = new System.Drawing.Size(23, 22);
             this.waveletTSB.Text = "Вейвлет-анализ";
+            this.waveletTSB.Click += new System.EventHandler(this.waveletMI_Click);
             // 
             // dataSeparatorTSB
             // 
@@ -870,8 +873,13 @@
             // lblFileName
             // 
             this.lblFileName.Name = "lblFileName";
-            this.lblFileName.Size = new System.Drawing.Size(65, 17);
+            this.lblFileName.Size = new System.Drawing.Size(61, 17);
             this.lblFileName.Text = "Состояние";
+            // 
+            // seriesSeparatorMI
+            // 
+            this.seriesSeparatorMI.Name = "seriesSeparatorMI";
+            this.seriesSeparatorMI.Size = new System.Drawing.Size(224, 6);
             // 
             // MainMDI
             // 
@@ -985,6 +993,7 @@
         private System.Windows.Forms.ToolStripSeparator dataSeparatorTSB;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem multipleMI;
+        private System.Windows.Forms.ToolStripSeparator seriesSeparatorMI;
     }
 }
 

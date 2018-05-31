@@ -27,11 +27,13 @@ namespace WtiOil
         /// Количество дочерних окон типа "DataForm".
         /// </summary>
         private int childFormNumber = 0;
+        private List<ToolStripMenuItem> ChartSeriesItems { get; set; }
 
         // Конструктор класса.
         public MainMDI()
         {
             InitializeComponent();
+            ChartSeriesItems = new List<ToolStripMenuItem>();
             InitialElementsState();
         }
 
@@ -84,7 +86,7 @@ namespace WtiOil
             if (data == null)
                 return;
 
-            var chart = GetForm<ChartForm>();
+            var chart = GetChartForm();
             chart.DrawTrend(data, yValues);
             chart.Show();
             chart.Activate();
@@ -111,7 +113,7 @@ namespace WtiOil
             if (data == null)
                 return;
 
-            var chart = GetForm<ChartForm>();
+            var chart = GetChartForm();
             chart.DrawFourier(data, yValues);
             chart.Show();
             chart.Activate();
@@ -133,7 +135,7 @@ namespace WtiOil
             if (data == null)
                 return;
 
-            var chart = GetForm<ChartForm>();
+            var chart = GetChartForm();
             chart.DrawMultipleRegression(data, yValues);
             chart.Show();
             chart.Activate();
@@ -182,6 +184,12 @@ namespace WtiOil
             drawTrendLineMI.Visible = drawTrendLineTSB.Visible = isDrawTrend;
         }
 
+        private void SwitchChartSeriesMIState(bool isVisible)
+        {
+            foreach (var mi in ChartSeriesItems)
+                mi.Visible = isVisible;
+        }
+
         // Состояние элементов меню "Правка".
         private void SetEditMenuItemsState(bool isVisible)
         {
@@ -213,12 +221,47 @@ namespace WtiOil
             return childForm;
         }
 
-        private T GetForm<T>() where T : Form, IData, new()
+        private ChartForm GetChartForm()
         {
-            var openedFrom = this.MdiChildren.FirstOrDefault(i => i is T) as T;
-            var form = openedFrom == null ? new T() : openedFrom;
+            var openedFrom = this.MdiChildren.FirstOrDefault(i => i is ChartForm) as ChartForm;
+            var form = openedFrom == null ? new ChartForm() : openedFrom;
+            form.OnSeriesChanged += chart_OnSeriesChanged;
             form.MdiParent = this;
             return form;
+        }
+
+        private void AddChartMI(System.Windows.Forms.DataVisualization.Charting.Series series)
+        {
+            if (chartMI.DropDownItems.ContainsKey(series.Name))
+                chartMI.DropDownItems.RemoveByKey(series.Name);
+
+            if (ChartSeriesItems == null)
+                ChartSeriesItems = new List<ToolStripMenuItem>();
+
+            ToolStripMenuItem mi = new ToolStripMenuItem(series.LegendText);
+            mi.CheckOnClick = true;
+            mi.Checked = series.Enabled;
+            mi.Name = series.Name;
+            mi.Tag = series;
+            mi.BackColor = Color.FromArgb(80, series.Color);
+            mi.Click += showChartSeries_Click;
+            ChartSeriesItems.Add(mi);
+
+            chartMI.DropDownItems.Add(mi);
+        }
+
+        private void chart_OnSeriesChanged(System.Windows.Forms.DataVisualization.Charting.SeriesCollection seriesColl, int index)
+        {
+            foreach (var series in seriesColl)
+            {
+                AddChartMI(series);
+            }
+
+            foreach (var item in ChartSeriesItems)
+            {
+                if(!seriesColl.Contains(item.Tag as System.Windows.Forms.DataVisualization.Charting.Series))
+                    chartMI.DropDownItems.Remove(item);
+            }
         }
 
         /// <summary>
@@ -358,12 +401,16 @@ namespace WtiOil
                 SetChartMenuItemsState(true, !state, true);
                 SetStatisticItemsState(state);
                 SetReportItemsState(state);
+
+                // Удаление элементов меню, содержащих список рядов графика.
+                SwitchChartSeriesMIState(!state);
             }
 
             if (this.ActiveMdiChild is InformationForm)
             {
                 SetEditMenuItemsState(false);
                 SetReportItemsState(false);
+                SwitchChartSeriesMIState(false);
 
                 // Управление видимостью элементов при разных типах окна. 
                 switch ((this.ActiveMdiChild as InformationForm).Type)
@@ -396,7 +443,7 @@ namespace WtiOil
             if (!(ActiveMdiChild is IData))
                 return;
 
-            var chartForm = GetForm<ChartForm>();
+            var chartForm = GetChartForm();
 
             if (ActiveMdiChild is InformationForm)
             {
@@ -441,6 +488,21 @@ namespace WtiOil
             (ActiveMdiChild as ChartForm).ShowLegend(showLegendMI.Checked);
         }
 
+        private void showChartSeries_Click(object sender, EventArgs e)
+        {
+            if (ActiveMdiChild == null)
+                return;
+            if (!(ActiveMdiChild is ChartForm))
+                return;
+            
+            var mi = sender as ToolStripMenuItem;
+
+            if (mi == null)
+                return;
+
+            (mi.Tag as System.Windows.Forms.DataVisualization.Charting.Series).Enabled = mi.Checked;
+        }
+
         private void drawTrendLineMI_Click(object sender, EventArgs e)
         {
             var data = (this.ActiveMdiChild as IData);
@@ -449,7 +511,7 @@ namespace WtiOil
                 var form = (this.ActiveMdiChild as InformationForm);
                 if (form.Type == InformationType.Regression)
                 {
-                    var chart = GetForm<ChartForm>();
+                    var chart = GetChartForm();
                     chart.DrawTrend(form, form.YValues);
                     chart.Show();
                     chart.Activate();
@@ -584,17 +646,27 @@ namespace WtiOil
 
         #endregion
 
+        private int GetMaxPowOf2(int number)
+        {
+            int pow = 0;
+            while (1 << pow < number)
+                pow++;
+
+            return --pow;
+        }
+
         private void waveletMI_Click(object sender, EventArgs e)
         {
-            var data = (this.ActiveMdiChild as IData).Data.Select(i => i.Value).Take(256).ToArray();
-            var y = Wavelet.D4Transform(data);
-            y = Wavelet.InverseD4Transform(y);
+            var idata = (this.ActiveMdiChild as IData);
+            idata.Data = idata.Data.Skip(idata.Data.Count - (1 << GetMaxPowOf2(idata.Data.Count))).ToList();
+            var data = (this.ActiveMdiChild as IData).Data.Select(i => i.Value).ToArray();
+            var coeffs = Wavelet.D4Transform(data);
+            var y = Wavelet.InverseD4Transform(coeffs);
 
-            var chart = GetForm<ChartForm>();
-            chart.DrawMultipleRegression(this.ActiveMdiChild as IData, y);
+            var chart = GetChartForm();
+            chart.DrawWaveletD4(this.ActiveMdiChild as IData, y, coeffs);
             chart.Show();
             chart.Activate();
-
         }
 
     }
