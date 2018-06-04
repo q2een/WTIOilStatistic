@@ -11,11 +11,16 @@ namespace WtiOil
         /// Масштабирующие коэффициенты прямого преобразования Дjбеши D4.
         /// Фильтр низких частот.
         /// </summary>
-        protected readonly double[] d4CL = {(1 + Math.Sqrt(3)) / (4 * Math.Sqrt(2)),
+        private readonly double[] d4CL = {(1 + Math.Sqrt(3)) / (4 * Math.Sqrt(2)),
                                         (3 + Math.Sqrt(3)) / (4 * Math.Sqrt(2)),
                                         (3 - Math.Sqrt(3)) / (4 * Math.Sqrt(2)),
                                         (1 - Math.Sqrt(3)) / (4 * Math.Sqrt(2))
                                     };
+
+        public double[] GetD4CL()
+        {
+            return this.d4CL;
+        }
 
         /// <summary>
         /// Возвращает массив фильтров высоких частот на основе низких <c>lowCoefficients</c>.
@@ -23,7 +28,7 @@ namespace WtiOil
         /// </summary>
         /// <param name="lowCoefficients">Массив фильтров нихкиъ частот</param>
         /// <returns>Массив фильтров высоких частот</returns>
-        protected double[] GetHPFCoeffs(double[] lowCoefficients)
+        public double[] GetHPFCoeffs(double[] lowCoefficients)
         {
             var CH = new double[lowCoefficients.Length];
 
@@ -42,13 +47,13 @@ namespace WtiOil
         }
 
         /// <summary>
-        /// Находит фильтры низких и высоких частот для обратного преобразования Дjбеши.
+        /// Находит фильтры низких и высоких частот для обратного преобразования Добеши.
         /// </summary>
         /// <param name="CL">Фильтр низких частот</param>
         /// <param name="CH">Фильтр высоких частот</param>
         /// <param name="iCL">Выхожной параметр. Фильтр низких частот</param>
         /// <param name="iCH">Выхожной параметр. Фильтр высоких частот</param>
-        protected void GetInvCoeffs(double[] CL, double[] CH, out double[] iCL, out double[] iCH)
+        public void GetInvCoeffs(double[] CL, double[] CH, out double[] iCL, out double[] iCH)
         {
             var icl = new List<double>();
             var ich = new List<double>();
@@ -64,7 +69,7 @@ namespace WtiOil
         }
 
         /// <summary>
-        /// Прямое преобразование Дjбеши
+        /// Прямое преобразование Добеши
         /// </summary>
         /// <param name="data">Массив исходных значений</param>
         /// <param name="length">Длина</param>
@@ -116,7 +121,6 @@ namespace WtiOil
             {
                 // 0 2 1 3
                 // 1 3 2 4
-                // 2 4 3 5
                 //     smooth val     coef. val       smooth val    coef. val
                 tmp[j++] = data[i] * iCL[0] + data[i + half] * iCL[1] + data[i + 1] * iCL[2] + data[i + half + 1] * iCL[3];
                 tmp[j++] = data[i] * iCH[0] + data[i + half] * iCH[1] + data[i + 1] * iCH[2] + data[i + half + 1] * iCH[3];
@@ -130,7 +134,7 @@ namespace WtiOil
         }
 
         /// <summary>
-        /// Прямое преобразование Дjбеши D4.
+        /// Прямое преобразование Добеши D4.
         /// </summary>
         /// <param name="values">Массив исходных значений</param>
         /// <returns></returns>
@@ -148,7 +152,7 @@ namespace WtiOil
         }
 
         /// <summary>
-        /// Обратное преобразование Дjбеши D4.
+        /// Обратное преобразование Добеши D4.
         /// </summary>
         /// <param name="coeffs">Массив преобразованных значений</param>
         public static double[] InverseD4Transform(IEnumerable<double> coeffs)

@@ -62,6 +62,7 @@ namespace WtiOil
         /// <param name="data">Экземпляр класса, реализующего интерфейс IData</param>
         /// <param name="coefficients">Коллекция коэффициентов полинома</param>
         /// <param name="yValues">Значение расчетных У</param>
+        /// <returns>Коллекция экземпляров класса InformationItem</returns>
         public List<InformationItem> ShowRegression(IData data, double[] coefficients, double[] yValues)
         {
             this.Data = data.Data;
@@ -93,10 +94,18 @@ namespace WtiOil
             return regression;
         }
 
-        public List<InformationItem> ShowMultipleRegression(IData data, double[] coefficients)
+        /// <summary>
+        /// Отображает данные, полученные при расчете многофакторной регрессии, и возвращает отображаемую коллекцию.
+        /// </summary>
+        /// <param name="data">Экземпляр класса, реализующего интерфейс IData</param>
+        /// <param name="coefficients">Коллекция коэффициентов полинома</param>
+        /// <param name="yValues">Значение расчетных У</param>
+        /// <returns>Коллекция экземпляров класса InformationItem</returns>
+        public List<InformationItem> ShowMultipleRegression(IData data, double[] coefficients, double[] yValues)
         {
             this.Data = data.Data;
             this.FullData = data.FullData;
+            this.YValues = yValues;
 
             if (coefficients.Length != 3)
                 throw new ArgumentException("coefficients");
@@ -113,11 +122,76 @@ namespace WtiOil
         }
 
         /// <summary>
+        /// Отображает данные, полученные при расчете вейвлет-преобразования, и возвращает отображаемую коллекцию.
+        /// </summary>
+        /// <param name="data">Экземпляр класса, реализующего интерфейс IData</param>
+        /// <param name="coefficients">Коллекция коэффициентов прямого вейвлет-преобразования</param>
+        /// <param name="yValues">Значение расчетных У</param>
+        /// <returns>Коллекция экземпляров класса InformationItem</returns>
+        public List<InformationItem> ShowWavelet(IData data, double[] coefficients, double[] yValues)
+        {
+            this.Data = data.Data;
+            this.FullData = data.FullData;
+            this.YValues = yValues;
+
+            var wl = new Wavelet();
+            var wavelet = new List<InformationItem>();
+
+            var CL = wl.GetD4CL();
+            var CH = wl.GetHPFCoeffs(CL);
+            double[] iCL, iCH;
+            wl.GetInvCoeffs(CL, CH, out iCL, out iCH);
+
+            wavelet.Add(new InformationItem("Коэффициенты прямого вейвлет-преобразования Добеши (D4)", ""));
+            wavelet.Add(new InformationItem("Фильтры низких частот: ", ""));
+            
+            for (int i = 0; i < CL.Length; i++)
+            {
+                wavelet.Add(new InformationItem("[" + (i + 1) + "]", CL[i]));
+            }
+
+            wavelet.Add(new InformationItem("Фильтры высоких частот: ", ""));
+
+            for (int i = 0; i < CH.Length; i++)
+            {
+                wavelet.Add(new InformationItem("[" + (i + 1) + "]", CH[i]));
+            }
+
+            wavelet.Add(new InformationItem("Коэффициенты обратного вейвлет-преобразования Добеши (D4)", ""));
+
+            wavelet.Add(new InformationItem("Фильтры низких частот: ", ""));
+
+            for (int i = 0; i < iCL.Length; i++)
+            {
+                wavelet.Add(new InformationItem("[" + (i + 1) + "]", iCL[i]));
+            }
+
+            wavelet.Add(new InformationItem("Фильтры высоких частот: ", ""));
+
+            for (int i = 0; i < iCH.Length; i++)
+            {
+                wavelet.Add(new InformationItem("[" + (i + 1) + "]", iCH[i]));
+            }
+
+            wavelet.Add(new InformationItem("Результат прямого вейвлет-преобразования Добеши D4:",""));
+
+            for (int i = 0; i < coefficients.Length; i++)
+            {
+                wavelet.Add(new InformationItem("["+i+"]", coefficients[i]));
+            }
+            
+            dgvInformation.DataSource = wavelet;
+
+            return wavelet;
+        }
+        
+        /// <summary>
         /// Отображает данные, полученные при Фурье-анализе и возвращает коллекцию отображаемых данных.
         /// </summary>
         /// <param name="data">Экземпляр класса, реализующего интерфейс IData</param>
         /// <param name="harmonics">Коллекция гармоник</param>
         /// <param name="yValues">Значение расчетных У</param>
+        /// <returns>Коллекция экземпляров класса InformationItem</returns>
         public List<InformationItem> ShowFourier(IData data, List<Harmonic> harmonics, double[] yValues)
         {
             this.Data = data.Data;
@@ -167,6 +241,7 @@ namespace WtiOil
         /// <param name="isMin">Отображать минимальное значение</param>
         /// <param name="isMax">Отображать максимальное значение</param>
         /// <param name="isSum">Отображать сумму элементов</param>
+        /// <returns>Коллекция экземпляров класса InformationItem</returns>
         public List<InformationItem> ShowStatistic(IData data, bool isAverage, 
                                                       bool isStandardError, 
                                                       bool isMediana, 
@@ -227,11 +302,10 @@ namespace WtiOil
 
             return statistics;
         }
-
     }
 
     /// <summary>
-    /// Тип окна.
+    /// Тип информации, отображаемой в окне.
     /// </summary>
     public enum InformationType
     { 

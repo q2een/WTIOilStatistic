@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
@@ -27,16 +28,30 @@ namespace WtiOil
             }
         }
         #endregion
+
+        #region События изменения рядов графика
         public delegate void SeriesStateHandler(SeriesCollection series, int index = -1);
 
         public event SeriesStateHandler OnSeriesChanged = delegate { };
+        #endregion
 
         // Конструктор класса.
         public ChartForm()
         {
             InitializeComponent();
         }
-             
+        
+        /// <summary>
+        /// Отображает/скрывает легенду исходя из флага <c>isEnabled</c>.
+        /// </summary>
+        /// <param name="isEnabled">Флаг отображжения легенды</param>
+        public void ShowLegend(bool isEnabled)
+        {
+            chart.Legends[0].Enabled = isEnabled;
+            chart.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+            chart.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
+        }
+     
         public void SaveChart(string path)
         {
             chart.SaveImage(path, ImageFormat.Png);
@@ -62,12 +77,6 @@ namespace WtiOil
             OnSeriesChanged(chart.Series);
         }
 
-        private void RemoveSeries(string seriesName)
-        {
-            if (chart.Series.Contains(chart.Series[seriesName]))
-                chart.Series.RemoveAt(chart.Series.IndexOf(seriesName));
-        }
-
         /// <summary>
         /// Отображает исходные данные на графике.
         /// </summary>
@@ -90,11 +99,11 @@ namespace WtiOil
 
             chart.Series["main"].Enabled = true;
             OnSeriesChanged(chart.Series, chart.Series.IndexOf(chart.Series["main"]));
-
+            
             // Верхняя и нижняя границы.
             chart.ChartAreas[0].AxisY.Maximum = Math.Round(Data.Max(), 1);
             chart.ChartAreas[0].AxisY.Minimum = Math.Round(Data.Min(), 1);
-
+            
             // Интервал У.
             chart.ChartAreas[0].AxisY.Interval = Data.Interval() < 20 ? 1 : Math.Floor(Data.Interval() / 20);
 
@@ -158,24 +167,20 @@ namespace WtiOil
             DrawFunction("multiple", data,yValues,"Многофакторная регрессия", Color.Crimson);
         }
 
-        public void DrawWaveletD4(IData data, double[] yValues, double[] coeffs)
+        public void DrawWaveletD4(IData data, double[] yValues)
         {
             DrawFunction("waveletSynt", data, yValues, "Синтезированная функция (вейвлет-анализ)", Color.IndianRed);
-            DrawFunction("waveletD4", data, coeffs, "Вейвлет функция", Color.MediumSeaGreen);
-            
-            chart.Series["waveletD4"].Enabled = false;
-            OnSeriesChanged(chart.Series, chart.Series.IndexOf(chart.Series["waveletD4"]));
         }
 
-        /// <summary>
-        /// Отображает/скрывает легенду исходя из флага <c>isEnabled</c>.
-        /// </summary>
-        /// <param name="isEnabled">Флаг отображжения легенды</param>
-        public void ShowLegend(bool isEnabled)
+        public void DrawWaveletFunc(IData data, double[] coeffs)
         {
-            chart.Legends[0].Enabled = isEnabled;
-            chart.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
-            chart.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
+            DrawFunction("waveletD4", data, coeffs, "Вейвлет функция", Color.MediumSeaGreen);
+
+            // Верхняя и нижняя границы.
+            chart.ChartAreas[0].AxisY.Maximum = Math.Round(coeffs.Max(), 1);
+            chart.ChartAreas[0].AxisY.Minimum = Math.Round(coeffs.Min(), 1);
+
+            chart.ChartAreas[0].AxisY.Interval = Math.Round((coeffs.Max() - coeffs.Min())/(coeffs.Length/20),1);
         }
     }
 }

@@ -44,7 +44,7 @@
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.fourierMI = new System.Windows.Forms.ToolStripMenuItem();
             this.waveletMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.dataSeparatorMI = new System.Windows.Forms.ToolStripSeparator();
             this.multipleMI = new System.Windows.Forms.ToolStripMenuItem();
             this.editMI = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,6 +58,7 @@
             this.drawTrendLineMI = new System.Windows.Forms.ToolStripMenuItem();
             this.legendSeparatorMI = new System.Windows.Forms.ToolStripSeparator();
             this.showLegendMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.seriesSeparatorMI = new System.Windows.Forms.ToolStripSeparator();
             this.statisticsMI = new System.Windows.Forms.ToolStripMenuItem();
             this.calculateMI = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -115,7 +116,7 @@
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.lblFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.seriesSeparatorMI = new System.Windows.Forms.ToolStripSeparator();
+            this.multipleTSB = new System.Windows.Forms.ToolStripButton();
             this.menu.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusBar.SuspendLayout();
@@ -220,7 +221,7 @@
             this.toolStripMenuItem5,
             this.fourierMI,
             this.waveletMI,
-            this.toolStripMenuItem3,
+            this.dataSeparatorMI,
             this.multipleMI});
             this.dataMI.Name = "dataMI";
             this.dataMI.Size = new System.Drawing.Size(95, 20);
@@ -256,10 +257,10 @@
             this.waveletMI.Text = "Вейвлет-анализ";
             this.waveletMI.Click += new System.EventHandler(this.waveletMI_Click);
             // 
-            // toolStripMenuItem3
+            // dataSeparatorMI
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(223, 6);
+            this.dataSeparatorMI.Name = "dataSeparatorMI";
+            this.dataSeparatorMI.Size = new System.Drawing.Size(223, 6);
             // 
             // multipleMI
             // 
@@ -376,6 +377,11 @@
             this.showLegendMI.Size = new System.Drawing.Size(227, 22);
             this.showLegendMI.Text = "Показать легенду";
             this.showLegendMI.Click += new System.EventHandler(this.showLegendMI_Click);
+            // 
+            // seriesSeparatorMI
+            // 
+            this.seriesSeparatorMI.Name = "seriesSeparatorMI";
+            this.seriesSeparatorMI.Size = new System.Drawing.Size(224, 6);
             // 
             // statisticsMI
             // 
@@ -715,6 +721,7 @@
             this.chartSeparatorTSB,
             this.fourierTSB,
             this.waveletTSB,
+            this.multipleTSB,
             this.dataSeparatorTSB,
             this.calculateTSB,
             this.repotTSB});
@@ -876,10 +883,16 @@
             this.lblFileName.Size = new System.Drawing.Size(61, 17);
             this.lblFileName.Text = "Состояние";
             // 
-            // seriesSeparatorMI
+            // multipleTSB
             // 
-            this.seriesSeparatorMI.Name = "seriesSeparatorMI";
-            this.seriesSeparatorMI.Size = new System.Drawing.Size(224, 6);
+            this.multipleTSB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.multipleTSB.Image = ((System.Drawing.Image)(resources.GetObject("multipleTSB.Image")));
+            this.multipleTSB.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.multipleTSB.Name = "multipleTSB";
+            this.multipleTSB.Size = new System.Drawing.Size(23, 22);
+            this.multipleTSB.Text = "Многофакторная регрессия";
+            this.multipleTSB.ToolTipText = "Многофакторная регрессия";
+            this.multipleTSB.Click += new System.EventHandler(this.miltipleMI_Click);
             // 
             // MainMDI
             // 
@@ -991,9 +1004,10 @@
         private System.Windows.Forms.ToolStripButton fourierTSB;
         private System.Windows.Forms.ToolStripButton waveletTSB;
         private System.Windows.Forms.ToolStripSeparator dataSeparatorTSB;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripSeparator dataSeparatorMI;
         private System.Windows.Forms.ToolStripMenuItem multipleMI;
         private System.Windows.Forms.ToolStripSeparator seriesSeparatorMI;
+        private System.Windows.Forms.ToolStripButton multipleTSB;
     }
 }
 

@@ -67,7 +67,11 @@ namespace WtiOil
             return result;
         }
 
-        // Возвращает имя файла из пути path.
+        /// <summary>
+        /// Возвращает имя файла из пути <c>path</c>.
+        /// </summary>
+        /// <param name="path">Полный путь к файлу</param>
+        /// <returns>Имя файла из пути к файлу</returns>
         private string GetFileNameFromPath(string path)
         {
             return path.Split('\\').Last();
@@ -93,7 +97,7 @@ namespace WtiOil
 
             if (showInformation)
             {
-                var inform = GetInformationForm(InformationType.Regression);
+                var inform = GetInformationForm(InformationType.Regression, data);
                 inform.ShowRegression(data, coefficients, yValues);
                 inform.Show();
                 inform.Activate();
@@ -120,7 +124,7 @@ namespace WtiOil
 
             if (showInformation)
             {
-                var inform = GetInformationForm(InformationType.Fourier);
+                var inform = GetInformationForm(InformationType.Fourier,data);
                 inform.ShowFourier(data, harmonics, yValues);
                 inform.Show();
                 inform.Activate();
@@ -128,6 +132,11 @@ namespace WtiOil
                         
         }
 
+        /// <summary>
+        /// Оторбражает линию тренда, полученную при многофакторной регрессии
+        /// </summary>
+        /// <param name="yValues">Рассчетные значения У(х)</param>
+        /// <param name="coefficients">Коеффициенты многофакторной регрессии</param>
         public void ShowMultiple(double[] yValues, double[] coefficients)
         {
             var data = this.ActiveMdiChild as IData;
@@ -140,11 +149,25 @@ namespace WtiOil
             chart.Show();
             chart.Activate();
 
-            var inform = GetInformationForm(InformationType.MultipleRegression);
-            inform.ShowMultipleRegression(data, coefficients);
+            var inform = GetInformationForm(InformationType.MultipleRegression,data);
+            inform.ShowMultipleRegression(data, coefficients, yValues);
             inform.Show();
         }
+        
+        /// <summary>
+        /// Возвращает максимальную степень 2, которую содержит число <c>number</c>
+        /// </summary>
+        /// <param name="number">Число, в котором необходимо найти максимальную степень 2</param>
+        /// <returns>Максимальная степень 2, которую содержит число</returns>
+        private int GetMaxPowOf2(int number)
+        {
+            int pow = 0;
+            while (1 << pow < number)
+                pow++;
 
+            return --pow;
+        }
+        
         #region Состояние элементов управления.
         
         // Начальное состояние элементов управеления.
@@ -171,8 +194,9 @@ namespace WtiOil
         {
             fourierMI.Visible = fourierTSB.Visible = isFourier;
             waveletMI.Visible = waveletTSB.Visible = isWavelet;
-            multipleMI.Visible = isMultiple;
+            multipleMI.Visible = multipleTSB.Visible = isMultiple;
             dataSeparatorTSB.Visible = isFourier || isWavelet || isMultiple;
+            dataSeparatorMI.Visible = isFourier || isWavelet;
         }
 
         // Состояние элементов меню "График".
@@ -265,20 +289,31 @@ namespace WtiOil
         }
 
         /// <summary>
+        /// Возвращает истину, если <c>first</c> равен <c>second</c>.
+        /// </summary>
+        /// <param name="first">Экземпляр класса, реализующий IData</param>
+        /// <param name="second">Экземпляр класса, реализующий IData</param>
+        /// <returns>Результат сравнения</returns>
+        private bool isIDataEquals(IData first, IData second)
+        {
+            return first.FullData == second.FullData;
+        }
+
+        /// <summary>
         /// Возвращает экземпляр открытой формы InformationForm с типом <c>type</c>.
         /// В случае отстутствия открытой формы создает новый экземпляр и возвращает его.
         /// </summary>
         /// <param name="type">Тип формы InformationForm</param>
         /// <returns>Экземпляр формы InformationForm</returns>
-        private InformationForm GetInformationForm(InformationType type)
+        private InformationForm GetInformationForm(InformationType type,IData data)
         {            
             var openedFroms = this.MdiChildren.Where(i => i is InformationForm);
 
-            var form = openedFroms.Where(i => (i as InformationForm).Type == type).FirstOrDefault();
+            var form = openedFroms.Where(i => ((i as InformationForm).Type == type && isIDataEquals((i as InformationForm), data))).FirstOrDefault();
 
             if (form != null)
                 return form as InformationForm;
-
+            
             InformationForm inform = new InformationForm(type);
             inform.MdiParent = this;
 
@@ -422,7 +457,8 @@ namespace WtiOil
                         break;
                     case InformationType.Regression:
                         SetStatisticItemsState(false);
-                        SetChartMenuItemsState(false, false, true);
+                        SetChartMenuItemsState(true, false, true);
+                        SetDataMenuitems(false, false, false);
                         break;
                     case InformationType.Fourier:
                         SetChartMenuItemsState(true, false, false);
@@ -434,6 +470,12 @@ namespace WtiOil
                         SetStatisticItemsState(false);
                         SetDataMenuitems(false, true, false);
                         break;
+                    case InformationType.MultipleRegression:
+                        SetChartMenuItemsState(true, false, false);
+                        SetStatisticItemsState(false);
+                        SetDataMenuitems(false, false, true);
+                        break;
+
                 }
             }
         }
@@ -447,8 +489,25 @@ namespace WtiOil
 
             if (ActiveMdiChild is InformationForm)
             {
-                if ((ActiveMdiChild as InformationForm).Type == InformationType.Fourier)
-                    chartForm.DrawFourier(this.ActiveMdiChild as IData, (ActiveMdiChild as InformationForm).YValues);
+                var activeFrom = (ActiveMdiChild as InformationForm);
+
+                switch (activeFrom.Type)
+                {
+                    case InformationType.Statistics:
+                        break;
+                    case InformationType.Regression:
+                        chartForm.DrawTrend(activeFrom, activeFrom.YValues);
+                        break;
+                    case InformationType.MultipleRegression:
+                        chartForm.DrawMultipleRegression(activeFrom, activeFrom.YValues);
+                        break;
+                    case InformationType.Fourier:
+                        chartForm.DrawFourier(activeFrom, activeFrom.YValues);
+                        break;
+                    case InformationType.Wavelet:
+                        chartForm.DrawWaveletD4(activeFrom, activeFrom.YValues);
+                        break;
+                }
             }
             else
                 chartForm.DrawChart(this.ActiveMdiChild as IData);
@@ -460,7 +519,7 @@ namespace WtiOil
         private void calculateMI_Click(object sender, EventArgs e)
         {
             IData active = (this.ActiveMdiChild as IData);
-            var statisticForm = GetInformationForm(InformationType.Statistics);
+            var statisticForm = GetInformationForm(InformationType.Statistics, active);
 
             statisticForm.ShowStatistic(active, averageMI.Checked,
                                                      standardErrorMI.Checked,
@@ -506,19 +565,6 @@ namespace WtiOil
         private void drawTrendLineMI_Click(object sender, EventArgs e)
         {
             var data = (this.ActiveMdiChild as IData);
-            if (this.ActiveMdiChild is InformationForm)
-            {
-                var form = (this.ActiveMdiChild as InformationForm);
-                if (form.Type == InformationType.Regression)
-                {
-                    var chart = GetChartForm();
-                    chart.DrawTrend(form, form.YValues);
-                    chart.Show();
-                    chart.Activate();
-                    return;
-                }
-            }
-
             var polynimForm = new CountSetForm(data.Data, CountSetType.Regression);
             polynimForm.Show(this);
         }
@@ -564,6 +610,7 @@ namespace WtiOil
             chart.SaveChart(sourceFunc);
 
             var dataBlock = html.GetDataBlock(data, sourceFunc);
+
 
             var inform = new InformationForm(InformationType.Statistics);
             
@@ -643,31 +690,26 @@ namespace WtiOil
             var data = this.ActiveMdiChild as IData;
             new MultipleRegressionForm(data).Show(this);
         }
-
-        #endregion
-
-        private int GetMaxPowOf2(int number)
-        {
-            int pow = 0;
-            while (1 << pow < number)
-                pow++;
-
-            return --pow;
-        }
-
+        
         private void waveletMI_Click(object sender, EventArgs e)
         {
             var idata = (this.ActiveMdiChild as IData);
             idata.Data = idata.Data.Skip(idata.Data.Count - (1 << GetMaxPowOf2(idata.Data.Count))).ToList();
+
             var data = (this.ActiveMdiChild as IData).Data.Select(i => i.Value).ToArray();
             var coeffs = Wavelet.D4Transform(data);
             var y = Wavelet.InverseD4Transform(coeffs);
 
             var chart = GetChartForm();
-            chart.DrawWaveletD4(this.ActiveMdiChild as IData, y, coeffs);
+            chart.DrawWaveletD4(this.ActiveMdiChild as IData, y);
             chart.Show();
             chart.Activate();
-        }
 
+            var inform = GetInformationForm(InformationType.Wavelet, idata);
+            inform.ShowWavelet(idata, coeffs, y);
+            inform.Show();
+        }
+       
+        #endregion
     }
 }
