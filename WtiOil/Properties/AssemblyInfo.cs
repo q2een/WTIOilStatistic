@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("WtiOil")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DSTU")]
+[assembly: AssemblyCompany("Qzeen")]
 [assembly: AssemblyProduct("WtiOil")]
 [assembly: AssemblyCopyright("Copyright © DSTU 2018")]
 [assembly: AssemblyTrademark("")]

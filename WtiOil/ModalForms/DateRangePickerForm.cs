@@ -33,16 +33,16 @@ namespace WtiOil
                     throw new Exception("Конечное значение должно быть больше начального");
 
                 if (from < data.FullData[0].Date || to > data.FullData.Last().Date)
-                    throw new Exception(String.Format("Начально значение должно быть не раньше {0}, а конечное не позже чем {1}", 
+                    throw new Exception(String.Format("Начально значение должно быть не раньше {0}, а конечное не позже чем {1}",
                         data.FullData[0].Date.ToString("MM/dd/yyyy"), data.FullData.Last().Date.ToString("MM/dd/yyyy")));
 
-                // TODO проверка даты по индексам, чтобы не было ошибок, если пропущена дата.
-                var start = data.FullData.IndexOf(data.FullData.First(z => z.Date == from));
-                var end = data.FullData.IndexOf(data.FullData.First(z => z.Date == to));
-
-                data.Data = data.FullData.Skip(start).Take(end+1 - start).ToList();
+                Date.SetDateRange(data, from, to);
 
                 this.Close();
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Исходные данные не содержат данный временной интервал.\nУкажите другие данные.", "Ошибка");
             }
             catch (Exception ex)
             {

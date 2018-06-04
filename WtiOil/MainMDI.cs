@@ -11,15 +11,10 @@ using System.IO;
 namespace WtiOil
 {
     /* TODO
-     0. Добавить работу с периодами даты
-     1. Рассчитать вейвлеты
-     2. Сделать прогноз на дату
-     3. Сделать отчеты
-     4. Работа с графиками
-     5. Добавить справку
-     6. О программе.
-     
-     
+     1. Сделать прогноз на дату
+     2. Доделать / сделать отчеты
+     3. Добавить справку
+     4. Добавить картинку в О программе. 
      */
     public partial class MainMDI : Form
     {
@@ -709,7 +704,42 @@ namespace WtiOil
             inform.ShowWavelet(idata, coeffs, y);
             inform.Show();
         }
-       
+
+        private void aboutMI_Click(object sender, EventArgs e)
+        {
+            new AboutForm().Show(this);
+        }
         #endregion
+
+        // TODO
+
+        private void прогнозToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var idata = this.ActiveMdiChild as IData;
+            int k = 1;
+            var x = idata.Data.Select( i=> k++ + 0.0).ToArray();
+            var y = idata.Data.Select( i=> i.Value).ToArray();
+            var coeff = Regression.GetCoefficients(x,y,(byte)15);
+            
+            var newx = x.ToList();
+            double z = x.Last();
+            var lastDate = idata.FullData.Last().Date;
+
+            for (int i = 1; i <= 10; i++)
+            {
+                newx.Add(z + i);
+                idata.FullData.Add(new ItemWTI(lastDate.AddDays(1), y.Average()));
+                lastDate = lastDate.AddDays(1);
+            }
+
+            var asd = newx.OrderByDescending(i => i).ToList();
+            var newy = Regression.GetYFromXValue(coeff, newx.ToArray());
+
+            var chart = GetChartForm();
+            chart.DrawWaveletD4(this.ActiveMdiChild as IData, newy);
+            chart.Show();
+            chart.Activate();
+
+        }
     }
 }

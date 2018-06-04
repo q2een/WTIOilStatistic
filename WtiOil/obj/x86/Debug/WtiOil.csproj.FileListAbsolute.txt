@@ -82,3 +82,4 @@ D:\пацаныскс13м\git\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.Proper
 D:\пацаныскс13м\git\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.InformationForm.resources
 D:\пацаныскс13м\git\WTIOilStatistic\WtiOil\obj\x86\Debug\GenerateResource.read.1.tlog
 D:\пацаныскс13м\git\WTIOilStatistic\WtiOil\obj\x86\Debug\GenerateResource.write.1.tlog
+Q:\git\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.AboutForm.resources
