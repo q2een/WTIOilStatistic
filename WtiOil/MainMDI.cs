@@ -24,6 +24,7 @@ namespace WtiOil
         /// </summary>
         private int childFormNumber = 0;
         private List<ToolStripMenuItem> ChartSeriesItems { get; set; }
+        private ChartForm reportChart = new ChartForm();
 
         // Конструктор класса.
         public MainMDI()
@@ -625,12 +626,37 @@ namespace WtiOil
 
         delegate void DrawFunc(IData data, double[] yValues, int forecastDaysCount);
 
-        private void GetFunctionImage(string filename, DrawFunc func, IData data, double[] yValues, int forecastDaysCount)
+        private DrawFunc GetDrawFunctionByType(InformationType type)
         {
-            var chart = new ChartForm();
-            chart.Size = new System.Drawing.Size(1280, 720);
-            func.Invoke(data,yValues,forecastDaysCount);
-            chart.SaveChart(filename);
+            switch (type)
+            {
+                case InformationType.Regression:
+                    return reportChart.DrawTrend;
+                case InformationType.Fourier:
+                    return reportChart.DrawFourier;
+                case InformationType.MultipleRegression:
+                    return reportChart.DrawMultipleRegression;
+                case InformationType.Wavelet:
+                    return reportChart.DrawWaveletD4;
+            }
+            return null;   
+        }
+
+        private string GetHTMLBlock(InformationForm form, HTMLReportBuilder context, string directoryPath, DrawFunc drawFunc)
+        {
+            string path = null;
+
+            if (form.YValues != null && form.YValues.Length > 0)
+            {
+                path = directoryPath + @"\resources\" + form.Type+".png";
+                reportChart.RemoveAllSeries();
+                reportChart.Size = new Size(1280, 720);
+                drawFunc.Invoke(form, form.YValues, form.ForecastDaysCount);
+
+                reportChart.SaveChart(path); 
+            }
+
+            return context.GetBlockByType(form.Type, form.Information, path);
         }
 
         public void BuildReport(string path, IEnumerable<InformationForm> forms)
@@ -644,17 +670,24 @@ namespace WtiOil
             string resources = path + @"/resources";
             Directory.CreateDirectory(resources);
 
-            // Images.
-            var imgSourceFunc = resources + @"/sourcefunc.png";
-            var imgTrend = resources + @"/trend.png";
-            var imgFourier = resources + @"/fourier.png";
-            var imgWavelet = resources + @"/wavelet.png";
-            var imgMultiple = resources + @"/multiple.png";
-
             HTMLReportBuilder html = new HTMLReportBuilder();
-            string statisticsBlock = "", regressionBlock = "", 
-                   fourierBlock = "", waveletBlock = "", multipleBlock = "";
 
+            var chart = new ChartForm();
+            chart.Size = new Size(1280, 720);
+            chart.DrawChart(forms.First());
+            chart.SaveChart(resources + @"/data.png");
+
+            string result = html.GetDataBlock(forms.First().Data, resources + @"/data.png");
+
+            foreach (var form in forms.OrderBy(i=>i.Type))
+            {
+                var func = GetDrawFunctionByType(form.Type);
+
+                result += GetHTMLBlock(form, html, path, func);
+            }
+
+            var report = html.GetDocumentStructure("Отчет", result);
+            File.WriteAllText(path + @"/report.html", report);
         }
 
         public void BuildReport(string path,
@@ -718,7 +751,7 @@ namespace WtiOil
                 throw new NotImplementedException();
                 //chart.DrawTrend(iData, y);
                 chart.SaveChart(trend);
-               // regressionBlock = html.GetRegressionBlock(regressionInfo, trend);
+               //regressionBlock = html.GetRegressionBlock(regressionInfo, trend);
             }
 
             if (isFourierBlock)
@@ -757,7 +790,8 @@ namespace WtiOil
         private void createReportMI_Click(object sender, EventArgs e)
         {
             //CreateReport(Directory.GetCurrentDirectory());
-            new HTMLReportForm().Show(this);
+            //new HTMLReportForm().Show(this);
+            BuildReport(Directory.GetCurrentDirectory(), this.MdiChildren.Where(i => i is InformationForm && isIDataEquals(this.ActiveMdiChild as IData, i as IData)).Select(z => z as InformationForm));
         }
 
         // Обработка события нажития на пункт меню "Справка -> О программе".

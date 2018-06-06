@@ -83,3 +83,19 @@ D:\пацаныскс13м\git\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.Inform
 D:\пацаныскс13м\git\WTIOilStatistic\WtiOil\obj\x86\Debug\GenerateResource.read.1.tlog
 D:\пацаныскс13м\git\WTIOilStatistic\WtiOil\obj\x86\Debug\GenerateResource.write.1.tlog
 Q:\git\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.AboutForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.exe
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.pdb
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\bin\Debug\WtiOil.exe
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\bin\Debug\WtiOil.pdb
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.csprojResolveAssemblyReference.cache
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.ChartForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.DataForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.AboutForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.DateRangePickerForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.HTMLReportForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.MainMDI.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.CountSetForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.MultipleRegressionForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.Properties.Resources.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.InformationForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.csproj.GenerateResource.Cache

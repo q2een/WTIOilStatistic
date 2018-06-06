@@ -7,12 +7,12 @@ namespace WtiOil
 {
     class HTMLReportBuilder
     {
-        private int tables = 0;
+        private int tables = 0, images = 0;
 
         public string GetDocumentStructure(string title, string body)
         {
             return "<!DOCTYPE HTML> <html> <head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /><title>" +
-                title + "</title>" + GetStyles() + "</head><body>" + body + "</body></html>";
+                title + "</title>" + GetStyles() + "</head><body><div id=\"wrapper\">" + body + "</div></body></html>";
         }
 
         private string GetStyles()
@@ -30,10 +30,9 @@ namespace WtiOil
             var sb = new StringBuilder("<tr>");
 
             foreach (var value in columnValues)
-            {
                 sb.Append("<td>" + value + "</td>");
-            }
 
+            sb.Append("</tr>");
             return sb.ToString();
         }
 
@@ -44,52 +43,76 @@ namespace WtiOil
 
         private string GetImage(string path, string alt="")
         {
-            return String.Format("<img src=\"{0}\" alt=\"{1}\" width=\"100%\" align=\"middle\"></img>", path, alt);
+            return String.Format("<figure class=\"sign\"><p><img src = \"{0}\" width = \"100%\" alt = \"{1}\" ></p>"+
+                                "<figcaption>{1}</figcaption></figure> ", path, alt);
         }
 
-        public string GetStatisticsBlock(IEnumerable<InformationItem> statistics)
+        public string GetBlockByType(InformationType type, IEnumerable<InformationItem> data, string imagePath)
         {
-            var sb = new StringBuilder();
-            sb.Append("<tr><th>Параметр</th><th>Значение</th></tr>");
-
-            foreach (var item in statistics)
+            switch (type)
             {
-                sb.Append(GetTableRow(item.Parameter, item.Value)); 
+                case InformationType.Regression:
+                    return GetRegressionBlock(data, imagePath);
+                case InformationType.MultipleRegression:
+                    return GetMultipleRegressionBlock(data, imagePath);
+                case InformationType.Fourier:
+                    return GetFourierBlock(data, imagePath);
+                case InformationType.Wavelet:
+                    return GetWaveletBlock(data, imagePath);
+                case InformationType.Statistics:
+                    return GetStatisticsBlock(data);
             }
 
-            return GetHeadings(2, "Элементарные статистики") + GetTableStructure(sb.ToString(), "Таблица  " + ++tables + " - Элементарные статистики", "values");
+            return "";
         }
 
-        public string GetRegressionBlock(IEnumerable<InformationItem> regression, string image)
+        public string GetBlock(string header,string tableRows, string tableName, string imagePath, string alt, string cssClass)
         {
+            var table = !String.IsNullOrEmpty(tableRows) ? GetTableStructure(tableRows, "Таблица " + (++tables) + " - " + tableName, "values") : "";
+            var img = imagePath != null ? GetImage(imagePath, "Рисунок " + (++images) + " - " + alt) : "";
+
+            return String.Format("<div class=\"data-block {0}\">{1}</div>", cssClass, GetHeadings(2, header) + img + table);
+        }
+
+        public string GetBlock(IEnumerable<InformationItem> data, string header, string tableName, string imagePath, string alt, string cssClass)
+        {
+            if (data == null || data.Count() == 0)
+                return "";
+
             var sb = new StringBuilder();
             sb.Append("<tr><th>Параметр</th><th>Значение</th></tr>");
 
-            foreach (var item in regression)
+            foreach (var item in data)
             {
                 sb.Append(GetTableRow(item.Parameter, item.Value));
             }
 
-            var table = GetTableStructure(sb.ToString(), "Таблица " + ++tables +" - Коэффициенты полиномиальной регрессии", "values");
-            var img = GetImage(image, "Линия тренда");
-
-            return GetHeadings(2, "Полиномиальная регрессия") + table + img;
+            return GetBlock(header, sb.ToString(), tableName, imagePath, alt, cssClass);
         }
 
-        public string GetFourierBlock(IEnumerable<InformationItem> fourier, string image)
+        public string GetStatisticsBlock(IEnumerable<InformationItem> data)
         {
-            var sb = new StringBuilder();
-            sb.Append("<tr><th>Параметр</th><th>Значение</th></tr>");
+            return GetBlock(data, "Элементарные статистики", "Элементарные статистики", null, null, "statistics");
+        }
 
-            foreach (var item in fourier)
-            {
-                sb.Append(GetTableRow(item.Parameter, item.Value));
-            }
+        public string GetRegressionBlock(IEnumerable<InformationItem> data, string imagePath)
+        {
+            return GetBlock(data, "Полиномиальная регрессия", "Данные, полученные при полиномиальной регрессии", imagePath, "Линия тренда (полиномиальная регрессия)", "regression");
+        }
+              
+        public string GetMultipleRegressionBlock(IEnumerable<InformationItem> data, string imagePath)
+        {
+            return GetBlock(data, "Многофакторная регрессия (цена на золото, индекс Доу-Джонса)", "Данные, полученные при многофакторной регрессии", imagePath, "Линия тренда (многофакторная регрессия)", "multiple");
+        }
+          
+        public string GetFourierBlock(IEnumerable<InformationItem> data, string imagePath)
+        {
+            return GetBlock(data, "Фурье-анализ", "Данные, полученные при Фурье-анализе", imagePath, "Синтезированная функция (Фурье-анализ)", "fourier");
+        }
 
-            var table = GetTableStructure(sb.ToString(), "Таблица " + ++tables + " - Гармонический анализ", "values");
-            var img = GetImage(image, "Синтезированная функция");
-
-            return GetHeadings(2, "Фурье-анализ") + table + img;
+        public string GetWaveletBlock(IEnumerable<InformationItem> data, string imagePath)
+        {
+            return GetBlock(data, "Вейвлет-анализ", "Данные, полученные при вейвлет-анализе", imagePath, "Синтезированная функция (вейвлет-анализ)", "wavelet");
         }
 
         public string GetDataBlock(IEnumerable<ItemWTI> data,string imagePath, int columnsCount = 5)
@@ -122,9 +145,7 @@ namespace WtiOil
                 rows.Append(GetTableRow(row.ToArray()));
             }
 
-            var table = GetTableStructure(rows.ToString(), "Таблица " + ++tables + " - Исходные данные", "values");
-            var img = GetImage(imagePath, "Исходная функция");
-            return GetHeadings(2,"Цена на нефть марки WTI") + table + img;
+            return GetBlock("Динамика цен на нефть марки WTI", rows.ToString(), "Исходные данные", imagePath, "Динамика цен на нефть марки WTI", "values");
         }
     }
 }

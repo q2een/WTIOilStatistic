@@ -87,6 +87,11 @@ namespace WtiOil
             OnSeriesChanged(chart.Series);
         }
 
+        public void RemoveAllSeries()
+        {
+            chart.Series.Clear();
+        }
+
         /// <summary>
         /// Масштабирует график исходя из максимального и минимального значения,
         /// отображаемых на графике. 
@@ -228,7 +233,7 @@ namespace WtiOil
         /// </summary>
         /// <param name="data">Экземаляр класса, реализующего IData</param>
         /// <param name="yValues">Массив значений У синтезированной функции</param>
-        public void DrawMultipleRegression(IData data, double[] yValues)
+        public void DrawMultipleRegression(IData data, double[] yValues, int forecastDaysCount = 0)
         {
             DrawFunction("multiple", data,yValues,"Многофакторная регрессия", Color.Crimson);
         }
@@ -238,7 +243,7 @@ namespace WtiOil
         /// </summary>
         /// <param name="data">Экземаляр класса, реализующего IData</param>
         /// <param name="yValues">Массив значений У синтезированной функции</param>
-        public void DrawWaveletD4(IData data, double[] yValues)
+        public void DrawWaveletD4(IData data, double[] yValues, int forecastDaysCount = 0)
         {
             DrawFunction("waveletSynt", data, yValues, "Синтезированная функция (вейвлет-анализ)", Color.IndianRed);
         }
@@ -248,7 +253,7 @@ namespace WtiOil
         /// </summary>
         /// <param name="data">Экземаляр класса, реализующего IData</param>
         /// <param name="coeffs">Коэффициенты, полученные в результате прямого вейвлет-преобразования</param>
-        public void DrawWaveletFunc(IData data, double[] coeffs)
+        public void DrawWaveletFunc(IData data, double[] coeffs, int forecastDaysCount = 0)
         {
             DrawFunction("waveletD4", data, coeffs, "Вейвлет функция", Color.MediumSeaGreen);
             ScaleChart();
