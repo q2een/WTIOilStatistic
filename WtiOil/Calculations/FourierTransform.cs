@@ -51,12 +51,12 @@ namespace WtiOil
         /// <param name="xValues">Массив значений x</param>
         /// <param name="yValues">Массив значений Y(x)</param>
         /// <returns>Значения Y(x) синтезированной функции.</returns>
-        public static double[] GetYFromXValue(List<Harmonic> harmonics, double[] xValues, double[] yValues)
+        public static double[] GetYFromXValue(List<Harmonic> harmonics, double[] xValues, double average)
         {
             var result = new List<double>();
-            for (int j = 0; j < yValues.Length; j++)
+            for (int j = 0; j < xValues.Length; j++)
             {
-                double y = yValues.Average();
+                double y = average;
 
                 for (int i = 1; i < harmonics.Count; i++)
                     y += harmonics[i].Аmplitude * Math.Cos(2 * Math.PI * i * harmonics[1].Frequency * xValues[j] + harmonics[i].Phase);
@@ -73,7 +73,7 @@ namespace WtiOil
         /// <param name="xValues">Массив значений x</param>
         /// <param name="yValues">Массив значений Y(x)</param>
         /// <returns>Погрешность синтезированной функции</returns>
-        public static double GetError(List<Harmonic> harmonics, double[] yValues, double[] fourierY)
+        public static double GetError(double[] yValues, double[] fourierY)
         {
             double error = 1.0 / (yValues.Length + 1);
             double sum = 0;

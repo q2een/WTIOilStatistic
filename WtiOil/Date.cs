@@ -33,6 +33,19 @@ namespace WtiOil
             return invalid;
         }
 
+        public static List<DateTime> AddDays(this List<DateTime> dates, int daysCount)
+        {
+            var lastDate = dates.OrderBy(i => i).Last();
+
+            for (int i = 0; i < daysCount; i++)
+            {
+                lastDate = lastDate.AddDays(1);
+                dates.Add(lastDate);
+            }
+
+            return dates;
+        }
+
         /// <summary>
         /// Устанавливает период с <c>from</c> по <c>to</c> в коллекции <c>data</c>.
         /// </summary>

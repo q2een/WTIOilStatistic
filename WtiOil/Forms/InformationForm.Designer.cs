@@ -40,16 +40,17 @@
             this.dgvInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvInformation.Location = new System.Drawing.Point(0, 0);
             this.dgvInformation.Name = "dgvInformation";
-            this.dgvInformation.Size = new System.Drawing.Size(515, 432);
+            this.dgvInformation.Size = new System.Drawing.Size(517, 433);
             this.dgvInformation.TabIndex = 0;
             // 
             // InformationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(515, 432);
+            this.ClientSize = new System.Drawing.Size(517, 433);
             this.Controls.Add(this.dgvInformation);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(525, 465);
             this.Name = "InformationForm";
             this.Text = "Элементарные статистики";
             ((System.ComponentModel.ISupportInitialize)(this.dgvInformation)).EndInit();

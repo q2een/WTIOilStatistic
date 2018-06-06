@@ -332,7 +332,8 @@ namespace WtiOil
             double[] y = new double[x1.Length];
 
             for (int i = 0; i < x1.Length; i++)
-                y[i] = coefficients[0] + coefficients[1] * x1[i] + coefficients[2] * x2[i]; 
+                //y[i] = coefficients[0] + coefficients[1] * x1[i] + coefficients[2] * x2[i];
+                y[i] = 54.2832 - 0.6222 * x1[i] + 1.1112 * x2[i];
 
             return y;
         }

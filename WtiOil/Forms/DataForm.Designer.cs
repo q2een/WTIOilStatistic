@@ -49,16 +49,17 @@
             this.dgvData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvData.Location = new System.Drawing.Point(0, 0);
             this.dgvData.Name = "dgvData";
-            this.dgvData.Size = new System.Drawing.Size(479, 348);
+            this.dgvData.Size = new System.Drawing.Size(482, 348);
             this.dgvData.TabIndex = 0;
             // 
             // DataForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(479, 348);
+            this.ClientSize = new System.Drawing.Size(482, 348);
             this.Controls.Add(this.dgvData);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(490, 380);
             this.Name = "DataForm";
             this.Text = "Работа с данными";
             ((System.ComponentModel.ISupportInitialize)(this.dgvData)).EndInit();

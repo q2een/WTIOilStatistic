@@ -29,7 +29,7 @@ namespace WtiOil
         }
         #endregion
 
-        #region События изменения рядов графика
+        #region Событие изменения рядов графика
         public delegate void SeriesStateHandler(SeriesCollection series, int index = -1);
 
         public event SeriesStateHandler OnSeriesChanged = delegate { };
@@ -52,11 +52,21 @@ namespace WtiOil
             chart.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
         }
      
+        /// <summary>
+        /// Сохраняет изображение графика в путь <c>path</c>
+        /// </summary>
+        /// <param name="path">Полный путь к изображению</param>
         public void SaveChart(string path)
         {
             chart.SaveImage(path, ImageFormat.Png);
         }
 
+        /// <summary>
+        /// Добавляет ряд к текущему графику.
+        /// </summary>
+        /// <param name="seriesName">Наименование ряда</param>
+        /// <param name="legendText">Текст, отображаемый в легенде к данному ряду</param>
+        /// <param name="color">Цвет ряда на графике</param>
         private void AddSeries(string seriesName, string legendText, Color color)
         {
             if (chart.Series.FindByName(seriesName) != null)
@@ -75,6 +85,21 @@ namespace WtiOil
             series.Color = color;
 
             OnSeriesChanged(chart.Series);
+        }
+
+        /// <summary>
+        /// Масштабирует график исходя из максимального и минимального значения,
+        /// отображаемых на графике. 
+        /// </summary>
+        public void ScaleChart()
+        {
+            var points = chart.Series.Where(i => i.Enabled).Select(z => z.Points.Select(k => k.YValues[0]));
+
+            var max = points.Select(i=> i.Max()).Max();
+            var min = points.Select(i => i.Min()).Min();
+
+            chart.ChartAreas[0].AxisY.Maximum = Math.Round(max, 1);
+            chart.ChartAreas[0].AxisY.Minimum = Math.Round(min, 1);
         }
 
         /// <summary>
@@ -117,11 +142,31 @@ namespace WtiOil
         /// <summary>
         /// Отображает функцию на графике.
         /// </summary>
-        /// <param name="seriesName">Наименование <c>Series</c></param>
-        /// <param name="data">Экземаляр класса, реализующего IData</param>
-        /// <param name="polinomialDegree">Стиепень полинома для полиномиальной регрессии</param>
+        /// <param name="seriesName">Наименование ряда графика</param>
+        /// <param name="data">Экземаляр класса, реализующего IData<</param>
+        /// <param name="yValues">Массив значений У</param>
+        /// <param name="legendText">Текст, отображаемый в легенде для данного ряда</param>
+        /// <param name="color">Цвет ряда на графике</param>
         private void DrawFunction(string seriesName, IData data, double[] yValues, string legendText, Color color)
         {
+            var xValues = data.Data.Select(i=>i.Date).ToArray();
+            DrawFunction(seriesName, data, xValues, yValues, legendText, color);
+        }
+
+        /// <summary>
+        /// Отображает функцию на графике.
+        /// </summary>
+        /// <param name="seriesName">Наименование ряда графика</param>
+        /// <param name="data">Экземаляр класса, реализующего IData<</param>
+        /// <param name="xValues">Массив значений Х</param>
+        /// <param name="yValues">Массив значений У</param>
+        /// <param name="legendText">Текст, отображаемый в легенде для данного ряда</param>
+        /// <param name="color">Цвет ряда на графике</param>
+        public void DrawFunction(string seriesName, IData data, DateTime[] xValues, double[] yValues, string legendText, Color color)
+        {
+            if (xValues.Length != yValues.Length)
+                throw new ArgumentOutOfRangeException("Размер массивов значений X и Y должен совпадать",innerException:null);
+
             if (chart.Series.FindByName("main") == null || chart.Series["main"].Points.Count != data.Data.Count ||
                 chart.Series["main"].Points[0].YValues[0] != data.Data[0].Value)
             {
@@ -138,8 +183,24 @@ namespace WtiOil
 
             for (int i = 0; i < yValues.Length; i++)
             {
-                chart.Series[seriesName].Points.AddXY(Data[i].Date, yValues[i]);
+                chart.Series[seriesName].Points.AddXY(xValues[i], yValues[i]);
             }
+        }
+
+        /// <summary>
+        /// Отображает функцию  с прогнозом на графике.
+        /// </summary>
+        /// <param name="seriesName">Наименование ряда графика</param>
+        /// <param name="data">Экземаляр класса, реализующего IData<</param>
+        /// <param name="forecastDaysCount">Количество прогнозируемых дней</param>
+        /// <param name="yValues">Массив значений У</param>
+        /// <param name="legendText">Текст, отображаемый в легенде для данного ряда</param>
+        /// <param name="color">Цвет ряда на графике</param>
+        private void DrawForecastFunction(string seriesName, IData data,int forecastDaysCount, double[] yValues, string legendText, Color color)
+        {
+            var xValues = data.Data.Select(i => i.Date).ToList().AddDays(forecastDaysCount).ToArray();
+
+            DrawFunction(seriesName, data, xValues, yValues, legendText, color);
         }
 
         /// <summary>
@@ -147,9 +208,9 @@ namespace WtiOil
         /// </summary>
         /// <param name="data">Экземаляр класса, реализующего IData</param>
         /// <param name="polinomialDegree">Стиепень полинома для полиномиальной регрессии</param>
-        public void DrawTrend(IData data, double[] yValues)
+        public void DrawTrend(IData data, double[] yValues, int forecastDaysCount)
         {
-            DrawFunction("trend", data, yValues, "Линия тренда", Color.SteelBlue);
+            DrawForecastFunction("trend", data, forecastDaysCount, yValues, "Линия тренда", Color.SteelBlue);
         }
 
         /// <summary>
@@ -157,30 +218,40 @@ namespace WtiOil
         /// </summary>
         /// <param name="data">Экземаляр класса, реализующего IData</param>
         /// <param name="polinomialDegree">Стиепень полинома для полиномиальной регрессии</param>
-        public void DrawFourier(IData data, double[] yValues)
+        public void DrawFourier(IData data, double[] yValues, int forecastDaysCount)
         {
-            DrawFunction("fourier", data, yValues, "Синтезированная функция (Фурье-анализ)", Color.Chocolate);
+            DrawForecastFunction("fourier", data, forecastDaysCount, yValues, "Синтезированная функция (Фурье-анализ)", Color.Chocolate);
         }
 
+        /// <summary>
+        /// Отображает на графике результат многофакторной регрессии.
+        /// </summary>
+        /// <param name="data">Экземаляр класса, реализующего IData</param>
+        /// <param name="yValues">Массив значений У синтезированной функции</param>
         public void DrawMultipleRegression(IData data, double[] yValues)
         {
             DrawFunction("multiple", data,yValues,"Многофакторная регрессия", Color.Crimson);
         }
 
+        /// <summary>
+        /// Отображает на графике результат обратного вейвлет-преобразования.
+        /// </summary>
+        /// <param name="data">Экземаляр класса, реализующего IData</param>
+        /// <param name="yValues">Массив значений У синтезированной функции</param>
         public void DrawWaveletD4(IData data, double[] yValues)
         {
             DrawFunction("waveletSynt", data, yValues, "Синтезированная функция (вейвлет-анализ)", Color.IndianRed);
         }
 
+        /// <summary>
+        /// Отображает на графике результат прямого вейвлет-преобразования.
+        /// </summary>
+        /// <param name="data">Экземаляр класса, реализующего IData</param>
+        /// <param name="coeffs">Коэффициенты, полученные в результате прямого вейвлет-преобразования</param>
         public void DrawWaveletFunc(IData data, double[] coeffs)
         {
             DrawFunction("waveletD4", data, coeffs, "Вейвлет функция", Color.MediumSeaGreen);
-
-            // Верхняя и нижняя границы.
-            chart.ChartAreas[0].AxisY.Maximum = Math.Round(coeffs.Max(), 1);
-            chart.ChartAreas[0].AxisY.Minimum = Math.Round(coeffs.Min(), 1);
-
-            chart.ChartAreas[0].AxisY.Interval = Math.Round((coeffs.Max() - coeffs.Min())/(coeffs.Length/20),1);
+            ScaleChart();
         }
     }
 }

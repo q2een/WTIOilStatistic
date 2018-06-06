@@ -55,6 +55,7 @@
             legend1.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.chart.Legends.Add(legend1);
             this.chart.Location = new System.Drawing.Point(0, 0);
+            this.chart.MinimumSize = new System.Drawing.Size(630, 360);
             this.chart.Name = "chart";
             this.chart.Size = new System.Drawing.Size(630, 361);
             this.chart.TabIndex = 0;

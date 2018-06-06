@@ -46,18 +46,12 @@
             this.waveletMI = new System.Windows.Forms.ToolStripMenuItem();
             this.dataSeparatorMI = new System.Windows.Forms.ToolStripSeparator();
             this.multipleMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.editMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.insertMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.editRowMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeMI = new System.Windows.Forms.ToolStripMenuItem();
             this.chartMI = new System.Windows.Forms.ToolStripMenuItem();
             this.drawChartMI = new System.Windows.Forms.ToolStripMenuItem();
             this.drawTrendLineMI = new System.Windows.Forms.ToolStripMenuItem();
             this.legendSeparatorMI = new System.Windows.Forms.ToolStripSeparator();
             this.showLegendMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.scaleMI = new System.Windows.Forms.ToolStripMenuItem();
             this.seriesSeparatorMI = new System.Windows.Forms.ToolStripSeparator();
             this.statisticsMI = new System.Windows.Forms.ToolStripMenuItem();
             this.calculateMI = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,10 +89,6 @@
             this.openTSB = new System.Windows.Forms.ToolStripButton();
             this.saveTSB = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.insertTSB = new System.Windows.Forms.ToolStripButton();
-            this.editRowTSB = new System.Windows.Forms.ToolStripButton();
-            this.removeTSB = new System.Windows.Forms.ToolStripButton();
-            this.editSeparatorTS = new System.Windows.Forms.ToolStripSeparator();
             this.drawChartTSB = new System.Windows.Forms.ToolStripButton();
             this.drawTrendLineTSB = new System.Windows.Forms.ToolStripButton();
             this.chartSeparatorTSB = new System.Windows.Forms.ToolStripSeparator();
@@ -111,8 +101,6 @@
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.lblFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.прогнозToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusBar.SuspendLayout();
@@ -123,7 +111,6 @@
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileMI,
             this.dataMI,
-            this.editMI,
             this.chartMI,
             this.statisticsMI,
             this.reportMI,
@@ -218,9 +205,7 @@
             this.fourierMI,
             this.waveletMI,
             this.dataSeparatorMI,
-            this.multipleMI,
-            this.toolStripMenuItem3,
-            this.прогнозToolStripMenuItem});
+            this.multipleMI});
             this.dataMI.Name = "dataMI";
             this.dataMI.Size = new System.Drawing.Size(105, 20);
             this.dataMI.Text = "Временной ряд";
@@ -267,72 +252,6 @@
             this.multipleMI.Text = "Многофакторная регрессия";
             this.multipleMI.Click += new System.EventHandler(this.miltipleMI_Click);
             // 
-            // editMI
-            // 
-            this.editMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.undoToolStripMenuItem,
-            this.redoToolStripMenuItem,
-            this.toolStripSeparator6,
-            this.insertMI,
-            this.editRowMI,
-            this.removeMI});
-            this.editMI.Name = "editMI";
-            this.editMI.Size = new System.Drawing.Size(60, 20);
-            this.editMI.Text = "&Правка";
-            // 
-            // undoToolStripMenuItem
-            // 
-            this.undoToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("undoToolStripMenuItem.Image")));
-            this.undoToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Black;
-            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.undoToolStripMenuItem.Text = "&Отменить";
-            // 
-            // redoToolStripMenuItem
-            // 
-            this.redoToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("redoToolStripMenuItem.Image")));
-            this.redoToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Black;
-            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.redoToolStripMenuItem.Text = "&Вернуть";
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(181, 6);
-            // 
-            // insertMI
-            // 
-            this.insertMI.Image = ((System.Drawing.Image)(resources.GetObject("insertMI.Image")));
-            this.insertMI.ImageTransparentColor = System.Drawing.Color.Black;
-            this.insertMI.Name = "insertMI";
-            this.insertMI.ShortcutKeys = System.Windows.Forms.Keys.Insert;
-            this.insertMI.Size = new System.Drawing.Size(184, 22);
-            this.insertMI.Text = "&Вставить";
-            this.insertMI.Click += new System.EventHandler(this.PasteToolStripMenuItem_Click);
-            // 
-            // editRowMI
-            // 
-            this.editRowMI.Image = ((System.Drawing.Image)(resources.GetObject("editRowMI.Image")));
-            this.editRowMI.ImageTransparentColor = System.Drawing.Color.Black;
-            this.editRowMI.Name = "editRowMI";
-            this.editRowMI.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.editRowMI.Size = new System.Drawing.Size(184, 22);
-            this.editRowMI.Text = "&Редактировать";
-            this.editRowMI.Click += new System.EventHandler(this.CutToolStripMenuItem_Click);
-            // 
-            // removeMI
-            // 
-            this.removeMI.Image = ((System.Drawing.Image)(resources.GetObject("removeMI.Image")));
-            this.removeMI.ImageTransparentColor = System.Drawing.Color.Black;
-            this.removeMI.Name = "removeMI";
-            this.removeMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.removeMI.Size = new System.Drawing.Size(184, 22);
-            this.removeMI.Text = "&Удалить";
-            this.removeMI.Click += new System.EventHandler(this.CopyToolStripMenuItem_Click);
-            // 
             // chartMI
             // 
             this.chartMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -340,6 +259,7 @@
             this.drawTrendLineMI,
             this.legendSeparatorMI,
             this.showLegendMI,
+            this.scaleMI,
             this.seriesSeparatorMI});
             this.chartMI.Name = "chartMI";
             this.chartMI.Size = new System.Drawing.Size(60, 20);
@@ -375,6 +295,13 @@
             this.showLegendMI.Size = new System.Drawing.Size(232, 22);
             this.showLegendMI.Text = "Показать легенду";
             this.showLegendMI.Click += new System.EventHandler(this.showLegendMI_Click);
+            // 
+            // scaleMI
+            // 
+            this.scaleMI.Name = "scaleMI";
+            this.scaleMI.Size = new System.Drawing.Size(232, 22);
+            this.scaleMI.Text = "Масштабировать";
+            this.scaleMI.Click += new System.EventHandler(this.scaleMI_Click);
             // 
             // seriesSeparatorMI
             // 
@@ -531,7 +458,7 @@
             // 
             this.createReportMI.Image = ((System.Drawing.Image)(resources.GetObject("createReportMI.Image")));
             this.createReportMI.Name = "createReportMI";
-            this.createReportMI.Size = new System.Drawing.Size(302, 22);
+            this.createReportMI.Size = new System.Drawing.Size(199, 22);
             this.createReportMI.Text = "Сформировать отчет";
             this.createReportMI.Click += new System.EventHandler(this.createReportMI_Click);
             // 
@@ -655,10 +582,6 @@
             this.openTSB,
             this.saveTSB,
             this.toolStripSeparator1,
-            this.insertTSB,
-            this.editRowTSB,
-            this.removeTSB,
-            this.editSeparatorTS,
             this.drawChartTSB,
             this.drawTrendLineTSB,
             this.chartSeparatorTSB,
@@ -708,38 +631,6 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // insertTSB
-            // 
-            this.insertTSB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.insertTSB.Image = ((System.Drawing.Image)(resources.GetObject("insertTSB.Image")));
-            this.insertTSB.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.insertTSB.Name = "insertTSB";
-            this.insertTSB.Size = new System.Drawing.Size(23, 22);
-            this.insertTSB.Text = "Добавить строку";
-            // 
-            // editRowTSB
-            // 
-            this.editRowTSB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.editRowTSB.Image = ((System.Drawing.Image)(resources.GetObject("editRowTSB.Image")));
-            this.editRowTSB.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.editRowTSB.Name = "editRowTSB";
-            this.editRowTSB.Size = new System.Drawing.Size(23, 22);
-            this.editRowTSB.Text = "Редактировать";
-            // 
-            // removeTSB
-            // 
-            this.removeTSB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.removeTSB.Image = ((System.Drawing.Image)(resources.GetObject("removeTSB.Image")));
-            this.removeTSB.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.removeTSB.Name = "removeTSB";
-            this.removeTSB.Size = new System.Drawing.Size(23, 22);
-            this.removeTSB.Text = "Удалить";
-            // 
-            // editSeparatorTS
-            // 
-            this.editSeparatorTS.Name = "editSeparatorTS";
-            this.editSeparatorTS.Size = new System.Drawing.Size(6, 25);
             // 
             // drawChartTSB
             // 
@@ -837,18 +728,6 @@
             this.lblFileName.Size = new System.Drawing.Size(65, 17);
             this.lblFileName.Text = "Состояние";
             // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(234, 6);
-            // 
-            // прогнозToolStripMenuItem
-            // 
-            this.прогнозToolStripMenuItem.Name = "прогнозToolStripMenuItem";
-            this.прогнозToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-            this.прогнозToolStripMenuItem.Text = "Прогноз";
-            this.прогнозToolStripMenuItem.Click += new System.EventHandler(this.прогнозToolStripMenuItem_Click);
-            // 
             // MainMDI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -882,7 +761,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripStatusLabel lblFileName;
         private System.Windows.Forms.ToolStripMenuItem aboutMI;
@@ -893,12 +771,6 @@
         private System.Windows.Forms.ToolStripMenuItem saveMI;
         private System.Windows.Forms.ToolStripMenuItem saveAsMI;
         private System.Windows.Forms.ToolStripMenuItem exitMI;
-        private System.Windows.Forms.ToolStripMenuItem editMI;
-        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editRowMI;
-        private System.Windows.Forms.ToolStripMenuItem removeMI;
-        private System.Windows.Forms.ToolStripMenuItem insertMI;
         private System.Windows.Forms.ToolStripMenuItem showToolBarMI;
         private System.Windows.Forms.ToolStripMenuItem toolsMenu;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
@@ -935,10 +807,6 @@
         private System.Windows.Forms.ToolStripMenuItem showLegendMI;
         private System.Windows.Forms.ToolStripMenuItem reportMI;
         private System.Windows.Forms.ToolStripMenuItem createReportMI;
-        private System.Windows.Forms.ToolStripButton insertTSB;
-        private System.Windows.Forms.ToolStripButton editRowTSB;
-        private System.Windows.Forms.ToolStripButton removeTSB;
-        private System.Windows.Forms.ToolStripSeparator editSeparatorTS;
         private System.Windows.Forms.ToolStripButton drawChartTSB;
         private System.Windows.Forms.ToolStripButton calculateTSB;
         private System.Windows.Forms.ToolStripButton repotTSB;
@@ -957,8 +825,7 @@
         private System.Windows.Forms.ToolStripMenuItem multipleMI;
         private System.Windows.Forms.ToolStripSeparator seriesSeparatorMI;
         private System.Windows.Forms.ToolStripButton multipleTSB;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem прогнозToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scaleMI;
     }
 }
 

@@ -27,6 +27,25 @@ namespace WtiOil
         public double[] YValues{ get; set; }
 
         /// <summary>
+        /// Количество дней для прогнозируемых данных. 
+        /// </summary>
+        public int ForecastDaysCount { get; set; }
+
+        /// <summary>
+        /// Коллекция, содержащая отображаемую в данном окне информацию.
+        /// </summary>
+        public List<InformationItem> Information 
+        {
+            get
+            {
+                if (!(dgvInformation.DataSource is List<InformationItem>))
+                    return null;
+
+                return dgvInformation.DataSource as List<InformationItem>;
+            }
+        }
+
+        /// <summary>
         /// Конструктор класса.
         /// </summary>
         /// <param name="type">Тип формы</param>
@@ -63,11 +82,12 @@ namespace WtiOil
         /// <param name="coefficients">Коллекция коэффициентов полинома</param>
         /// <param name="yValues">Значение расчетных У</param>
         /// <returns>Коллекция экземпляров класса InformationItem</returns>
-        public List<InformationItem> ShowRegression(IData data, double[] coefficients, double[] yValues)
+        public List<InformationItem> ShowRegression(IData data, double[] coefficients, double[] yValues, int forecastDays)
         {
             this.Data = data.Data;
             this.FullData = data.FullData;
             this.YValues = yValues;
+            this.ForecastDaysCount = forecastDays;
 
             var regression = new List<InformationItem>();
             double error = Regression.GetError(Data.Select(i => i.Value).ToArray(), yValues);
@@ -84,11 +104,24 @@ namespace WtiOil
 
             regression.Add(new InformationItem("Расчетные значения: ", ""));
 
-            for (int i = 0; i < yValues.Length; i++)
+            int k = 0;
+
+            for (k = 0; k < Data.Count; k++)
             {
-                regression.Add(new InformationItem(Data[i].Date.ToString("dd/MM/yyyy"), yValues[i]));
+                regression.Add(new InformationItem(Data[k].Date.ToString("dd/MM/yyyy"), yValues[k]));
             }
 
+            var lastDate = Data.Last().Date;
+
+            if (forecastDays > 0)
+            {
+                regression.Add(new InformationItem("Прогнозные значения:", ""));
+                for (int i = k; i < k + forecastDays; i++)
+                {
+                    lastDate = lastDate.AddDays(1);
+                    regression.Add(new InformationItem(lastDate.ToString("dd/MM/yyyy"), yValues[i]));
+                }
+            }
             dgvInformation.DataSource = regression;
 
             return regression;
@@ -192,20 +225,21 @@ namespace WtiOil
         /// <param name="harmonics">Коллекция гармоник</param>
         /// <param name="yValues">Значение расчетных У</param>
         /// <returns>Коллекция экземпляров класса InformationItem</returns>
-        public List<InformationItem> ShowFourier(IData data, List<Harmonic> harmonics, double[] yValues)
+        public List<InformationItem> ShowFourier(IData data, List<Harmonic> harmonics, double[] yValues, int forecastDays)
         {
             this.Data = data.Data;
             this.FullData = data.FullData;
-            YValues = yValues;
+            this.YValues = yValues;
+            this.ForecastDaysCount = forecastDays;
 
             if (harmonics == null)
                 return new List<InformationItem>();
 
             var fourier = new List<InformationItem>();
 
-            double error = FourierTransform.GetError(harmonics, data.Data.Select(i=>i.Value).ToArray(), yValues);
-            fourier.Add(new InformationItem("Период", yValues.Length * 0.2));
-            fourier.Add(new InformationItem("Δt", 0.200));
+            double error = FourierTransform.GetError(data.Data.Select(i=>i.Value).ToArray(), yValues);
+            fourier.Add(new InformationItem("Период", yValues.Length * 1));
+            fourier.Add(new InformationItem("Δt", 1));
             fourier.Add(new InformationItem("Погрешность", error));
             fourier.Add(new InformationItem("Число гармоник", harmonics.Count + ""));
 
@@ -217,6 +251,19 @@ namespace WtiOil
                 fourier.Add(new InformationItem("Коэффициет Фурье b[" + i + "]",harmonics[i].B));
                 fourier.Add(new InformationItem("Амплитуда", harmonics[i].Аmplitude));
                 fourier.Add(new InformationItem("Фаза, °", harmonics[i].Phase * (180 / Math.PI)));
+            }
+
+
+            if (forecastDays > 0)
+            {
+                var lastDate = Data.Last().Date;
+                fourier.Add(new InformationItem("Прогнозные значения:", ""));
+
+                for (int i = YValues.Length - forecastDays; i < YValues.Length; i++)
+                {
+                    lastDate = lastDate.AddDays(1);
+                    fourier.Add(new InformationItem(lastDate.ToString("dd/MM/yyyy"), yValues[i]));
+                }
             }
 
             dgvInformation.DataSource = fourier;

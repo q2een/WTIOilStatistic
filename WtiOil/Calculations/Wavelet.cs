@@ -8,7 +8,7 @@ namespace WtiOil
     public class Wavelet
     {
         /// <summary>
-        /// Масштабирующие коэффициенты прямого преобразования Дjбеши D4.
+        /// Масштабирующие коэффициенты прямого преобразования Добеши D4.
         /// Фильтр низких частот.
         /// </summary>
         private readonly double[] d4CL = {(1 + Math.Sqrt(3)) / (4 * Math.Sqrt(2)),
@@ -26,7 +26,7 @@ namespace WtiOil
         /// Возвращает массив фильтров высоких частот на основе низких <c>lowCoefficients</c>.
         /// HPF - high-pass filter
         /// </summary>
-        /// <param name="lowCoefficients">Массив фильтров нихкиъ частот</param>
+        /// <param name="lowCoefficients">Массив фильтров низких частот</param>
         /// <returns>Массив фильтров высоких частот</returns>
         public double[] GetHPFCoeffs(double[] lowCoefficients)
         {
@@ -97,7 +97,7 @@ namespace WtiOil
         }
 
         /// <summary>
-        /// Обратное преобразование Дjбеши.
+        /// Обратное преобразование Добеши.
         /// </summary>
         /// <param name="data">Массив данных</param>
         /// <param name="length">Длина</param>
