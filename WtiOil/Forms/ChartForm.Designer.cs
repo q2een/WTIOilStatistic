@@ -65,9 +65,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(630, 361);
+            this.ClientSize = new System.Drawing.Size(629, 361);
             this.Controls.Add(this.chart);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(645, 400);
             this.Name = "ChartForm";
             this.Text = "График";
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();

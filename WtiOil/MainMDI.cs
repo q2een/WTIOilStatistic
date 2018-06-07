@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -12,10 +10,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 namespace WtiOil
 {
     /* TODO
-     1. Сделать прогноз на дату
-     2. Доделать / сделать отчеты
-     3. Добавить справку
-     4. Добавить картинку в О программе. 
+     1. Добавить справку
      */
     public partial class MainMDI : Form
     {
@@ -471,18 +466,6 @@ namespace WtiOil
             this.Close();
         }
 
-        // Обработка события нажития на пункт меню "Показать панель инструментов".
-        private void showToolBarMI_Click(object sender, EventArgs e)
-        {
-            toolStrip.Visible = showToolBarMI.Checked;
-        }
-
-        // Обработка события нажития на пункт меню "Показать строку состояния".
-        private void showStatusBarMI_Click(object sender, EventArgs e)
-        {
-            statusBar.Visible = showStatusBarMI.Checked;
-        }
-
         // Обработка события смены активного дочернего MDI-окна.
         // Происходит изменение состояний элементов на главной форме 
         // в зависимости от активной дочерней формы.
@@ -708,6 +691,16 @@ namespace WtiOil
 
         // Обработка события нажития на пункт меню "Отчет -> Сформировать отчет".
         private void createReportMI_Click(object sender, EventArgs e)
+        {
+            var data = this.ActiveMdiChild as IData;
+            var openedFroms = MdiChildren.Where(i => i is InformationForm && isIDataEquals(i as InformationForm, data));
+            if (openedFroms.Count() != 0)
+                new ParamsSetForm(this, WindowType.File, data).ShowDialog(this);
+            else generateReportMI_Click(sender, e);
+
+        }
+
+        private void generateReportMI_Click(object sender, EventArgs e)
         {
             new HTMLReportForm(this, this.ActiveMdiChild as IData).ShowDialog(this);
         }

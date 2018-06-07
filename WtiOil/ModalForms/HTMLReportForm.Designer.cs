@@ -492,9 +492,9 @@
             // 
             this.groupBox2.Controls.Add(this.btnOpenDowJones);
             this.groupBox2.Controls.Add(this.tbFileDowJones);
-            this.groupBox2.Location = new System.Drawing.Point(3, 110);
+            this.groupBox2.Location = new System.Drawing.Point(9, 107);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(350, 70);
+            this.groupBox2.Size = new System.Drawing.Size(334, 70);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Индекс Доу-Джонса";
@@ -521,9 +521,9 @@
             // 
             this.groupBox1.Controls.Add(this.btnOpenGold);
             this.groupBox1.Controls.Add(this.tbFileGold);
-            this.groupBox1.Location = new System.Drawing.Point(3, 40);
+            this.groupBox1.Location = new System.Drawing.Point(9, 34);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(350, 70);
+            this.groupBox1.Size = new System.Drawing.Size(334, 70);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Стоимость золота";

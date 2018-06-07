@@ -17,7 +17,7 @@ namespace WtiOil
 
         private string GetStyles()
         {
-            return "<style>body{font-size:16px}table>caption{text-indent:1.5em;text-align:justify} table tr{text-align:center}table tr:nth-child(odd){background:rgba(68,108,179,.37)}table tr>th{background:#fff;border-top:2px solid rgba(68,108,179,1);border-bottom:2px solid rgba(68,108,179,1)}table tr:hover{background:rgba(68,108,179,.67)}table td:not(:first-child){border-left:1px solid #fff}table.values tr>td:nth-child(4n+4),table.values tr>th:nth-child(4n+4){width: 10px;background: #fff;}</style>";
+            return "<style>body{font-size:16px;background:#f6f6f6;margin:0}#wrapper{width:960px;margin:10px auto;font-family:Verdana,sans-serif;background:#fff;padding:10px}figure.sign{background:#efefef;text-align:center;padding:10px}figure.sign p{margin:0}figure.sign figcaption{height:40px;line-height:50px}table>caption{text-indent:1.5em;text-align:justify;padding:8px 0}table tr{text-align:center;font-size:0.9em}table tr:nth-child(odd){background:#f6f6f6}table tr>th{background:#efeff0;height:20px;padding:10px 3px}table tr:hover{background:#efefef}table td:not(:first-child){border-left:1px solid #fff}table.values tr>td:nth-child(4n+4),table.values tr>th:nth-child(4n+4){width:10px;background:#fff}</style>";
         }
 
         private string GetTableStructure(string rows, string caption, string styleClass = "")

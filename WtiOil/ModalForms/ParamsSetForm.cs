@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WtiOil
@@ -32,7 +29,7 @@ namespace WtiOil
             {
                 case WindowType.File:
                     control = html.ReportPath;
-                    this.Text = "Сформировать отчет...";
+                    this.Text = "Создать отчет...";
                     break;
                 case WindowType.Regression:
                     control = html.Regression;
@@ -48,7 +45,8 @@ namespace WtiOil
                     break;
             }
 
-            this.Size = new Size(control.Size.Width, control.Size.Height + 80);
+            this.Size = new Size(control.Size.Width + 10, control.Size.Height + 80);
+            control.Enabled = true;
             control.Dock = DockStyle.Fill;
             this.Controls["container"].Controls.Add(control);
         }
