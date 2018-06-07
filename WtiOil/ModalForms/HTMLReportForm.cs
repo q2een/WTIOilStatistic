@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using static WtiOil.MainMDI;
 
 namespace WtiOil
 {
@@ -48,14 +46,15 @@ namespace WtiOil
 
         private readonly IData data;
 
-        public void GetMultipleData(out double[] x1, out double[] x2)
+        private ChartForm reportChart = new ChartForm();
+
+        public void GetMultipleData(out DateTime[] initialDateRange, out double[] x1, out double[] x2)
         {
             x1 = new double[] { };
             x2 = new double[] { };
-
+            initialDateRange = null;
             try
             {
-                
                 // Получение данных из файлов.
                 var gold = main.GetDataFromTextFile(tbFileGold.Text);
                 var DowJones = main.GetDataFromTextFile(tbFileDowJones.Text);
@@ -66,6 +65,8 @@ namespace WtiOil
 
                 if (intersect == null || intersect.Count() == 0)
                     throw new Exception("Исходные данные должны содержать пересекающийся временной интервал");
+
+                initialDateRange = data.Data.Select(i => i.Date).ToArray();
 
                 // Установить временные интервалы.
                 Date.SetDateRange(data, intersect.First().Date, intersect.Last().Date);
@@ -80,18 +81,20 @@ namespace WtiOil
             }
             catch (ArgumentOutOfRangeException)
             {
-                MessageBox.Show("Исходные данные не содержат данный временной интервал.\nУкажите другие данные.", "Ошибка");
+                throw new Exception("Исходные данные не содержат данный временной интервал.\nУкажите другие данные.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка");
+                throw new Exception(ex.Message);
             }
         }
         
-        public HTMLReportForm()
+        public HTMLReportForm(MainMDI context, IData data = null)
         {
             InitializeComponent();
 
+            this.data = data;
+            this.main = context;
             tbPath.Text = Directory.GetCurrentDirectory();
             folderBrowserDialog.SelectedPath = Directory.GetCurrentDirectory();
         }
@@ -125,7 +128,7 @@ namespace WtiOil
         
         private void cbMultipleBlock_CheckedChanged(object sender, EventArgs e)
         {
-            MultipleRegression.Enabled = cbMultipleBlock.Enabled;
+            MultipleRegression.Enabled = cbMultipleBlock.Checked;
         }
 
         private void cbStatistics_CheckedChanged(object sender, EventArgs e)
@@ -151,28 +154,68 @@ namespace WtiOil
             }
         }
 
-        private InformationForm GetRegression()
+        internal InformationForm GetStatistics()
         {
-            byte degree = Byte.Parse(tbDegree.Text);
-            int forecastDays = cbRegressionForecast.Checked ? Int32.Parse(numRegressionDays.Value + "") : 0;
-
-            return main.GetRegressionResult(data, degree, forecastDays);
+            return main.GetStatisticsResult(data, cbAverage.Checked,
+                                           cbStandartError.Checked,
+                                           cbMedian.Checked,
+                                           cbMode.Checked,
+                                           cbStandardDeviation.Checked,
+                                           cbDispersion.Checked,
+                                           cbSkewness.Checked,
+                                           cbKurtosis.Checked,
+                                           cbInterval.Checked,
+                                           cbMin.Checked,
+                                           cbMax.Checked,
+                                           cbSum.Checked);
         }
 
-        private InformationForm GetFourier()
+        internal InformationForm GetRegression()
         {
-            byte harmonics = Byte.Parse(tbHarmonics.Text);
-            int forecastDays = cbFourierForecast.Checked ? Int32.Parse(numFourierDays.Value + "") : 0;
+            try
+            {
+                byte degree = Byte.Parse(tbDegree.Text);
+                int forecastDays = cbRegressionForecast.Checked ? Int32.Parse(numRegressionDays.Value + "") : 0;
 
-            return main.GetFourierResult(data, harmonics, forecastDays);
+                return main.GetRegressionResult(data, degree, forecastDays);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Введите корректную степень полинома (от 0 до 255)");
+            }
         }
 
-        private InformationForm GetMultiple()
+        internal InformationForm GetFourier()
+        {
+            try
+            {
+                byte harmonics = Byte.Parse(tbHarmonics.Text);
+                int forecastDays = cbFourierForecast.Checked ? Int32.Parse(numFourierDays.Value + "") : 0;
+
+                return main.GetFourierResult(data, harmonics, forecastDays);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Введите корректное число гармоник (от 0 до 255)");
+            }
+        }
+
+        internal InformationForm GetMultiple()
         {
             double[] x1, x2;
+            DateTime[] dates;
 
-            GetMultipleData(out x1, out x2);
-            return main.GetMultipleResult(data, x1, x2);
+            GetMultipleData(out dates, out x1, out x2);
+            var multiple = main.GetMultipleResult(data, x1, x2);
+            Date.SetDateRange(data, dates.First(), dates.Last());
+
+            return multiple;
+        }
+
+        internal string GetReportPath()
+        {
+            CheckPath(tbPath.Text);
+            return tbPath.Text;
         }
 
         private void btnCreateReport_Click(object sender, EventArgs e)
@@ -180,14 +223,10 @@ namespace WtiOil
             try
             {
                 CheckPath(tbPath.Text);
-                byte harmonics = 0;
-
-                if (cbFourierBlock.Checked)
-                    harmonics = Byte.Parse(tbHarmonics.Text);
-
                 List<InformationForm> forms = new List<InformationForm>();
 
                 if (cbStatisticsBlock.Checked)
+                    forms.Add(GetStatistics());
 
                 if (cbRegressionBlock.Checked)
                     forms.Add(GetRegression());
@@ -201,11 +240,13 @@ namespace WtiOil
                 if (cbWaveletBlock.Checked)
                     forms.Add(main.GetWaveletResult(data));
 
+                BuildReport(GetReportPath(), forms);
+                MessageBox.Show("Отчет успешно сохранен!");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,"Ошибка",MessageBoxButtons.OK,MessageBoxIcon.Error);
-            }
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }  
 
         }
 
@@ -255,5 +296,71 @@ namespace WtiOil
         {
             numFourierDays.Enabled = lblFourierForecastDays.Enabled = cbFourierForecast.Checked;
         }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+
+
+
+        private string GetHTMLBlock(InformationForm form, HTMLReportBuilder context, string directoryPath, DrawFunc drawFunc)
+        {
+            string path = null;
+
+            if (form.YValues != null && form.YValues.Length > 0)
+            {
+                path = directoryPath + form.Type + ".png";
+                SaveChartImage(path, drawFunc, form, form.YValues, form.ForecastDaysCount);
+            }
+
+            return context.GetBlockByType(form.Type, form.Information, path);
+        }
+
+        private void SaveChartImage(string path, DrawFunc drawFunc, IData data, double[] yPoints, int forecastDaysCount)
+        {
+            reportChart.RemoveAllSeries();
+            reportChart.Size = new System.Drawing.Size(1280, 720);
+            drawFunc.Invoke(data, yPoints, forecastDaysCount);
+            reportChart.SaveChart(path);
+        }
+
+        public void BuildReport(string path, IEnumerable<InformationForm> forms)
+        {
+            if (!Directory.Exists(path))
+                throw new Exception(path + "\nДанный путь не существует.");
+
+            if (forms == null || forms.Count() == 0)
+                throw new Exception("Отсутствуют данные для формирования отчета.");
+
+            var postfix = DateTime.Now.ToString("yyyy_MM_dd_HH_mm");
+            string resources = path + @"/resources" + postfix + "/";
+
+            Directory.CreateDirectory(resources);
+
+            HTMLReportBuilder html = new HTMLReportBuilder();
+
+            SaveChartImage(resources + @"/data.png", reportChart.DrawChart, forms.First(), null, 0);
+
+            string result = html.GetDataBlock(forms.First().Data, resources + @"/data.png");
+
+            foreach (var form in forms.OrderBy(i => i.Type))
+            {
+                var func = main.GetDrawFunctionByType(form.Type, reportChart);
+                result += GetHTMLBlock(form, html, resources, func);
+
+                if (form.Type != InformationType.Wavelet)
+                    continue;
+
+                var waweletPath = resources + "WaveletFunc.png";
+                SaveChartImage(waweletPath, reportChart.DrawWaveletFunc, form, form.Wavelet, form.ForecastDaysCount);
+                result += html.GetImageBlock(waweletPath, "Результат прямого вейвлет-преобразования");
+            }
+
+            var report = html.GetDocumentStructure("Отчет", result);
+            File.WriteAllText(path + "\\Отчет" + postfix + ".html", report);
+        }
+
     }
 }

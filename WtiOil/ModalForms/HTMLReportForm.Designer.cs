@@ -77,6 +77,7 @@
             this.cbWaveletBlock = new System.Windows.Forms.CheckBox();
             this.panelPath = new System.Windows.Forms.Panel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.groupStatistics.SuspendLayout();
             this.groupRegression.SuspendLayout();
             this.panelRegression.SuspendLayout();
@@ -369,6 +370,7 @@
             this.tbDegree.Name = "tbDegree";
             this.tbDegree.Size = new System.Drawing.Size(47, 20);
             this.tbDegree.TabIndex = 0;
+            this.tbDegree.Text = "6";
             this.tbDegree.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textbox_KeyPress);
             // 
             // cbRegressionBlock
@@ -433,6 +435,7 @@
             this.tbHarmonics.Name = "tbHarmonics";
             this.tbHarmonics.Size = new System.Drawing.Size(47, 20);
             this.tbHarmonics.TabIndex = 0;
+            this.tbHarmonics.Text = "6";
             this.tbHarmonics.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textbox_KeyPress);
             // 
             // numFourierDays
@@ -559,6 +562,7 @@
             this.panelMultiple.Controls.Add(this.groupBox2);
             this.panelMultiple.Controls.Add(this.groupBox1);
             this.panelMultiple.Controls.Add(this.label2);
+            this.panelMultiple.Enabled = false;
             this.panelMultiple.Location = new System.Drawing.Point(6, 43);
             this.panelMultiple.Name = "panelMultiple";
             this.panelMultiple.Size = new System.Drawing.Size(353, 189);
@@ -576,8 +580,6 @@
             // cbMultipleBlock
             // 
             this.cbMultipleBlock.AutoSize = true;
-            this.cbMultipleBlock.Checked = true;
-            this.cbMultipleBlock.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbMultipleBlock.Location = new System.Drawing.Point(6, 24);
             this.cbMultipleBlock.Name = "cbMultipleBlock";
             this.cbMultipleBlock.Size = new System.Drawing.Size(266, 17);
@@ -594,7 +596,7 @@
             this.groupWavelet.Size = new System.Drawing.Size(365, 54);
             this.groupWavelet.TabIndex = 1;
             this.groupWavelet.TabStop = false;
-            this.groupWavelet.Text = "Фурье-анализ";
+            this.groupWavelet.Text = "Вейвлет-анализ";
             // 
             // cbWaveletBlock
             // 
@@ -603,9 +605,9 @@
             this.cbWaveletBlock.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbWaveletBlock.Location = new System.Drawing.Point(12, 28);
             this.cbWaveletBlock.Name = "cbWaveletBlock";
-            this.cbWaveletBlock.Size = new System.Drawing.Size(251, 17);
+            this.cbWaveletBlock.Size = new System.Drawing.Size(258, 17);
             this.cbWaveletBlock.TabIndex = 1;
-            this.cbWaveletBlock.Text = "Добавить в отчет результат Фурье-анализа";
+            this.cbWaveletBlock.Text = "Добавить в отчет результат вейвлет-анализа";
             this.cbWaveletBlock.UseVisualStyleBackColor = true;
             this.cbWaveletBlock.CheckedChanged += new System.EventHandler(this.cbFourierBlock_CheckedChanged);
             // 
@@ -623,11 +625,22 @@
             // 
             this.openFileDialog.Filter = "csv Files|*.csv";
             // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(533, 463);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(100, 23);
+            this.btnCancel.TabIndex = 8;
+            this.btnCancel.Text = "Отмена";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // HTMLReportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(747, 492);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.panelPath);
             this.Controls.Add(this.groupMultiple);
             this.Controls.Add(this.btnCreateReport);
@@ -719,5 +732,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panelPath;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

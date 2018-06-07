@@ -24,7 +24,7 @@ namespace WtiOil
         /// </summary>
         private int childFormNumber = 0;
         private List<ToolStripMenuItem> ChartSeriesItems { get; set; }
-        private ChartForm reportChart = new ChartForm();
+        public delegate void DrawFunc(IData data, double[] yValues, int forecastDaysCount);
 
         // Конструктор класса.
         public MainMDI()
@@ -32,6 +32,22 @@ namespace WtiOil
             InitializeComponent();
             ChartSeriesItems = new List<ToolStripMenuItem>();
             InitialElementsState();
+        }
+
+        public DrawFunc GetDrawFunctionByType(InformationType type, ChartForm chart)
+        {
+            switch (type)
+            {
+                case InformationType.Regression:
+                    return chart.DrawTrend;
+                case InformationType.Fourier:
+                    return chart.DrawFourier;
+                case InformationType.MultipleRegression:
+                    return chart.DrawMultipleRegression;
+                case InformationType.Wavelet:
+                    return chart.DrawWaveletD4;
+            }
+            return null;
         }
 
         /// <summary>
@@ -193,6 +209,9 @@ namespace WtiOil
 
         public InformationForm GetWaveletResult(IData data)
         {
+            var oldData = data.Data.Select(i => i).ToArray(); 
+            data.Data = data.Data.Skip(data.Data.Count - (1 << GetMaxPowOf2(data.Data.Count))).ToList();
+
             double[] yValues = data.Data.Select(i => i.Value).ToArray();
 
             var coeffs = Wavelet.D4Transform(yValues);
@@ -201,34 +220,33 @@ namespace WtiOil
             var inform = new InformationForm(InformationType.Wavelet);
             inform.ShowWavelet(data, coeffs, y);
 
+            data.Data = oldData.ToList();
             return inform;
         }
-        
+
+        private void ShowInformationForm(InformationForm form, InformationType type)
+        {
+            if (form == null || form.Type != type)
+                return;
+
+            var chart = GetChartForm(form);
+            GetDrawFunctionByType(type,chart).Invoke(form, form.YValues, form.ForecastDaysCount);
+            chart.Show();
+            chart.Activate();
+
+            var inform = GetInformationForm(form);
+            inform.Show();
+        }
+
         /// <summary>
         /// Отрисовывает линию тренда на графике.
         /// </summary>
         /// <param name="showInformation">Флаг, указывающий необходимо ли показывать результат расчетов.</param>
         /// <param name="coefficients">Коэффициенты полиномиальной регрессии</param>
         /// <param name="yValues">Рассчетные значения У(х)</param>
-        public void ShowLineTrend(bool showInformation, double[] coefficients, double[] yValues, int forecastDaysCount)
+        public void ShowLineTrend(InformationForm regression)
         {
-            var data = this.ActiveMdiChild as IData;
-            
-            if (data == null)
-                return;
-
-            var chart = GetChartForm();
-            chart.DrawTrend(data, yValues, forecastDaysCount);
-            chart.Show();
-            chart.Activate();
-
-            if (showInformation)
-            {
-                var inform = GetInformationForm(InformationType.Regression, data);
-                inform.ShowRegression(data, coefficients, yValues, forecastDaysCount);
-                inform.Show();
-                inform.Activate();
-            }
+            ShowInformationForm(regression, InformationType.Regression);
         }
 
         /// <summary>
@@ -237,26 +255,9 @@ namespace WtiOil
         /// <param name="showInformation">Флаг, указывающий необходимо ли показывать результат расчетов.</param>
         /// <param name="harmonics">Коллекция гармоник.</param>
         /// <param name="yValues">Рассчетные значения У(х)</param>
-        public void ShowFourier(bool showInformation, List<Harmonic> harmonics, double[] yValues, int forecastDaysCount)
-        { 
-            var data = this.ActiveMdiChild as IData;
-            
-            if (data == null)
-                return;
-
-            var chart = GetChartForm();
-            chart.DrawFourier(data, yValues, forecastDaysCount);
-            chart.Show();
-            chart.Activate();
-
-            if (showInformation)
-            {
-                var inform = GetInformationForm(InformationType.Fourier,data);
-                inform.ShowFourier(data, harmonics, yValues, forecastDaysCount);
-                inform.Show();
-                inform.Activate();
-            }
-                        
+        public void ShowFourier(InformationForm fourier)
+        {
+            ShowInformationForm(fourier, InformationType.Fourier);
         }
 
         /// <summary>
@@ -264,21 +265,14 @@ namespace WtiOil
         /// </summary>
         /// <param name="yValues">Рассчетные значения У(х)</param>
         /// <param name="coefficients">Коеффициенты многофакторной регрессии</param>
-        public void ShowMultiple(double[] yValues, double[] coefficients)
+        public void ShowMultiple(InformationForm multiple)
         {
-            var data = this.ActiveMdiChild as IData;
+            ShowInformationForm(multiple, InformationType.MultipleRegression);
+        }
 
-            if (data == null)
-                return;
-
-            var chart = GetChartForm();
-            chart.DrawMultipleRegression(data, yValues);
-            chart.Show();
-            chart.Activate();
-
-            var inform = GetInformationForm(InformationType.MultipleRegression,data);
-            inform.ShowMultipleRegression(data, coefficients, yValues);
-            inform.Show();
+        public void ShowWavelet(InformationForm wavelet)
+        {
+            ShowInformationForm(wavelet, InformationType.Wavelet);
         }
         
         /// <summary>
@@ -301,7 +295,7 @@ namespace WtiOil
         /// <param name="first">Экземпляр класса, реализующий IData</param>
         /// <param name="second">Экземпляр класса, реализующий IData</param>
         /// <returns>Результат сравнения</returns>
-        private bool isIDataEquals(IData first, IData second)
+        internal bool isIDataEquals(IData first, IData second)
         {
             return first.FullData == second.FullData;
         }
@@ -377,11 +371,23 @@ namespace WtiOil
             return childForm;
         }
 
-        private ChartForm GetChartForm()
+        private ChartForm GetChartForm(IData data)
         {
-            var openedFrom = this.MdiChildren.FirstOrDefault(i => i is ChartForm) as ChartForm;
+            var openedFrom = this.MdiChildren.FirstOrDefault(i => (i is ChartForm) && isIDataEquals(i as ChartForm, data)) as ChartForm;
             var form = openedFrom == null ? new ChartForm() : openedFrom;
             form.OnSeriesChanged += chart_OnSeriesChanged;
+            form.MdiParent = this;
+            return form;
+        }
+
+        private InformationForm GetInformationForm(InformationForm form)
+        {
+            var openedFroms = this.MdiChildren.Where(i => i is InformationForm);
+            var opened = openedFroms.Where(i => ((i as InformationForm).Type == form.Type && isIDataEquals((i as InformationForm), form))).FirstOrDefault();
+
+            if (opened != null)
+                opened.Close();
+
             form.MdiParent = this;
             return form;
         }
@@ -579,32 +585,13 @@ namespace WtiOil
         // Обработка события нажития на пункт меню "Построить график".
         private void drawChartMI_Click(object sender, EventArgs e)
         {
-            if (!(ActiveMdiChild is IData))
-                return;
-
-            var chartForm = GetChartForm();
+            var chartForm = GetChartForm(ActiveMdiChild as IData);
 
             if (ActiveMdiChild is InformationForm)
             {
                 var activeFrom = (ActiveMdiChild as InformationForm);
-
-                switch (activeFrom.Type)
-                {
-                    case InformationType.Statistics:
-                        break;
-                    case InformationType.Regression:
-                        chartForm.DrawTrend(activeFrom, activeFrom.YValues, activeFrom.ForecastDaysCount);
-                        break;
-                    case InformationType.MultipleRegression:
-                        chartForm.DrawMultipleRegression(activeFrom, activeFrom.YValues);
-                        break;
-                    case InformationType.Fourier:
-                        chartForm.DrawFourier(activeFrom, activeFrom.YValues, activeFrom.ForecastDaysCount);
-                        break;
-                    case InformationType.Wavelet:
-                        chartForm.DrawWaveletD4(activeFrom, activeFrom.YValues);
-                        break;
-                }
+                var function = GetDrawFunctionByType(activeFrom.Type, chartForm);
+                function.Invoke(activeFrom, activeFrom.YValues, activeFrom.ForecastDaysCount);
             }
             else
                 chartForm.DrawChart(this.ActiveMdiChild as IData);
@@ -617,8 +604,8 @@ namespace WtiOil
         private void drawTrendLineMI_Click(object sender, EventArgs e)
         {
             var data = (this.ActiveMdiChild as IData);
-            var polynimForm = new CountSetForm(data.Data, CountSetType.Regression);
-            polynimForm.Show(this);
+            var polynimForm = new ParamsSetForm(this,WindowType.Regression,data);
+            polynimForm.ShowDialog(this);
         }
         
         // Обработка события нажития на пункт меню "Отобразить легенду".
@@ -678,35 +665,21 @@ namespace WtiOil
         // Обработка события нажития на пункт меню "Фурье-анадиз".
         private void fourierMI_Click(object sender, EventArgs e)
         {
-            var polynimForm = new CountSetForm((this.ActiveMdiChild as IData).Data, CountSetType.Fourier);
-            polynimForm.Show(this);
+            var polynimForm = new ParamsSetForm(this, WindowType.Fourier,this.ActiveMdiChild as IData);
+            polynimForm.ShowDialog(this);
         }
 
         // Обработка события нажития на пункт меню "Вейвлет-анализ".
         private void waveletMI_Click(object sender, EventArgs e)
         {
-            var idata = (this.ActiveMdiChild as IData);
-            idata.Data = idata.Data.Skip(idata.Data.Count - (1 << GetMaxPowOf2(idata.Data.Count))).ToList();
-
-            var data = (this.ActiveMdiChild as IData).Data.Select(i => i.Value).ToArray();
-            var coeffs = Wavelet.D4Transform(data);
-            var y = Wavelet.InverseD4Transform(coeffs);
-
-            var chart = GetChartForm();
-            chart.DrawWaveletD4(this.ActiveMdiChild as IData, y);
-            chart.Show();
-            chart.Activate();
-
-            var inform = GetInformationForm(InformationType.Wavelet, idata);
-            inform.ShowWavelet(idata, coeffs, y);
-            inform.Show();
+            ShowWavelet(GetWaveletResult(this.ActiveMdiChild as IData));
         }
 
         // Обработка события нажития на пункт меню "Множественная регрессия".
         private void miltipleMI_Click(object sender, EventArgs e)
         {
             var data = this.ActiveMdiChild as IData;
-            new MultipleRegressionForm(data).Show(this);
+            new ParamsSetForm(this, WindowType.MultipleRegression,data).ShowDialog(this);
         }
 
         #endregion
@@ -733,184 +706,10 @@ namespace WtiOil
             statisticForm.Activate();
         }
 
-        delegate void DrawFunc(IData data, double[] yValues, int forecastDaysCount);
-
-        private DrawFunc GetDrawFunctionByType(InformationType type)
-        {
-            switch (type)
-            {
-                case InformationType.Regression:
-                    return reportChart.DrawTrend;
-                case InformationType.Fourier:
-                    return reportChart.DrawFourier;
-                case InformationType.MultipleRegression:
-                    return reportChart.DrawMultipleRegression;
-                case InformationType.Wavelet:
-                    return reportChart.DrawWaveletD4;
-            }
-            return null;   
-        }
-
-        private string GetHTMLBlock(InformationForm form, HTMLReportBuilder context, string directoryPath, DrawFunc drawFunc)
-        {
-            string path = null;
-
-            if (form.YValues != null && form.YValues.Length > 0)
-            {
-                path = directoryPath + form.Type+".png";
-                SaveChartImage(path, drawFunc, form, form.YValues, form.ForecastDaysCount);
-            }
-
-            return context.GetBlockByType(form.Type, form.Information, path);
-        }
-
-        private void SaveChartImage(string path, DrawFunc drawFunc, IData data, double[] yPoints, int forecastDaysCount)
-        {
-            reportChart.RemoveAllSeries();
-            reportChart.Size = new Size(1280, 720);
-            drawFunc.Invoke(data, yPoints, forecastDaysCount);
-            reportChart.SaveChart(path);
-        }
-
-        public void BuildReport(string path, IEnumerable<InformationForm> forms)
-        {
-            if (!Directory.Exists(path))
-                throw new Exception(path + "\nДанный путь не существует.");
-
-            if (forms == null || forms.Count() == 0)
-                throw new Exception("Отсутствуют данные для формирования отчета.");
-
-            string resources = path + @"/resources/";
-            Directory.CreateDirectory(resources);
-
-            HTMLReportBuilder html = new HTMLReportBuilder();
-
-            SaveChartImage(resources + @"/data.png", reportChart.DrawChart, forms.First(), null, 0);
-
-            string result = html.GetDataBlock(forms.First().Data, resources + @"/data.png");
-
-            foreach (var form in forms.OrderBy(i=>i.Type))
-            {
-                var func = GetDrawFunctionByType(form.Type);
-
-                result += GetHTMLBlock(form, html, resources, func);
-
-                if (form.Type != InformationType.Wavelet)
-                    continue;
-
-                var waweletPath = resources + "WaveletFunc.png";
-                SaveChartImage(waweletPath, reportChart.DrawWaveletFunc, form, form.Wavelet, form.ForecastDaysCount);
-                result += html.GetImageBlock(waweletPath, "Результат прямого вейвлет-преобразования");
-                
-            }
-
-            var report = html.GetDocumentStructure("Отчет", result);
-            File.WriteAllText(path + @"/report.html", report);
-        }
-
-        public void BuildReport(string path,
-                                 bool isStatisticsBlock,
-                                 bool isAverage,
-                                 bool isStandardError,
-                                 bool isMediana,
-                                 bool isMode,
-                                 bool isStandardDeviation,
-                                 bool isDispersion,
-                                 bool isSkewness,
-                                 bool isKurtosis,
-                                 bool isInterval,
-                                 bool isMin,
-                                 bool isMax,
-                                 bool isSum,
-                                 bool isRegressionBlock,
-                                 int degree,
-                                 bool isFourierBlock,
-                                 int harmonicsCount)
-        {
-            string resources = path + @"/resources";
-            Directory.CreateDirectory(resources);
-            HTMLReportBuilder html = new HTMLReportBuilder();
-            string statisticsBlock = "", regressionBlock = "", fourierBlock = "";
-
-            // Images.
-            var sourceFunc = resources + "//sourcefunc.png";
-            var trend = resources + "//trend.png";
-            var fourier = resources + "//fourier.png";
-            
-            var iData = (this.ActiveMdiChild as IData);
-            var data = iData.Data;
-
-            double[] xValues = Enumerable.Range(1, data.Count).Select(z => z + 0.0).ToArray();
-            double[] yValues = data.Select(i => i.Value).ToArray();
-
-            var chart = new ChartForm();
-            chart.Size = new System.Drawing.Size(1280, 720);
-            chart.DrawChart(iData);
-            chart.SaveChart(sourceFunc);
-
-            var dataBlock = html.GetDataBlock(data, sourceFunc);
-
-
-            var inform = new InformationForm(InformationType.Statistics);
-            
-            if (isStatisticsBlock)
-            {
-                var statistics = inform.ShowStatistic(iData, isAverage, isStandardError, isMediana, isMode, isStandardDeviation, isDispersion, isSkewness, isKurtosis, isInterval, isMin, isMax, isSum);
-
-                statisticsBlock = html.GetStatisticsBlock(statistics);
-            }
-
-            if (isRegressionBlock)
-            {
-                var coeff = Regression.GetCoefficients(xValues, yValues, (byte)degree);
-                var y = Regression.GetYFromXValue(coeff, xValues);
-                //var regressionInfo = inform.ShowRegression(iData, coeff, y);
-
-                throw new NotImplementedException();
-                //chart.DrawTrend(iData, y);
-                chart.SaveChart(trend);
-               //regressionBlock = html.GetRegressionBlock(regressionInfo, trend);
-            }
-
-            if (isFourierBlock)
-            {
-                var harmonics = FourierTransform.GetHarmonics(1.0 / (double)((double)1 * xValues.Length), 1, harmonicsCount, yValues);
-                throw new NotImplementedException();
-                //var yFourier = FourierTransform.GetYFromXValue(harmonics, xValues, yValues);
-                //var harmonicsInfo = inform.ShowFourier(iData, harmonics, yFourier);
-                //chart.DrawFourier(iData, yFourier);
-                //chart.SaveChart(fourier);
-                //fourierBlock = html.GetFourierBlock(harmonicsInfo,fourier);
-            }
-
-            var body = dataBlock + statisticsBlock + regressionBlock + fourierBlock;
-            var report = html.GetDocumentStructure("Отчет", body);
-            File.WriteAllText(path+@"/report.html", report);
-        }
-
-        private void CreateReport(string path)
-        {
-            Directory.CreateDirectory(path+@"/resources");
-            var sourceFunc = path+@"/resources/sourcefunc.png";
-            var iData = (this.ActiveMdiChild as IData);
-
-            var chart = new ChartForm();
-            chart.Size = new System.Drawing.Size(1280, 720);
-            chart.DrawChart(iData);
-            chart.SaveChart(sourceFunc);
-
-            HTMLReportBuilder html = new HTMLReportBuilder();
-            var s = html.GetDocumentStructure("Отчет", html.GetDataBlock(iData.Data, sourceFunc));
-            File.WriteAllText("report.html", s);
-        }
-
         // Обработка события нажития на пункт меню "Отчет -> Сформировать отчет".
         private void createReportMI_Click(object sender, EventArgs e)
         {
-
-            //CreateReport(Directory.GetCurrentDirectory());
-            //new HTMLReportForm().Show(this);
-            //BuildReport(Directory.GetCurrentDirectory(), this.MdiChildren.Where(i => i is InformationForm && isIDataEquals(this.ActiveMdiChild as IData, i as IData)).Select(z => z as InformationForm));
+            new HTMLReportForm(this, this.ActiveMdiChild as IData).ShowDialog(this);
         }
 
         // Обработка события нажития на пункт меню "Справка -> О программе".

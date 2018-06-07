@@ -43,9 +43,6 @@ namespace WtiOil
         {
             get
             {
-                if (!(dgvInformation.DataSource is List<InformationItem>))
-                    return null;
-
                 return dgvInformation.DataSource as List<InformationItem>;
             }
         }
@@ -86,6 +83,7 @@ namespace WtiOil
         /// <param name="data">Экземпляр класса, реализующего интерфейс IData</param>
         /// <param name="coefficients">Коллекция коэффициентов полинома</param>
         /// <param name="yValues">Значение расчетных У</param>
+        /// <param name="forecastDays">Количество дней для прогноза</param>
         /// <returns>Коллекция экземпляров класса InformationItem</returns>
         public List<InformationItem> ShowRegression(IData data, double[] coefficients, double[] yValues, int forecastDays)
         {
@@ -108,20 +106,13 @@ namespace WtiOil
             }
 
             regression.Add(new InformationItem("Расчетные значения: ", ""));
-
-            int k = 0;
-
-            for (k = 0; k < Data.Count; k++)
-            {
-                regression.Add(new InformationItem(Data[k].Date.ToString("dd/MM/yyyy"), yValues[k]));
-            }
-
-            var lastDate = Data.Last().Date;
-
+              
             if (forecastDays > 0)
             {
+                var lastDate = Data.Last().Date;
                 regression.Add(new InformationItem("Прогнозные значения:", ""));
-                for (int i = k; i < k + forecastDays; i++)
+
+                for (int i = yValues.Length - forecastDays; i < yValues.Length; i++)
                 {
                     lastDate = lastDate.AddDays(1);
                     regression.Add(new InformationItem(lastDate.ToString("dd/MM/yyyy"), yValues[i]));
@@ -223,13 +214,14 @@ namespace WtiOil
 
             return wavelet;
         }
-        
+
         /// <summary>
         /// Отображает данные, полученные при Фурье-анализе и возвращает коллекцию отображаемых данных.
         /// </summary>
         /// <param name="data">Экземпляр класса, реализующего интерфейс IData</param>
         /// <param name="harmonics">Коллекция гармоник</param>
         /// <param name="yValues">Значение расчетных У</param>
+        /// <param name="forecastDays">Количество дней для прогноза</param>
         /// <returns>Коллекция экземпляров класса InformationItem</returns>
         public List<InformationItem> ShowFourier(IData data, List<Harmonic> harmonics, double[] yValues, int forecastDays)
         {
@@ -275,7 +267,6 @@ namespace WtiOil
             dgvInformation.DataSource = fourier;
 
             return fourier;
-
         }
 
         /// <summary>
