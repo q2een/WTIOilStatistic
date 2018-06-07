@@ -46,13 +46,21 @@
             this.tbPath = new System.Windows.Forms.TextBox();
             this.btnPath = new System.Windows.Forms.Button();
             this.groupRegression = new System.Windows.Forms.GroupBox();
-            this.cbRegressionBlock = new System.Windows.Forms.CheckBox();
-            this.tbDegree = new System.Windows.Forms.TextBox();
+            this.panelRegression = new System.Windows.Forms.Panel();
+            this.lblRegressionForecastDays = new System.Windows.Forms.Label();
+            this.numRegressionDays = new System.Windows.Forms.NumericUpDown();
             this.lblRegression = new System.Windows.Forms.Label();
+            this.cbRegressionForecast = new System.Windows.Forms.CheckBox();
+            this.tbDegree = new System.Windows.Forms.TextBox();
+            this.cbRegressionBlock = new System.Windows.Forms.CheckBox();
             this.groupFourier = new System.Windows.Forms.GroupBox();
-            this.cbFourierBlock = new System.Windows.Forms.CheckBox();
-            this.tbHarmonics = new System.Windows.Forms.TextBox();
+            this.panelFourier = new System.Windows.Forms.Panel();
+            this.lblFourierForecastDays = new System.Windows.Forms.Label();
             this.lblFourier = new System.Windows.Forms.Label();
+            this.tbHarmonics = new System.Windows.Forms.TextBox();
+            this.numFourierDays = new System.Windows.Forms.NumericUpDown();
+            this.cbFourierForecast = new System.Windows.Forms.CheckBox();
+            this.cbFourierBlock = new System.Windows.Forms.CheckBox();
             this.btnCreateReport = new System.Windows.Forms.Button();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -62,34 +70,26 @@
             this.btnOpenGold = new System.Windows.Forms.Button();
             this.tbFileGold = new System.Windows.Forms.TextBox();
             this.groupMultiple = new System.Windows.Forms.GroupBox();
+            this.panelMultiple = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.cbMultipleBlock = new System.Windows.Forms.CheckBox();
             this.groupWavelet = new System.Windows.Forms.GroupBox();
             this.cbWaveletBlock = new System.Windows.Forms.CheckBox();
-            this.lblRegressionForecastDays = new System.Windows.Forms.Label();
-            this.numRegressionDays = new System.Windows.Forms.NumericUpDown();
-            this.cbRegressionForecast = new System.Windows.Forms.CheckBox();
-            this.cbFourierForecast = new System.Windows.Forms.CheckBox();
-            this.numFourierDays = new System.Windows.Forms.NumericUpDown();
-            this.lblFourierForecastDays = new System.Windows.Forms.Label();
             this.panelPath = new System.Windows.Forms.Panel();
-            this.panelRegression = new System.Windows.Forms.Panel();
-            this.panelFourier = new System.Windows.Forms.Panel();
-            this.panelMultiple = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupStatistics.SuspendLayout();
             this.groupRegression.SuspendLayout();
+            this.panelRegression.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numRegressionDays)).BeginInit();
             this.groupFourier.SuspendLayout();
+            this.panelFourier.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numFourierDays)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupMultiple.SuspendLayout();
-            this.groupWavelet.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numRegressionDays)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numFourierDays)).BeginInit();
-            this.panelPath.SuspendLayout();
-            this.panelRegression.SuspendLayout();
-            this.panelFourier.SuspendLayout();
             this.panelMultiple.SuspendLayout();
+            this.groupWavelet.SuspendLayout();
+            this.panelPath.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -126,7 +126,7 @@
             // cbSkewness
             // 
             this.cbSkewness.AutoSize = true;
-            this.cbSkewness.Location = new System.Drawing.Point(195, 153);
+            this.cbSkewness.Location = new System.Drawing.Point(191, 176);
             this.cbSkewness.Name = "cbSkewness";
             this.cbSkewness.Size = new System.Drawing.Size(69, 17);
             this.cbSkewness.TabIndex = 0;
@@ -148,7 +148,7 @@
             // cbKurtosis
             // 
             this.cbKurtosis.AutoSize = true;
-            this.cbKurtosis.Location = new System.Drawing.Point(195, 130);
+            this.cbKurtosis.Location = new System.Drawing.Point(191, 153);
             this.cbKurtosis.Name = "cbKurtosis";
             this.cbKurtosis.Size = new System.Drawing.Size(118, 17);
             this.cbKurtosis.TabIndex = 0;
@@ -160,7 +160,7 @@
             this.cbMode.AutoSize = true;
             this.cbMode.Checked = true;
             this.cbMode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbMode.Location = new System.Drawing.Point(195, 107);
+            this.cbMode.Location = new System.Drawing.Point(191, 130);
             this.cbMode.Name = "cbMode";
             this.cbMode.Size = new System.Drawing.Size(53, 17);
             this.cbMode.TabIndex = 0;
@@ -184,7 +184,7 @@
             this.cbMedian.AutoSize = true;
             this.cbMedian.Checked = true;
             this.cbMedian.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbMedian.Location = new System.Drawing.Point(195, 84);
+            this.cbMedian.Location = new System.Drawing.Point(191, 107);
             this.cbMedian.Name = "cbMedian";
             this.cbMedian.Size = new System.Drawing.Size(71, 17);
             this.cbMedian.TabIndex = 0;
@@ -208,7 +208,7 @@
             this.cbStandardDeviation.AutoSize = true;
             this.cbStandardDeviation.Checked = true;
             this.cbStandardDeviation.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbStandardDeviation.Location = new System.Drawing.Point(195, 61);
+            this.cbStandardDeviation.Location = new System.Drawing.Point(191, 84);
             this.cbStandardDeviation.Name = "cbStandardDeviation";
             this.cbStandardDeviation.Size = new System.Drawing.Size(153, 17);
             this.cbStandardDeviation.TabIndex = 0;
@@ -232,7 +232,7 @@
             this.cbStandartError.AutoSize = true;
             this.cbStandartError.Checked = true;
             this.cbStandartError.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbStandartError.Location = new System.Drawing.Point(195, 177);
+            this.cbStandartError.Location = new System.Drawing.Point(191, 61);
             this.cbStandartError.Name = "cbStandartError";
             this.cbStandartError.Size = new System.Drawing.Size(132, 17);
             this.cbStandartError.TabIndex = 0;
@@ -304,6 +304,73 @@
             this.groupRegression.TabStop = false;
             this.groupRegression.Text = "Полиномиальная регрессия";
             // 
+            // panelRegression
+            // 
+            this.panelRegression.Controls.Add(this.lblRegressionForecastDays);
+            this.panelRegression.Controls.Add(this.numRegressionDays);
+            this.panelRegression.Controls.Add(this.lblRegression);
+            this.panelRegression.Controls.Add(this.cbRegressionForecast);
+            this.panelRegression.Controls.Add(this.tbDegree);
+            this.panelRegression.Location = new System.Drawing.Point(12, 51);
+            this.panelRegression.Name = "panelRegression";
+            this.panelRegression.Size = new System.Drawing.Size(290, 92);
+            this.panelRegression.TabIndex = 8;
+            // 
+            // lblRegressionForecastDays
+            // 
+            this.lblRegressionForecastDays.AutoSize = true;
+            this.lblRegressionForecastDays.Enabled = false;
+            this.lblRegressionForecastDays.Location = new System.Drawing.Point(231, 54);
+            this.lblRegressionForecastDays.Name = "lblRegressionForecastDays";
+            this.lblRegressionForecastDays.Size = new System.Drawing.Size(31, 13);
+            this.lblRegressionForecastDays.TabIndex = 11;
+            this.lblRegressionForecastDays.Text = "дней";
+            // 
+            // numRegressionDays
+            // 
+            this.numRegressionDays.Enabled = false;
+            this.numRegressionDays.Location = new System.Drawing.Point(179, 50);
+            this.numRegressionDays.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.numRegressionDays.Name = "numRegressionDays";
+            this.numRegressionDays.ReadOnly = true;
+            this.numRegressionDays.Size = new System.Drawing.Size(47, 20);
+            this.numRegressionDays.TabIndex = 10;
+            this.numRegressionDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numRegressionDays.ValueChanged += new System.EventHandler(this.numDays_ValueChanged);
+            // 
+            // lblRegression
+            // 
+            this.lblRegression.AutoSize = true;
+            this.lblRegression.Location = new System.Drawing.Point(7, 12);
+            this.lblRegression.Name = "lblRegression";
+            this.lblRegression.Size = new System.Drawing.Size(149, 13);
+            this.lblRegression.TabIndex = 0;
+            this.lblRegression.Text = "Укажите степень полинома";
+            // 
+            // cbRegressionForecast
+            // 
+            this.cbRegressionForecast.AutoSize = true;
+            this.cbRegressionForecast.Location = new System.Drawing.Point(10, 53);
+            this.cbRegressionForecast.Name = "cbRegressionForecast";
+            this.cbRegressionForecast.Size = new System.Drawing.Size(147, 17);
+            this.cbRegressionForecast.TabIndex = 9;
+            this.cbRegressionForecast.Text = "Добавить прогноз на ...";
+            this.cbRegressionForecast.UseVisualStyleBackColor = true;
+            this.cbRegressionForecast.CheckedChanged += new System.EventHandler(this.cbForecast_CheckedChanged);
+            // 
+            // tbDegree
+            // 
+            this.tbDegree.Location = new System.Drawing.Point(179, 9);
+            this.tbDegree.MaxLength = 3;
+            this.tbDegree.Name = "tbDegree";
+            this.tbDegree.Size = new System.Drawing.Size(47, 20);
+            this.tbDegree.TabIndex = 0;
+            this.tbDegree.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textbox_KeyPress);
+            // 
             // cbRegressionBlock
             // 
             this.cbRegressionBlock.AutoSize = true;
@@ -317,24 +384,6 @@
             this.cbRegressionBlock.UseVisualStyleBackColor = true;
             this.cbRegressionBlock.CheckedChanged += new System.EventHandler(this.cbRegressionBlock_CheckedChanged);
             // 
-            // tbDegree
-            // 
-            this.tbDegree.Location = new System.Drawing.Point(179, 9);
-            this.tbDegree.MaxLength = 3;
-            this.tbDegree.Name = "tbDegree";
-            this.tbDegree.Size = new System.Drawing.Size(47, 20);
-            this.tbDegree.TabIndex = 0;
-            this.tbDegree.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textbox_KeyPress);
-            // 
-            // lblRegression
-            // 
-            this.lblRegression.AutoSize = true;
-            this.lblRegression.Location = new System.Drawing.Point(7, 12);
-            this.lblRegression.Name = "lblRegression";
-            this.lblRegression.Size = new System.Drawing.Size(149, 13);
-            this.lblRegression.TabIndex = 0;
-            this.lblRegression.Text = "Укажите степень полинома";
-            // 
             // groupFourier
             // 
             this.groupFourier.Controls.Add(this.panelFourier);
@@ -345,6 +394,73 @@
             this.groupFourier.TabIndex = 1;
             this.groupFourier.TabStop = false;
             this.groupFourier.Text = "Фурье-анализ";
+            // 
+            // panelFourier
+            // 
+            this.panelFourier.Controls.Add(this.lblFourierForecastDays);
+            this.panelFourier.Controls.Add(this.lblFourier);
+            this.panelFourier.Controls.Add(this.tbHarmonics);
+            this.panelFourier.Controls.Add(this.numFourierDays);
+            this.panelFourier.Controls.Add(this.cbFourierForecast);
+            this.panelFourier.Location = new System.Drawing.Point(12, 51);
+            this.panelFourier.Name = "panelFourier";
+            this.panelFourier.Size = new System.Drawing.Size(290, 92);
+            this.panelFourier.TabIndex = 9;
+            // 
+            // lblFourierForecastDays
+            // 
+            this.lblFourierForecastDays.AutoSize = true;
+            this.lblFourierForecastDays.Enabled = false;
+            this.lblFourierForecastDays.Location = new System.Drawing.Point(235, 55);
+            this.lblFourierForecastDays.Name = "lblFourierForecastDays";
+            this.lblFourierForecastDays.Size = new System.Drawing.Size(31, 13);
+            this.lblFourierForecastDays.TabIndex = 11;
+            this.lblFourierForecastDays.Text = "дней";
+            // 
+            // lblFourier
+            // 
+            this.lblFourier.AutoSize = true;
+            this.lblFourier.Location = new System.Drawing.Point(12, 18);
+            this.lblFourier.Name = "lblFourier";
+            this.lblFourier.Size = new System.Drawing.Size(165, 13);
+            this.lblFourier.TabIndex = 0;
+            this.lblFourier.Text = "Укажите количество гармоник";
+            // 
+            // tbHarmonics
+            // 
+            this.tbHarmonics.Location = new System.Drawing.Point(183, 15);
+            this.tbHarmonics.MaxLength = 3;
+            this.tbHarmonics.Name = "tbHarmonics";
+            this.tbHarmonics.Size = new System.Drawing.Size(47, 20);
+            this.tbHarmonics.TabIndex = 0;
+            this.tbHarmonics.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textbox_KeyPress);
+            // 
+            // numFourierDays
+            // 
+            this.numFourierDays.Enabled = false;
+            this.numFourierDays.Location = new System.Drawing.Point(183, 51);
+            this.numFourierDays.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.numFourierDays.Name = "numFourierDays";
+            this.numFourierDays.ReadOnly = true;
+            this.numFourierDays.Size = new System.Drawing.Size(47, 20);
+            this.numFourierDays.TabIndex = 10;
+            this.numFourierDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numFourierDays.ValueChanged += new System.EventHandler(this.numDays_ValueChanged);
+            // 
+            // cbFourierForecast
+            // 
+            this.cbFourierForecast.AutoSize = true;
+            this.cbFourierForecast.Location = new System.Drawing.Point(14, 54);
+            this.cbFourierForecast.Name = "cbFourierForecast";
+            this.cbFourierForecast.Size = new System.Drawing.Size(147, 17);
+            this.cbFourierForecast.TabIndex = 9;
+            this.cbFourierForecast.Text = "Добавить прогноз на ...";
+            this.cbFourierForecast.UseVisualStyleBackColor = true;
+            this.cbFourierForecast.CheckedChanged += new System.EventHandler(this.cbFourierForecast_CheckedChanged);
             // 
             // cbFourierBlock
             // 
@@ -358,24 +474,6 @@
             this.cbFourierBlock.Text = "Добавить в отчет результат Фурье-анализа";
             this.cbFourierBlock.UseVisualStyleBackColor = true;
             this.cbFourierBlock.CheckedChanged += new System.EventHandler(this.cbFourierBlock_CheckedChanged);
-            // 
-            // tbHarmonics
-            // 
-            this.tbHarmonics.Location = new System.Drawing.Point(183, 15);
-            this.tbHarmonics.MaxLength = 3;
-            this.tbHarmonics.Name = "tbHarmonics";
-            this.tbHarmonics.Size = new System.Drawing.Size(47, 20);
-            this.tbHarmonics.TabIndex = 0;
-            this.tbHarmonics.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textbox_KeyPress);
-            // 
-            // lblFourier
-            // 
-            this.lblFourier.AutoSize = true;
-            this.lblFourier.Location = new System.Drawing.Point(12, 18);
-            this.lblFourier.Name = "lblFourier";
-            this.lblFourier.Size = new System.Drawing.Size(165, 13);
-            this.lblFourier.TabIndex = 0;
-            this.lblFourier.Text = "Укажите количество гармоник";
             // 
             // btnCreateReport
             // 
@@ -456,12 +554,31 @@
             this.groupMultiple.TabStop = false;
             this.groupMultiple.Text = "Многофакторная регрессия";
             // 
+            // panelMultiple
+            // 
+            this.panelMultiple.Controls.Add(this.groupBox2);
+            this.panelMultiple.Controls.Add(this.groupBox1);
+            this.panelMultiple.Controls.Add(this.label2);
+            this.panelMultiple.Location = new System.Drawing.Point(6, 43);
+            this.panelMultiple.Name = "panelMultiple";
+            this.panelMultiple.Size = new System.Drawing.Size(353, 189);
+            this.panelMultiple.TabIndex = 8;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(190, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Укажите путь к файлам с данными:";
+            // 
             // cbMultipleBlock
             // 
             this.cbMultipleBlock.AutoSize = true;
             this.cbMultipleBlock.Checked = true;
             this.cbMultipleBlock.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbMultipleBlock.Location = new System.Drawing.Point(6, 26);
+            this.cbMultipleBlock.Location = new System.Drawing.Point(6, 24);
             this.cbMultipleBlock.Name = "cbMultipleBlock";
             this.cbMultipleBlock.Size = new System.Drawing.Size(266, 17);
             this.cbMultipleBlock.TabIndex = 0;
@@ -492,80 +609,6 @@
             this.cbWaveletBlock.UseVisualStyleBackColor = true;
             this.cbWaveletBlock.CheckedChanged += new System.EventHandler(this.cbFourierBlock_CheckedChanged);
             // 
-            // lblRegressionForecastDays
-            // 
-            this.lblRegressionForecastDays.AutoSize = true;
-            this.lblRegressionForecastDays.Enabled = false;
-            this.lblRegressionForecastDays.Location = new System.Drawing.Point(231, 54);
-            this.lblRegressionForecastDays.Name = "lblRegressionForecastDays";
-            this.lblRegressionForecastDays.Size = new System.Drawing.Size(31, 13);
-            this.lblRegressionForecastDays.TabIndex = 11;
-            this.lblRegressionForecastDays.Text = "дней";
-            // 
-            // numRegressionDays
-            // 
-            this.numRegressionDays.Enabled = false;
-            this.numRegressionDays.Location = new System.Drawing.Point(179, 50);
-            this.numRegressionDays.Maximum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.numRegressionDays.Name = "numRegressionDays";
-            this.numRegressionDays.ReadOnly = true;
-            this.numRegressionDays.Size = new System.Drawing.Size(47, 20);
-            this.numRegressionDays.TabIndex = 10;
-            this.numRegressionDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numRegressionDays.ValueChanged += new System.EventHandler(this.numDays_ValueChanged);
-            // 
-            // cbRegressionForecast
-            // 
-            this.cbRegressionForecast.AutoSize = true;
-            this.cbRegressionForecast.Location = new System.Drawing.Point(10, 53);
-            this.cbRegressionForecast.Name = "cbRegressionForecast";
-            this.cbRegressionForecast.Size = new System.Drawing.Size(147, 17);
-            this.cbRegressionForecast.TabIndex = 9;
-            this.cbRegressionForecast.Text = "Добавить прогноз на ...";
-            this.cbRegressionForecast.UseVisualStyleBackColor = true;
-            this.cbRegressionForecast.CheckedChanged += new System.EventHandler(this.cbForecast_CheckedChanged);
-            // 
-            // cbFourierForecast
-            // 
-            this.cbFourierForecast.AutoSize = true;
-            this.cbFourierForecast.Location = new System.Drawing.Point(14, 54);
-            this.cbFourierForecast.Name = "cbFourierForecast";
-            this.cbFourierForecast.Size = new System.Drawing.Size(147, 17);
-            this.cbFourierForecast.TabIndex = 9;
-            this.cbFourierForecast.Text = "Добавить прогноз на ...";
-            this.cbFourierForecast.UseVisualStyleBackColor = true;
-            this.cbFourierForecast.CheckedChanged += new System.EventHandler(this.cbFourierForecast_CheckedChanged);
-            // 
-            // numFourierDays
-            // 
-            this.numFourierDays.Enabled = false;
-            this.numFourierDays.Location = new System.Drawing.Point(183, 51);
-            this.numFourierDays.Maximum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.numFourierDays.Name = "numFourierDays";
-            this.numFourierDays.ReadOnly = true;
-            this.numFourierDays.Size = new System.Drawing.Size(47, 20);
-            this.numFourierDays.TabIndex = 10;
-            this.numFourierDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numFourierDays.ValueChanged += new System.EventHandler(this.numDays_ValueChanged);
-            // 
-            // lblFourierForecastDays
-            // 
-            this.lblFourierForecastDays.AutoSize = true;
-            this.lblFourierForecastDays.Enabled = false;
-            this.lblFourierForecastDays.Location = new System.Drawing.Point(235, 55);
-            this.lblFourierForecastDays.Name = "lblFourierForecastDays";
-            this.lblFourierForecastDays.Size = new System.Drawing.Size(31, 13);
-            this.lblFourierForecastDays.TabIndex = 11;
-            this.lblFourierForecastDays.Text = "дней";
-            // 
             // panelPath
             // 
             this.panelPath.Controls.Add(this.tbPath);
@@ -575,49 +618,6 @@
             this.panelPath.Name = "panelPath";
             this.panelPath.Size = new System.Drawing.Size(365, 79);
             this.panelPath.TabIndex = 7;
-            // 
-            // panelRegression
-            // 
-            this.panelRegression.Controls.Add(this.lblRegressionForecastDays);
-            this.panelRegression.Controls.Add(this.numRegressionDays);
-            this.panelRegression.Controls.Add(this.lblRegression);
-            this.panelRegression.Controls.Add(this.cbRegressionForecast);
-            this.panelRegression.Controls.Add(this.tbDegree);
-            this.panelRegression.Location = new System.Drawing.Point(12, 51);
-            this.panelRegression.Name = "panelRegression";
-            this.panelRegression.Size = new System.Drawing.Size(290, 92);
-            this.panelRegression.TabIndex = 8;
-            // 
-            // panelFourier
-            // 
-            this.panelFourier.Controls.Add(this.lblFourierForecastDays);
-            this.panelFourier.Controls.Add(this.lblFourier);
-            this.panelFourier.Controls.Add(this.tbHarmonics);
-            this.panelFourier.Controls.Add(this.numFourierDays);
-            this.panelFourier.Controls.Add(this.cbFourierForecast);
-            this.panelFourier.Location = new System.Drawing.Point(12, 51);
-            this.panelFourier.Name = "panelFourier";
-            this.panelFourier.Size = new System.Drawing.Size(290, 92);
-            this.panelFourier.TabIndex = 9;
-            // 
-            // panelMultiple
-            // 
-            this.panelMultiple.Controls.Add(this.groupBox2);
-            this.panelMultiple.Controls.Add(this.groupBox1);
-            this.panelMultiple.Controls.Add(this.label2);
-            this.panelMultiple.Location = new System.Drawing.Point(6, 43);
-            this.panelMultiple.Name = "panelMultiple";
-            this.panelMultiple.Size = new System.Drawing.Size(353, 189);
-            this.panelMultiple.TabIndex = 8;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 12);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(190, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Укажите путь к файлам с данными:";
             // 
             // openFileDialog
             // 
@@ -644,26 +644,26 @@
             this.groupStatistics.PerformLayout();
             this.groupRegression.ResumeLayout(false);
             this.groupRegression.PerformLayout();
+            this.panelRegression.ResumeLayout(false);
+            this.panelRegression.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numRegressionDays)).EndInit();
             this.groupFourier.ResumeLayout(false);
             this.groupFourier.PerformLayout();
+            this.panelFourier.ResumeLayout(false);
+            this.panelFourier.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numFourierDays)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupMultiple.ResumeLayout(false);
             this.groupMultiple.PerformLayout();
-            this.groupWavelet.ResumeLayout(false);
-            this.groupWavelet.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numRegressionDays)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numFourierDays)).EndInit();
-            this.panelPath.ResumeLayout(false);
-            this.panelPath.PerformLayout();
-            this.panelRegression.ResumeLayout(false);
-            this.panelRegression.PerformLayout();
-            this.panelFourier.ResumeLayout(false);
-            this.panelFourier.PerformLayout();
             this.panelMultiple.ResumeLayout(false);
             this.panelMultiple.PerformLayout();
+            this.groupWavelet.ResumeLayout(false);
+            this.groupWavelet.PerformLayout();
+            this.panelPath.ResumeLayout(false);
+            this.panelPath.PerformLayout();
             this.ResumeLayout(false);
 
         }

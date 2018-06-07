@@ -99,3 +99,5 @@ E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil
 E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.Properties.Resources.resources
 E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.InformationForm.resources
 E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.csproj.GenerateResource.Cache
+D:\пацаныскс13м\git\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.AboutForm.resources
+D:\пацаныскс13м\git\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.ParamsSetForm.resources

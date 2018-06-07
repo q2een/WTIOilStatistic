@@ -907,10 +907,10 @@ namespace WtiOil
         // Обработка события нажития на пункт меню "Отчет -> Сформировать отчет".
         private void createReportMI_Click(object sender, EventArgs e)
         {
+
             //CreateReport(Directory.GetCurrentDirectory());
-            new HTMLReportForm().Show(this);
+            //new HTMLReportForm().Show(this);
             //BuildReport(Directory.GetCurrentDirectory(), this.MdiChildren.Where(i => i is InformationForm && isIDataEquals(this.ActiveMdiChild as IData, i as IData)).Select(z => z as InformationForm));
-            //new ParamsSetForm().Show(this);
         }
 
         // Обработка события нажития на пункт меню "Справка -> О программе".
