@@ -94,6 +94,115 @@ namespace WtiOil
 
             chartMI.DropDownItems.Add(mi);
         }
+
+        /// <summary>
+        /// Возвращает расширенную коллекцию <c>initialArr</c>, добавив в нее 
+        /// <c>addNumberCount</c> элементов
+        /// </summary>
+        /// <remarks>
+        /// Входные данные: [1 2 3 4 5 6 7 8] addNumberCount: 5
+        /// Выходные данные: [1 2 3 4 5 6 7 8 9 10 11 12 13]
+        /// </remarks>
+        /// <param name="initialArr">Массив исходных элементов</param>
+        /// <param name="addNumberCount">Количество элементов, которые надо добавить в массив</param>
+        /// <returns>Расширенный массив значений</returns>
+        private double[] GetNumericList(double[] initialArr, int addNumberCount)
+        {
+            var newArr = Enumerable.Range(initialArr.Length, addNumberCount).Select(i => i + 0.0);
+            var result = initialArr.ToList();
+            result.AddRange(newArr);
+
+            return result.ToArray();
+        }
+
+        public InformationForm GetStatisticsResult(IData data,  bool isAverage,
+                                                                bool isStandardError,
+                                                                bool isMediana,
+                                                                bool isMode,
+                                                                bool isStandardDeviation,
+                                                                bool isDispersion,
+                                                                bool isSkewness,
+                                                                bool isKurtosis,
+                                                                bool isInterval,
+                                                                bool isMin,
+                                                                bool isMax,
+                                                                bool isSum)
+        {
+            var inform = new InformationForm(InformationType.Statistics);
+            inform.ShowStatistic(data,isAverage,
+                                      isStandardError,
+                                      isMediana,
+                                      isMode,
+                                      isStandardDeviation,
+                                      isDispersion,
+                                      isSkewness,
+                                      isKurtosis,
+                                      isInterval,
+                                      isMin,
+                                      isMax,
+                                      isSum);
+            return inform;
+        }
+
+        public InformationForm GetRegressionResult(IData data, byte count, int forecastDaysCount)
+        {
+            double[] xValues = Enumerable.Range(1, data.Data.Count).Select(z => z + 0.0).ToArray();
+            double[] yValues = data.Data.Select(i => i.Value).ToArray();
+
+            var coeff = Regression.GetCoefficients(xValues, yValues, count);
+
+            var x = GetNumericList(xValues, forecastDaysCount);
+
+            var y = Regression.GetYFromXValue(coeff, x);
+
+            var inform = new InformationForm(InformationType.Regression);
+            inform.ShowRegression(data, coeff, y, forecastDaysCount);
+
+            return inform;
+        }
+
+        public InformationForm GetFourierResult(IData data, byte count, int forecastDaysCount)
+        {
+            double[] xValues = Enumerable.Range(1, data.Data.Count).Select(z => z + 0.0).ToArray();
+            double[] yValues = data.Data.Select(i => i.Value).ToArray();
+
+            var harmonics = FourierTransform.GetHarmonics(1.0 / (1.0 * xValues.Length), 1, count, yValues);
+
+            var x = GetNumericList(xValues, forecastDaysCount);
+
+            var y = FourierTransform.GetYFromXValue(harmonics, x, yValues.Average());
+
+            var inform = new InformationForm(InformationType.Fourier);
+            inform.ShowFourier(data, harmonics, y, forecastDaysCount);
+
+            return inform;
+        }
+
+        public InformationForm GetMultipleResult(IData data, double[] dowJones, double[] gold)
+        {
+            double[] yValues = data.Data.Select(i => i.Value).ToArray();
+
+            var coeffs = Regression.GetMultipleRegressionCoefficients(yValues, dowJones, gold);
+            var y = Regression.GetMultipleYFromXValue(coeffs, dowJones,gold);
+
+            var inform = new InformationForm(InformationType.MultipleRegression);
+            inform.ShowMultipleRegression(data, coeffs, y);
+
+            return inform;
+        }
+
+        public InformationForm GetWaveletResult(IData data)
+        {
+            double[] yValues = data.Data.Select(i => i.Value).ToArray();
+
+            var coeffs = Wavelet.D4Transform(yValues);
+            var y = Wavelet.InverseD4Transform(coeffs);
+
+            var inform = new InformationForm(InformationType.Wavelet);
+            inform.ShowWavelet(data, coeffs, y);
+
+            return inform;
+        }
         
         /// <summary>
         /// Отрисовывает линию тренда на графике.
@@ -648,15 +757,19 @@ namespace WtiOil
 
             if (form.YValues != null && form.YValues.Length > 0)
             {
-                path = directoryPath + @"\resources\" + form.Type+".png";
-                reportChart.RemoveAllSeries();
-                reportChart.Size = new Size(1280, 720);
-                drawFunc.Invoke(form, form.YValues, form.ForecastDaysCount);
-
-                reportChart.SaveChart(path); 
+                path = directoryPath + form.Type+".png";
+                SaveChartImage(path, drawFunc, form, form.YValues, form.ForecastDaysCount);
             }
 
             return context.GetBlockByType(form.Type, form.Information, path);
+        }
+
+        private void SaveChartImage(string path, DrawFunc drawFunc, IData data, double[] yPoints, int forecastDaysCount)
+        {
+            reportChart.RemoveAllSeries();
+            reportChart.Size = new Size(1280, 720);
+            drawFunc.Invoke(data, yPoints, forecastDaysCount);
+            reportChart.SaveChart(path);
         }
 
         public void BuildReport(string path, IEnumerable<InformationForm> forms)
@@ -667,15 +780,12 @@ namespace WtiOil
             if (forms == null || forms.Count() == 0)
                 throw new Exception("Отсутствуют данные для формирования отчета.");
 
-            string resources = path + @"/resources";
+            string resources = path + @"/resources/";
             Directory.CreateDirectory(resources);
 
             HTMLReportBuilder html = new HTMLReportBuilder();
 
-            var chart = new ChartForm();
-            chart.Size = new Size(1280, 720);
-            chart.DrawChart(forms.First());
-            chart.SaveChart(resources + @"/data.png");
+            SaveChartImage(resources + @"/data.png", reportChart.DrawChart, forms.First(), null, 0);
 
             string result = html.GetDataBlock(forms.First().Data, resources + @"/data.png");
 
@@ -683,7 +793,15 @@ namespace WtiOil
             {
                 var func = GetDrawFunctionByType(form.Type);
 
-                result += GetHTMLBlock(form, html, path, func);
+                result += GetHTMLBlock(form, html, resources, func);
+
+                if (form.Type != InformationType.Wavelet)
+                    continue;
+
+                var waweletPath = resources + "WaveletFunc.png";
+                SaveChartImage(waweletPath, reportChart.DrawWaveletFunc, form, form.Wavelet, form.ForecastDaysCount);
+                result += html.GetImageBlock(waweletPath, "Результат прямого вейвлет-преобразования");
+                
             }
 
             var report = html.GetDocumentStructure("Отчет", result);
@@ -790,8 +908,9 @@ namespace WtiOil
         private void createReportMI_Click(object sender, EventArgs e)
         {
             //CreateReport(Directory.GetCurrentDirectory());
-            //new HTMLReportForm().Show(this);
-            BuildReport(Directory.GetCurrentDirectory(), this.MdiChildren.Where(i => i is InformationForm && isIDataEquals(this.ActiveMdiChild as IData, i as IData)).Select(z => z as InformationForm));
+            new HTMLReportForm().Show(this);
+            //BuildReport(Directory.GetCurrentDirectory(), this.MdiChildren.Where(i => i is InformationForm && isIDataEquals(this.ActiveMdiChild as IData, i as IData)).Select(z => z as InformationForm));
+            //new ParamsSetForm().Show(this);
         }
 
         // Обработка события нажития на пункт меню "Справка -> О программе".

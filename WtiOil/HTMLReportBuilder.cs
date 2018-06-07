@@ -7,7 +7,7 @@ namespace WtiOil
 {
     class HTMLReportBuilder
     {
-        private int tables = 0, images = 0;
+        private int tablesCount = 0, imagesCount = 0;
 
         public string GetDocumentStructure(string title, string body)
         {
@@ -47,6 +47,12 @@ namespace WtiOil
                                 "<figcaption>{1}</figcaption></figure> ", path, alt);
         }
 
+        public string GetImageBlock(string path, string alt = "")
+        {
+            return String.Format("<figure class=\"sign\"><p><img src = \"{0}\" width = \"100%\" alt = \"{2}\" ></p>" +
+                                "<figcaption>Рисунок {1} - {2}</figcaption></figure> ", path,++imagesCount, alt);
+        }
+
         public string GetBlockByType(InformationType type, IEnumerable<InformationItem> data, string imagePath)
         {
             switch (type)
@@ -68,8 +74,8 @@ namespace WtiOil
 
         public string GetBlock(string header,string tableRows, string tableName, string imagePath, string alt, string cssClass)
         {
-            var table = !String.IsNullOrEmpty(tableRows) ? GetTableStructure(tableRows, "Таблица " + (++tables) + " - " + tableName, "values") : "";
-            var img = imagePath != null ? GetImage(imagePath, "Рисунок " + (++images) + " - " + alt) : "";
+            var table = !String.IsNullOrEmpty(tableRows) ? GetTableStructure(tableRows, "Таблица " + (++tablesCount) + " - " + tableName, "values") : "";
+            var img = imagePath != null ? GetImageBlock(imagePath,alt) : "";
 
             return String.Format("<div class=\"data-block {0}\">{1}</div>", cssClass, GetHeadings(2, header) + img + table);
         }

@@ -27,6 +27,11 @@ namespace WtiOil
         public double[] YValues{ get; set; }
 
         /// <summary>
+        /// Результат прямого вейвлет-преобразования.
+        /// </summary>
+        public double[] Wavelet { get; set; }
+
+        /// <summary>
         /// Количество дней для прогнозируемых данных. 
         /// </summary>
         public int ForecastDaysCount { get; set; }
@@ -166,6 +171,7 @@ namespace WtiOil
             this.Data = data.Data;
             this.FullData = data.FullData;
             this.YValues = yValues;
+            this.Wavelet = coefficients;
 
             var wl = new Wavelet();
             var wavelet = new List<InformationItem>();
@@ -205,13 +211,13 @@ namespace WtiOil
             {
                 wavelet.Add(new InformationItem("[" + (i + 1) + "]", iCH[i]));
             }
-
+            /*
             wavelet.Add(new InformationItem("Результат прямого вейвлет-преобразования Добеши D4:",""));
 
             for (int i = 0; i < coefficients.Length; i++)
             {
                 wavelet.Add(new InformationItem("["+i+"]", coefficients[i]));
-            }
+            }*/
             
             dgvInformation.DataSource = wavelet;
 

@@ -711,6 +711,7 @@
             this.repotTSB.Name = "repotTSB";
             this.repotTSB.Size = new System.Drawing.Size(23, 22);
             this.repotTSB.Text = "Сформировать отчет";
+            this.repotTSB.Click += new System.EventHandler(this.createReportMI_Click);
             // 
             // statusBar
             // 

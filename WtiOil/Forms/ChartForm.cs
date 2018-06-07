@@ -107,6 +107,11 @@ namespace WtiOil
             chart.ChartAreas[0].AxisY.Minimum = Math.Round(min, 1);
         }
 
+        public void DrawChart(IData data, double[] yValues, int forecastDaysCount = 0)
+        {
+            this.DrawChart(data);
+        }
+
         /// <summary>
         /// Отображает исходные данные на графике.
         /// </summary>
@@ -256,6 +261,9 @@ namespace WtiOil
         public void DrawWaveletFunc(IData data, double[] coeffs, int forecastDaysCount = 0)
         {
             DrawFunction("waveletD4", data, coeffs, "Вейвлет функция", Color.MediumSeaGreen);
+            
+            chart.Series[0].Enabled = false;
+            chart.ChartAreas[0].AxisY.Interval= Math.Round((coeffs.Max() - coeffs.Min())/(coeffs.Average()),1);
             ScaleChart();
         }
     }
