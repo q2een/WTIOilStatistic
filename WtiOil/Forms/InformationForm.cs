@@ -9,6 +9,10 @@ using System.Windows.Forms;
 
 namespace WtiOil
 {
+    /* TODO
+        1. Делать биндинг данных через свойство Information
+        2. В главном окне не закрывать предыдущую форму, а присваивать ей значения.    
+     */
     public partial class InformationForm : Form, IData
     {
         #region IData Implementation
@@ -45,10 +49,11 @@ namespace WtiOil
             {
                 return dgvInformation.DataSource as List<InformationItem>;
             }
+            /* set :  dgvInformation.DataSource = value*/
         }
 
         /// <summary>
-        /// Конструктор класса.
+        /// Предоставляет форму, содержащую информацию типа <c>type</c>
         /// </summary>
         /// <param name="type">Тип формы</param>
         public InformationForm(InformationType type)
@@ -176,32 +181,25 @@ namespace WtiOil
             wavelet.Add(new InformationItem("Фильтры низких частот: ", ""));
             
             for (int i = 0; i < CL.Length; i++)
-            {
                 wavelet.Add(new InformationItem("[" + (i + 1) + "]", CL[i]));
-            }
-
+            
             wavelet.Add(new InformationItem("Фильтры высоких частот: ", ""));
 
             for (int i = 0; i < CH.Length; i++)
-            {
                 wavelet.Add(new InformationItem("[" + (i + 1) + "]", CH[i]));
-            }
 
             wavelet.Add(new InformationItem("Коэффициенты обратного вейвлет-преобразования Добеши (D4)", ""));
 
             wavelet.Add(new InformationItem("Фильтры низких частот: ", ""));
 
             for (int i = 0; i < iCL.Length; i++)
-            {
                 wavelet.Add(new InformationItem("[" + (i + 1) + "]", iCL[i]));
-            }
-
+            
             wavelet.Add(new InformationItem("Фильтры высоких частот: ", ""));
 
             for (int i = 0; i < iCH.Length; i++)
-            {
                 wavelet.Add(new InformationItem("[" + (i + 1) + "]", iCH[i]));
-            }
+            
             /*
             wavelet.Add(new InformationItem("Результат прямого вейвлет-преобразования Добеши D4:",""));
 
@@ -250,7 +248,6 @@ namespace WtiOil
                 fourier.Add(new InformationItem("Амплитуда", harmonics[i].Аmplitude));
                 fourier.Add(new InformationItem("Фаза, °", harmonics[i].Phase * (180 / Math.PI)));
             }
-
 
             if (forecastDays > 0)
             {

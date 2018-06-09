@@ -22,6 +22,7 @@ namespace WtiOil
             lblRange.Text = String.Format("c {0:dd/MM/yyyy}\nпо {1:dd/MM/yyyy}", data.FullData[0].Date, data.FullData.Last().Date.Date);
         }
 
+        // Обрабатотка события нажатия на кнопку "Подтвердить".
         private void btnConfirm_Click(object sender, EventArgs e)
         {
             try

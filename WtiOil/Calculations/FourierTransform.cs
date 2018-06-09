@@ -49,7 +49,7 @@ namespace WtiOil
         /// </summary>
         /// <param name="harmonics">Коллекция объектов <c>Harmonic</c></param>
         /// <param name="xValues">Массив значений x</param>
-        /// <param name="yValues">Массив значений Y(x)</param>
+        /// <param name="average">Среднее значение массива точек Y(x)</param>
         /// <returns>Значения Y(x) синтезированной функции.</returns>
         public static double[] GetYFromXValue(List<Harmonic> harmonics, double[] xValues, double average)
         {
@@ -69,7 +69,6 @@ namespace WtiOil
         /// <summary>
         /// Возвращает погрешность синтезированной функции, полученной из заданных гармоник.
         /// </summary>
-        /// <param name="harmonics">Коллекцию объектов <c>Harmonic</c></param>
         /// <param name="xValues">Массив значений x</param>
         /// <param name="yValues">Массив значений Y(x)</param>
         /// <returns>Погрешность синтезированной функции</returns>

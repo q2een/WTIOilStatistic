@@ -142,6 +142,10 @@ namespace WtiOil
         /// <summary>
         /// Производит решение матрицы методом Гаусса с выбором главного элемента.
         /// </summary>
+        /// <param name="polynomDegree">Степень полинома</param>
+        /// <param name="leftSide">Значение первой переменной</param>
+        /// <param name="rightSide">Значение первой переменной</param>
+        /// <returns>Массив, содержащий корни СЛАУ</returns>
         private double[] SolveMatrix(int polynomDegree, double[,] leftSide, double[] rightSide)
         {
             double[] coeffs = new double[polynomDegree];

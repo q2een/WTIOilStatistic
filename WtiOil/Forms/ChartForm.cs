@@ -42,7 +42,7 @@ namespace WtiOil
         }
         
         /// <summary>
-        /// Отображает/скрывает легенду исходя из флага <c>isEnabled</c>.
+        /// Отображает/скрывает легенду исходя из значения флага <c>isEnabled</c>.
         /// </summary>
         /// <param name="isEnabled">Флаг отображжения легенды</param>
         public void ShowLegend(bool isEnabled)
@@ -53,7 +53,7 @@ namespace WtiOil
         }
      
         /// <summary>
-        /// Сохраняет изображение графика в путь <c>path</c>
+        /// Сохраняет изображение графика в путь <c>path</c>.
         /// </summary>
         /// <param name="path">Полный путь к изображению</param>
         public void SaveChart(string path)
@@ -87,6 +87,9 @@ namespace WtiOil
             OnSeriesChanged(chart.Series);
         }
 
+        /// <summary>
+        /// Удаляет все ряды из текущего графика
+        /// </summary>
         public void RemoveAllSeries()
         {
             chart.Series.Clear();
@@ -107,6 +110,7 @@ namespace WtiOil
             chart.ChartAreas[0].AxisY.Minimum = Math.Round(min, 1);
         }
 
+
         public void DrawChart(IData data, double[] yValues, int forecastDaysCount = 0)
         {
             this.DrawChart(data);
@@ -115,7 +119,7 @@ namespace WtiOil
         /// <summary>
         /// Отображает исходные данные на графике.
         /// </summary>
-        /// <param name="dataValues">Коллекция данных</param>
+        /// <param name="data">Экземпляр класса, реализующий интерфейс IDaIdata. Коллекция данных</param>
         public void DrawChart(IData data)
         {
             this.data = data.Data;
@@ -177,10 +181,10 @@ namespace WtiOil
             if (xValues.Length != yValues.Length)
                 throw new ArgumentOutOfRangeException("Размер массивов значений X и Y должен совпадать",innerException:null);
 
+            // Построить график исходной функции, если такого не существует или данные отличаются.
             if (chart.Series.FindByName("main") == null || chart.Series["main"].Points.Count != data.Data.Count ||
                 chart.Series["main"].Points[0].YValues[0] != data.Data[0].Value)
             {
-                // Построить график исходной функции.
                 DrawChart(data);
             }
 
@@ -192,9 +196,7 @@ namespace WtiOil
             OnSeriesChanged(chart.Series, chart.Series.IndexOf(chart.Series[seriesName]));
 
             for (int i = 0; i < yValues.Length; i++)
-            {
                 chart.Series[seriesName].Points.AddXY(xValues[i], yValues[i]);
-            }
         }
 
         /// <summary>
@@ -217,37 +219,41 @@ namespace WtiOil
         /// Отображает линию тренда на графике.
         /// </summary>
         /// <param name="data">Экземаляр класса, реализующего IData</param>
-        /// <param name="polinomialDegree">Стиепень полинома для полиномиальной регрессии</param>
+        /// <param name="yValues">Массив значений У</param>
+        /// <param name="forecastDaysCount">Количество прогнозируемых дней</param>
         public void DrawTrend(IData data, double[] yValues, int forecastDaysCount)
         {
             DrawForecastFunction("trend", data, forecastDaysCount, yValues, "Линия тренда", Color.SteelBlue);
         }
 
         /// <summary>
-        /// Отображает результат Фурье-анализа.
+        /// Отображает результат Фурье-преобразования.
         /// </summary>
         /// <param name="data">Экземаляр класса, реализующего IData</param>
-        /// <param name="polinomialDegree">Стиепень полинома для полиномиальной регрессии</param>
+        /// <param name="yValues">Массив значений У</param>
+        /// <param name="forecastDaysCount">Количество прогнозируемых дней</param>
         public void DrawFourier(IData data, double[] yValues, int forecastDaysCount)
         {
             DrawForecastFunction("fourier", data, forecastDaysCount, yValues, "Синтезированная функция (Фурье-анализ)", Color.Chocolate);
         }
 
         /// <summary>
-        /// Отображает на графике результат многофакторной регрессии.
+        /// Отображает результат многофакторной регрессии на графике.
         /// </summary>
         /// <param name="data">Экземаляр класса, реализующего IData</param>
-        /// <param name="yValues">Массив значений У синтезированной функции</param>
+        /// <param name="yValues">Массив значений У</param>
+        /// <param name="forecastDaysCount">Количество прогнозируемых дней</param>
         public void DrawMultipleRegression(IData data, double[] yValues, int forecastDaysCount = 0)
         {
             DrawFunction("multiple", data,yValues,"Многофакторная регрессия", Color.Crimson);
         }
 
         /// <summary>
-        /// Отображает на графике результат обратного вейвлет-преобразования.
+        /// Отображает обратного вейвлет-преобразования на графике.
         /// </summary>
         /// <param name="data">Экземаляр класса, реализующего IData</param>
-        /// <param name="yValues">Массив значений У синтезированной функции</param>
+        /// <param name="yValues">Массив значений У</param>
+        /// <param name="forecastDaysCount">Количество прогнозируемых дней</param>
         public void DrawWaveletD4(IData data, double[] yValues, int forecastDaysCount = 0)
         {
             DrawFunction("waveletSynt", data, yValues, "Синтезированная функция (вейвлет-анализ)", Color.IndianRed);
@@ -258,6 +264,7 @@ namespace WtiOil
         /// </summary>
         /// <param name="data">Экземаляр класса, реализующего IData</param>
         /// <param name="coeffs">Коэффициенты, полученные в результате прямого вейвлет-преобразования</param>
+        /// <param name="forecastDaysCount">Количество прогнозируемых дней</param>
         public void DrawWaveletFunc(IData data, double[] coeffs, int forecastDaysCount = 0)
         {
             DrawFunction("waveletD4", data, coeffs, "Вейвлет функция", Color.MediumSeaGreen);

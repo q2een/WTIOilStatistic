@@ -11,6 +11,7 @@ namespace WtiOil
 {
     /* TODO
      1. Добавить справку
+     2. ShowInformationForm - убрать лишнее методы, сделать все через данный метод. Убрать второй параметр.
      */
     public partial class MainMDI : Form
     {
@@ -18,7 +19,16 @@ namespace WtiOil
         /// Количество дочерних окон типа "DataForm".
         /// </summary>
         private int childFormNumber = 0;
+
+        // Коллекция существующих пунктов меню для отображения рядов на графике.
         private List<ToolStripMenuItem> ChartSeriesItems { get; set; }
+
+        /// <summary>
+        /// Предоставляет ссылку на функцию, предназначенную для отображаения данных на графике.
+        /// </summary>
+        /// <param name="data">Экземпляр класса, реализующий интерфейс <c>IData</c></param>
+        /// <param name="yValues">Коллекция значений У</param>
+        /// <param name="forecastDaysCount">Количество дней, для которых предсказыны данные</param>
         public delegate void DrawFunc(IData data, double[] yValues, int forecastDaysCount);
 
         // Конструктор класса.
@@ -29,6 +39,12 @@ namespace WtiOil
             InitialElementsState();
         }
 
+        /// <summary>
+        /// Возвращает метод для отрисовки графика в зависимости от типа <c>type</c>.
+        /// </summary>
+        /// <param name="type">Типк информации для отображения</param>
+        /// <param name="chart">Экземпляр класса <c>ChartForm</c>, содержащий функции для отрисовки</param>
+        /// <returns>Метод для отрисовки графика</returns>
         public DrawFunc GetDrawFunctionByType(InformationType type, ChartForm chart)
         {
             switch (type)
@@ -108,7 +124,7 @@ namespace WtiOil
 
         /// <summary>
         /// Возвращает расширенную коллекцию <c>initialArr</c>, добавив в нее 
-        /// <c>addNumberCount</c> элементов
+        /// <c>addNumberCount</c> элементов.
         /// </summary>
         /// <remarks>
         /// Входные данные: [1 2 3 4 5 6 7 8] addNumberCount: 5
@@ -126,6 +142,50 @@ namespace WtiOil
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Возвращает максимальную степень 2, которую содержит число <c>number</c>
+        /// </summary>
+        /// <param name="number">Число, в котором необходимо найти максимальную степень 2</param>
+        /// <returns>Максимальная степень 2, которую содержит число</returns>
+        private int GetMaxPowOf2(int number)
+        {
+            int pow = 0;
+            while (1 << pow < number)
+                pow++;
+
+            return --pow;
+        }
+
+        /// <summary>
+        /// Возвращает истину, если <c>first</c> равен <c>second</c>.
+        /// </summary>
+        /// <param name="first">Экземпляр класса, реализующий IData</param>
+        /// <param name="second">Экземпляр класса, реализующий IData</param>
+        /// <returns>Результат сравнения</returns>
+        internal bool isIDataEquals(IData first, IData second)
+        {
+            return first.FullData == second.FullData;
+        }
+
+        #region Расчет значений и получение форм с отображением этих значений.
+
+        /// <summary>
+        /// Возвращает окно (экземпляр класса <c>InformationForm</c>), содержащее рассчитанные значения элементарных статистик.
+        /// </summary>
+        /// <param name="data">Экземпляр класса, реализующий интерфейс <c>IData</c></param>
+        /// <param name="isAverage">Среднее значение</param>
+        /// <param name="isStandardError">Стандартная ошибка</param>
+        /// <param name="isMediana">Медиана</param>
+        /// <param name="isMode">Мода</param>
+        /// <param name="isStandardDeviation">Стандартное отклонение</param>
+        /// <param name="isDispersion">Дисперсия</param>
+        /// <param name="isSkewness">Ассиметричность</param>
+        /// <param name="isKurtosis">Эксцесс</param>
+        /// <param name="isInterval">Интервал</param>
+        /// <param name="isMin">Минимальное значение</param>
+        /// <param name="isMax">Максимльное значение</param>
+        /// <param name="isSum">Сумма элементов</param>
+        /// <returns>Окно, содержащее рассчитанные значения элементарных статистик</returns>
         public InformationForm GetStatisticsResult(IData data,  bool isAverage,
                                                                 bool isStandardError,
                                                                 bool isMediana,
@@ -155,6 +215,14 @@ namespace WtiOil
             return inform;
         }
 
+        /// <summary>
+        /// Возвращает окно (экземпляр класса <c>InformationForm</c>), содержащее рассчитанные значения 
+        /// полиномиальной регрессии.
+        /// </summary>
+        /// <param name="data">Экземпляр класса, реализующий интерфейс <c>IData</c></param>
+        /// <param name="count">Степень полинома</param>
+        /// <param name="forecastDaysCount">Количество дней, на которое составлен прогноз</param>
+        /// <returns>Окно, содержащее результат расчета полиномиальной регрессии</returns>
         public InformationForm GetRegressionResult(IData data, byte count, int forecastDaysCount)
         {
             double[] xValues = Enumerable.Range(1, data.Data.Count).Select(z => z + 0.0).ToArray();
@@ -172,6 +240,14 @@ namespace WtiOil
             return inform;
         }
 
+        /// <summary>
+        /// Возвращает окно (экземпляр класса <c>InformationForm</c>), содержащее рассчитанные значения
+        /// Фурье-анализа.
+        /// </summary>
+        /// <param name="data">Экземпляр класса, реализующий интерфейс <c>IData</c></param>
+        /// <param name="count">Количество гармоник</param>
+        /// <param name="forecastDaysCount">Количество дней, на которое составлен прогноз</param>
+        /// <returns>Окно, содержащее результат Фурье-анализа</returns>
         public InformationForm GetFourierResult(IData data, byte count, int forecastDaysCount)
         {
             double[] xValues = Enumerable.Range(1, data.Data.Count).Select(z => z + 0.0).ToArray();
@@ -189,6 +265,14 @@ namespace WtiOil
             return inform;
         }
 
+        /// <summary>
+        /// Возвращает окно (экземпляр класса <c>InformationForm</c>), содержащее рассчитанные значения
+        /// многофакторной регрессии.
+        /// </summary>
+        /// <param name="data">Экземпляр класса, реализующий интерфейс <c>IData</c></param>
+        /// <param name="dowJones">Массив значений индекса Доу-Джонса</param>
+        /// <param name="gold">Массив значенй цен на золото</param>
+        /// <returns>Окно, содержащее результат многофакторной регрессии</returns>
         public InformationForm GetMultipleResult(IData data, double[] dowJones, double[] gold)
         {
             double[] yValues = data.Data.Select(i => i.Value).ToArray();
@@ -202,6 +286,12 @@ namespace WtiOil
             return inform;
         }
 
+        /// <summary>
+        /// Возвращает окно (экземпляр класса <c>InformationForm</c>), содержащее рассчитанные значения
+        /// вейвлет-анализа.
+        /// </summary>
+        /// <param name="data">Экземпляр класса, реализующий интерфейс <c>IData</c></param>
+        /// <returns>Окно, содержащее результат вейвлет-анализа</returns>
         public InformationForm GetWaveletResult(IData data)
         {
             var oldData = data.Data.Select(i => i).ToArray(); 
@@ -219,6 +309,12 @@ namespace WtiOil
             return inform;
         }
 
+        #endregion
+
+        /// <summary>
+        /// Отображает форму <c>form</c> и отрисовывает данные на графике.
+        /// </summary>
+        /// <param name="form">Форма для отображения</param>
         private void ShowInformationForm(InformationForm form, InformationType type)
         {
             if (form == null || form.Type != type)
@@ -268,31 +364,6 @@ namespace WtiOil
         public void ShowWavelet(InformationForm wavelet)
         {
             ShowInformationForm(wavelet, InformationType.Wavelet);
-        }
-        
-        /// <summary>
-        /// Возвращает максимальную степень 2, которую содержит число <c>number</c>
-        /// </summary>
-        /// <param name="number">Число, в котором необходимо найти максимальную степень 2</param>
-        /// <returns>Максимальная степень 2, которую содержит число</returns>
-        private int GetMaxPowOf2(int number)
-        {
-            int pow = 0;
-            while (1 << pow < number)
-                pow++;
-
-            return --pow;
-        }
-
-        /// <summary>
-        /// Возвращает истину, если <c>first</c> равен <c>second</c>.
-        /// </summary>
-        /// <param name="first">Экземпляр класса, реализующий IData</param>
-        /// <param name="second">Экземпляр класса, реализующий IData</param>
-        /// <returns>Результат сравнения</returns>
-        internal bool isIDataEquals(IData first, IData second)
-        {
-            return first.FullData == second.FullData;
         }
 
         #region Состояние элементов управления.
@@ -357,6 +428,12 @@ namespace WtiOil
 
         #region Получение или открытие дочерних форм.
 
+        /// <summary>
+        /// Возвращает новую форму с исходными данными.
+        /// </summary>
+        /// <param name="filename">Имя открытого файла</param>
+        /// <param name="data">Коллекция исходных данных</param>
+        /// <returns>Экземпляр класса <c>DataForm</c></returns>
         private DataForm GetNewDataForm(string filename, List<ItemWTI> data = null)
         {
             DataForm childForm = new DataForm(data);
@@ -366,6 +443,12 @@ namespace WtiOil
             return childForm;
         }
 
+        /// <summary>
+        /// Возвращает новый экземпляр класса <c>ChartForm</c>
+        /// или уже существующий, который содержит одинаковые данные с <c>data</c>
+        /// </summary>
+        /// <param name="data">Экземпляр класса, реализующий интерфейс <c>IData</c></param>
+        /// <returns>Окно для построения графиков</returns>
         private ChartForm GetChartForm(IData data)
         {
             var openedFrom = this.MdiChildren.FirstOrDefault(i => (i is ChartForm) && isIDataEquals(i as ChartForm, data)) as ChartForm;
@@ -375,6 +458,11 @@ namespace WtiOil
             return form;
         }
 
+        /// <summary>
+        /// Возвращает дочернюю MDI форму, основываясь на данные из <c>form</c>.
+        /// </summary>
+        /// <param name="form">Форма для отображения</param>
+        /// <returns>Окно для отображения информации</returns>
         private InformationForm GetInformationForm(InformationForm form)
         {
             var openedFroms = this.MdiChildren.Where(i => i is InformationForm);
@@ -689,7 +777,7 @@ namespace WtiOil
             statisticForm.Activate();
         }
 
-        // Обработка события нажития на пункт меню "Отчет -> Сформировать отчет".
+        // Обработка события нажития на пункт меню "Отчет -> Создать отчет".
         private void createReportMI_Click(object sender, EventArgs e)
         {
             var data = this.ActiveMdiChild as IData;
@@ -700,6 +788,7 @@ namespace WtiOil
 
         }
 
+        // Обработка события нажития на пункт меню "Отчет -> Сформировать отчет".
         private void generateReportMI_Click(object sender, EventArgs e)
         {
             new HTMLReportForm(this, this.ActiveMdiChild as IData).ShowDialog(this);

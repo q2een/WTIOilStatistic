@@ -17,6 +17,10 @@ namespace WtiOil
                                         (1 - Math.Sqrt(3)) / (4 * Math.Sqrt(2))
                                     };
 
+        /// <summary>
+        /// Возвращает коллекцию фильтров высоких частот для вейвлет преобразования Добеши D4.
+        /// </summary>
+        /// <returns>Коллекция фильтров высоких частот</returns>
         public double[] GetD4CL()
         {
             return this.d4CL;
@@ -38,6 +42,17 @@ namespace WtiOil
             return CH;
         }
 
+        /// <summary>
+        /// Возвращает элемент <c>index</c> из массива <c>arr</c>.
+        /// Работает с отрицательными индексами. 
+        /// </summary>
+        /// <remarks>
+        /// index = -1: - последний элемент массива
+        /// index = -2: - предпоследний элемент массива
+        /// </remarks>
+        /// <param name="arr">Массив, элемент которого нужно вернуть</param>
+        /// <param name="index">Индекс элемента массива</param>
+        /// <returns>Элемент массива <c>arr</c></returns>
         protected double GetElementAt(double[] arr, int index)
         {
             if (index >= 0)
@@ -137,7 +152,7 @@ namespace WtiOil
         /// Прямое преобразование Добеши D4.
         /// </summary>
         /// <param name="values">Массив исходных значений</param>
-        /// <returns></returns>
+        /// <returns>Результат прямого преобразования</returns>
         public static double[] D4Transform(IEnumerable<double> values)
         {
             var data = values.ToArray();
@@ -155,6 +170,7 @@ namespace WtiOil
         /// Обратное преобразование Добеши D4.
         /// </summary>
         /// <param name="coeffs">Массив преобразованных значений</param>
+        /// <returns>Результат обратного вейвлет-преобразования</returns>
         public static double[] InverseD4Transform(IEnumerable<double> coeffs)
         {
             var data = coeffs.ToArray();

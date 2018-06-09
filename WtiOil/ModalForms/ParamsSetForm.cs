@@ -8,12 +8,28 @@ namespace WtiOil
 {
     public partial class ParamsSetForm : Form
     {
+        /// <summary>
+        /// Тип отображаемого модального окна.
+        /// </summary>
         public WindowType Type { get; private set; }
+
+        /// <summary>
+        /// Экземлпяр класса, реализующего интерфейс <c>IData</c>
+        /// </summary>
         public IData Data { get; private set; }
-        private MainMDI main;
 
-        HTMLReportForm html;
+        // Экземпляр класса главного MDI окна.
+        private readonly MainMDI main;
 
+        // Экземпляр класса HTMLReportForm для формирования HTML отчета.
+        private readonly HTMLReportForm html;
+
+        /// <summary>
+        /// Предоставляет модальное окно в зависимости от заданного типа <c>type</c>.
+        /// </summary>
+        /// <param name="context">Экземпляр класса главного MDI окна.</param>
+        /// <param name="type">Тип модального окна</param>
+        /// <param name="data">Экземлпяр класса, реализующего интерфейс <c>IData</c></param>
         public ParamsSetForm(MainMDI context, WindowType type, IData data)
         {
             InitializeComponent();
@@ -45,17 +61,20 @@ namespace WtiOil
                     break;
             }
 
+            // Управление отображением элемента на форме.
             this.Size = new Size(control.Size.Width + 10, control.Size.Height + 80);
             control.Enabled = true;
             control.Dock = DockStyle.Fill;
             this.Controls["container"].Controls.Add(control);
         }
 
+        // "Отмена". Обработка события нажатия на кнопку.
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        // "Подтвердить". Обработка события нажатия на кнопку.
         private void btnOK_Click(object sender, EventArgs e)
         {
             try
@@ -86,6 +105,9 @@ namespace WtiOil
         }
     }
 
+    /// <summary>
+    /// Тип отображаемого модального окна.
+    /// </summary>
     public enum WindowType
     { 
         File,
