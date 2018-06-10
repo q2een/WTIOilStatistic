@@ -1,21 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WtiOil
 {
+    /// <summary>
+    /// Предоставляет форму для отображения исходных данных. Дата - Цена.
+    /// </summary>
     public partial class DataForm : Form, IData
     {
-        // Полная коллекция данных.
+        /// <summary>
+        /// Возвращает или задает полную коллекция данных.
+        /// </summary>
         public List<ItemWTI> FullData { get; set; }
 
-        // Коллекция для привязки данных.
         private BindingList<ItemWTI> bindingData;
+        /// <summary>
+        /// Возвращает или задает коллекцию для привязки данных.
+        /// </summary>
         public BindingList<ItemWTI> BindingData
         {
             get
@@ -29,7 +32,9 @@ namespace WtiOil
             }
         }
 
-        // Реализация IData.
+        /// <summary>
+        /// Возвращает или задает коллекцию данных, с которой работает пользователь.
+        /// </summary>
         public List<ItemWTI> Data
         {
             get
@@ -42,13 +47,10 @@ namespace WtiOil
             }
         }
 
-        public void AddRow()
-        {
-            if (Data.Count < 1)
-                return;
-            Data.Add(new ItemWTI(Data.Last().Date.AddDays(1), 0));   
-        }
-
+        /// <summary>
+        /// Предоставляет форму для отображения исходных данных. Дата - Цена.
+        /// </summary>
+        /// <param name="data">Коллекция исходных данных</param>
         public DataForm(List<ItemWTI> data = null)
         {
             InitializeComponent();

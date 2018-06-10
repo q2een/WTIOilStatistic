@@ -4,10 +4,12 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
-using static WtiOil.MainMDI;
 
 namespace WtiOil
 {
+    /// <summary>
+    /// Предоставляет окно для формирования отчета в формате HTML. 
+    /// </summary>
     public partial class HTMLReportForm : Form
     {
         /// <summary>
@@ -136,7 +138,7 @@ namespace WtiOil
             {
                 Directory.CreateDirectory(path);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new Exception("Невозможно сохранить отчет в выбранный путь. Укажите другой каталог для отчета.");
             }
@@ -241,7 +243,7 @@ namespace WtiOil
         /// <param name="directoryPath">Путь к папке с ресурсами для отчета</param>
         /// <param name="drawFunc">Функция для отображения данных на графике</param>
         /// <returns>HTML разметка блока с информацией</returns>
-        private string GetHTMLBlock(InformationForm form, HTMLReportBuilder context, string directoryPath, DrawFunc drawFunc)
+        private string GetHTMLBlock(InformationForm form, HTMLReportBuilder context, string directoryPath, MainMDI.DrawFunc drawFunc)
         {
             string path = null;
 
@@ -262,7 +264,7 @@ namespace WtiOil
         /// <param name="data">Экземпляр класса, реализующего интерфейс <c>IData</c></param>
         /// <param name="yPoints">Массив значений Y</param>
         /// <param name="forecastDaysCount">Количество прогнозируемых дней</param>
-        private void SaveChartImage(string path, DrawFunc drawFunc, IData data, double[] yPoints, int forecastDaysCount)
+        private void SaveChartImage(string path, MainMDI.DrawFunc drawFunc, IData data, double[] yPoints, int forecastDaysCount)
         {
             reportChart.RemoveAllSeries();
             reportChart.Size = new System.Drawing.Size(1280, 720);
@@ -296,7 +298,7 @@ namespace WtiOil
 
             foreach (var form in forms.OrderBy(i => i.Type))
             {
-                var func = main.GetDrawFunctionByType(form.Type, reportChart);
+                var func = main.GetDrawFunctionByInformationType(form.Type, reportChart);
                 result += GetHTMLBlock(form, html, resources, func);
 
                 if (form.Type != InformationType.Wavelet)

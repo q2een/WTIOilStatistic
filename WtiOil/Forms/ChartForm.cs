@@ -8,13 +8,23 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace WtiOil
 {
+    /// <summary>
+    /// Предоставляет форму для отображения графиков.
+    /// </summary>
     public partial class ChartForm : Form, IData
     {
         #region IData Implementation
 
+        /// <summary>
+        /// Возвращает или задает полную коллекция данных.
+        /// </summary>
         public List<ItemWTI> FullData { get; set; }
 
         private List<ItemWTI> data;
+        
+        /// <summary>
+        /// Возвращает или задает коллекцию данных, с которой работает пользователь.
+        /// </summary>
         public List<ItemWTI> Data
         {
             get 
@@ -29,13 +39,23 @@ namespace WtiOil
         }
         #endregion
 
-        #region Событие изменения рядов графика
+        #region Событие изменения рядов графика.
+        /// <summary>
+        /// Предоставляет ссылку на функцию обработки изменения рядов графика.
+        /// </summary>
+        /// <param name="series">Коллекция рядов графика</param>
+        /// <param name="index">Индекс ряда, в котором произошли изменения</param>
         public delegate void SeriesStateHandler(SeriesCollection series, int index = -1);
 
+        /// <summary>
+        /// Предоставляет события изменения рядов графика.
+        /// </summary>
         public event SeriesStateHandler OnSeriesChanged = delegate { };
         #endregion
 
-        // Конструктор класса.
+        /// <summary>
+        /// Предоставляет форму для отображения графиков.
+        /// </summary>
         public ChartForm()
         {
             InitializeComponent();
@@ -110,8 +130,13 @@ namespace WtiOil
             chart.ChartAreas[0].AxisY.Minimum = Math.Round(min, 1);
         }
 
-
-        public void DrawChart(IData data, double[] yValues, int forecastDaysCount = 0)
+        /// <summary>
+        /// Отображает исходные данные на графике.
+        /// </summary>
+        /// <param name="data">Экземпляр класса, реализующий интерфейс IDaIdata. Коллекция данных</param>
+        /// <param name="yValues">Коллекция значний Y</param>
+        /// <param name="forecastDaysCount">Количество прогнозируемых дней</param>
+        public void DrawChart(IData data, double[] yValues = null, int forecastDaysCount = 0)
         {
             this.DrawChart(data);
         }
@@ -157,7 +182,7 @@ namespace WtiOil
         /// Отображает функцию на графике.
         /// </summary>
         /// <param name="seriesName">Наименование ряда графика</param>
-        /// <param name="data">Экземаляр класса, реализующего IData<</param>
+        /// <param name="data">Экземаляр класса, реализующего IData</param>
         /// <param name="yValues">Массив значений У</param>
         /// <param name="legendText">Текст, отображаемый в легенде для данного ряда</param>
         /// <param name="color">Цвет ряда на графике</param>
@@ -171,7 +196,7 @@ namespace WtiOil
         /// Отображает функцию на графике.
         /// </summary>
         /// <param name="seriesName">Наименование ряда графика</param>
-        /// <param name="data">Экземаляр класса, реализующего IData<</param>
+        /// <param name="data">Экземаляр класса, реализующего IData</param>
         /// <param name="xValues">Массив значений Х</param>
         /// <param name="yValues">Массив значений У</param>
         /// <param name="legendText">Текст, отображаемый в легенде для данного ряда</param>
@@ -203,7 +228,7 @@ namespace WtiOil
         /// Отображает функцию  с прогнозом на графике.
         /// </summary>
         /// <param name="seriesName">Наименование ряда графика</param>
-        /// <param name="data">Экземаляр класса, реализующего IData<</param>
+        /// <param name="data">Экземаляр класса, реализующего IData</param>
         /// <param name="forecastDaysCount">Количество прогнозируемых дней</param>
         /// <param name="yValues">Массив значений У</param>
         /// <param name="legendText">Текст, отображаемый в легенде для данного ряда</param>

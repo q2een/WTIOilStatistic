@@ -5,34 +5,17 @@ using System.Text;
 
 namespace WtiOil
 {
+    /// <summary>
+    /// Предоставляет статический класс для работы с временными интервалами.
+    /// </summary>
     public static class Date
     {
-        public static bool IsDateRangeValid(List<DateTime> dates)
-        {
-            return (dates.Max() - dates.Min()).TotalDays == dates.Count - 1;
-        }
-
-        public static List<DateTime> GetInvalidDates(List<DateTime> dates)
-        {
-            var invalid = new List<DateTime>();
-
-            for (int i = 0; i < dates.Count; i++)
-            {
-                if (i + 1 >= dates.Count)
-                    continue;
-
-                var nextDay = dates[i].AddDays(1);
-
-                while (nextDay != dates[i + 1].Date)
-                {
-                    invalid.Add(nextDay);
-                    nextDay = nextDay.AddDays(1);
-                }
-            }
-
-            return invalid;
-        }
-
+        /// <summary>
+        /// Добавляет указанное <c>daysCount</c> количество дней в коллекцию <c>dates</c>.
+        /// </summary>
+        /// <param name="dates">Коллекция, в которую нужно добавить дни</param>
+        /// <param name="daysCount">Количество дней, которое необходимо добавить</param>
+        /// <returns>Расширенную коллекцию экземпляров класса <c>DateTime</c></returns>
         public static List<DateTime> AddDays(this List<DateTime> dates, int daysCount)
         {
             var lastDate = dates.OrderBy(i => i).Last();

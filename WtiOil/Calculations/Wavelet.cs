@@ -5,6 +5,9 @@ using System.Text;
 
 namespace WtiOil
 {
+    /// <summary>
+    /// Предоставляет класс для прямого и обратного вейвлет преобразования Добеши.
+    /// </summary>
     public class Wavelet
     {
         /// <summary>

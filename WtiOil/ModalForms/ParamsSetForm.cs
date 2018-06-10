@@ -6,6 +6,9 @@ using System.Windows.Forms;
 
 namespace WtiOil
 {
+    /// <summary>
+    /// Предоставляет модальное окно для указания дополнительных данных, необходимых при расчетах.
+    /// </summary>
     public partial class ParamsSetForm : Form
     {
         /// <summary>
@@ -87,13 +90,13 @@ namespace WtiOil
                         html.BuildReport(html.GetReportPath(), validForms);
                         break;
                     case WindowType.Regression:
-                        main.ShowLineTrend(html.GetRegression());
+                        main.ShowInformationForm(html.GetRegression());
                         break;
                     case WindowType.Fourier:
-                        main.ShowFourier(html.GetFourier());
+                        main.ShowInformationForm(html.GetFourier());
                         break;
                     case WindowType.MultipleRegression:
-                        main.ShowMultiple(html.GetMultiple());
+                        main.ShowInformationForm(html.GetMultiple());
                         break;
                 }
                 this.Close();
@@ -110,9 +113,21 @@ namespace WtiOil
     /// </summary>
     public enum WindowType
     { 
+        /// <summary>
+        /// Выбор папки для сохранения отчета.
+        /// </summary>
         File,
+        /// <summary>
+        /// Данные для Фурье-анализа.
+        /// </summary>
         Fourier,
+        /// <summary>
+        /// Данные для многофакторной регрессии.
+        /// </summary>
         MultipleRegression,
+        /// <summary>
+        /// Данные для полиномиальной регрессии.
+        /// </summary>
         Regression
     }
 }

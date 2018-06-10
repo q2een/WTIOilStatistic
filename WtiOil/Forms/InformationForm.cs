@@ -2,21 +2,27 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WtiOil
 {
-    /* TODO
-        1. Делать биндинг данных через свойство Information
-        2. В главном окне не закрывать предыдущую форму, а присваивать ей значения.    
-     */
+    /// <summary>
+    /// Предоставляет форму для отображения коллекций данных, полученных после регрессии, Фурье и вейвлет-преобразований и т.п.,
+    /// где данные предоставляются в виде Параметр - Значение.
+    /// </summary>
     public partial class InformationForm : Form, IData
     {
         #region IData Implementation
+
+        /// <summary>
+        /// Возвращает или задает полную коллекция данных.
+        /// </summary>
         public List<ItemWTI> FullData { get; set; }
+
+        /// <summary>
+        /// Возвращает или задает коллекцию данных, с которой работает пользователь.
+        /// </summary>
         public List<ItemWTI> Data { get; set; }
         #endregion 
 
@@ -49,7 +55,10 @@ namespace WtiOil
             {
                 return dgvInformation.DataSource as List<InformationItem>;
             }
-            /* set :  dgvInformation.DataSource = value*/
+            set
+            {
+                dgvInformation.DataSource = value;
+            }
         }
 
         /// <summary>
@@ -123,7 +132,7 @@ namespace WtiOil
                     regression.Add(new InformationItem(lastDate.ToString("dd/MM/yyyy"), yValues[i]));
                 }
             }
-            dgvInformation.DataSource = regression;
+            Information = regression;
 
             return regression;
         }
@@ -150,7 +159,7 @@ namespace WtiOil
             regression.Add(new InformationItem("Переменная X1", coefficients[1]));
             regression.Add(new InformationItem("Переменная X2", coefficients[2]));
 
-            dgvInformation.DataSource = regression;
+            Information = regression;
 
             return regression;
         }
@@ -199,7 +208,7 @@ namespace WtiOil
 
             for (int i = 0; i < iCH.Length; i++)
                 wavelet.Add(new InformationItem("[" + (i + 1) + "]", iCH[i]));
-            
+
             /*
             wavelet.Add(new InformationItem("Результат прямого вейвлет-преобразования Добеши D4:",""));
 
@@ -207,8 +216,8 @@ namespace WtiOil
             {
                 wavelet.Add(new InformationItem("["+i+"]", coefficients[i]));
             }*/
-            
-            dgvInformation.DataSource = wavelet;
+
+            Information = wavelet;
 
             return wavelet;
         }
@@ -237,7 +246,7 @@ namespace WtiOil
             fourier.Add(new InformationItem("Период", yValues.Length * 1));
             fourier.Add(new InformationItem("Δt", 1));
             fourier.Add(new InformationItem("Погрешность", error));
-            fourier.Add(new InformationItem("Число гармоник", harmonics.Count + ""));
+            fourier.Add(new InformationItem("Число гармоник", (harmonics.Count-1) + ""));
 
             for (int i = 1; i < harmonics.Count; i++)
             {
@@ -261,7 +270,7 @@ namespace WtiOil
                 }
             }
 
-            dgvInformation.DataSource = fourier;
+            Information = fourier;
 
             return fourier;
         }
@@ -339,7 +348,7 @@ namespace WtiOil
 
             statistics.Add(new InformationItem("Счет", Data.Count()));
 
-            dgvInformation.DataSource = statistics;
+            Information = statistics;
 
             return statistics;
         }
@@ -350,27 +359,62 @@ namespace WtiOil
     /// </summary>
     public enum InformationType
     { 
+        /// <summary>
+        /// Элементарные статистики.
+        /// </summary>
         Statistics,
+        /// <summary>
+        /// Полиномиальная регрессия.
+        /// </summary>
         Regression,
+        /// <summary>
+        /// Многофакторная регрессия.
+        /// </summary>
         MultipleRegression,
+        /// <summary>
+        /// Фурье-преобразование.
+        /// </summary>
         Fourier,
+        /// <summary>
+        /// Вейвалет-преобразование.
+        /// </summary>
         Wavelet 
     }
 
+    /// <summary>
+    /// Предосталяет клас, содержащий данные в формате Параметр - Значение.
+    /// </summary>
     public class InformationItem
     {
+        /// <summary>
+        /// Параметр.
+        /// </summary>
         [DisplayName("Параметр")]
         public string Parameter { get; set; }
 
+        /// <summary>
+        /// Значение.
+        /// </summary>
         [DisplayName("Значение")]
         public string Value { get; set; }
 
+        /// <summary>
+        /// Предосталяет клас, содержащий данные в формате Параметр - Значение.
+        /// </summary>
+        /// <param name="parameter">Параметр</param>
+        /// <param name="value">Значение</param>
         public InformationItem(string parameter, string value)
         {
             this.Parameter = parameter;
             this.Value = value;
         }
 
+        /// <summary>
+        /// Предосталяет клас, содержащий данные в формате Параметр - Значение,
+        /// где значение представлено в виде числа с плавающей запятой.
+        /// </summary>
+        /// <param name="parameter">Параметр</param>
+        /// <param name="value">Значение</param>
         public InformationItem(string parameter, double? value)
         {
             this.Parameter = parameter;

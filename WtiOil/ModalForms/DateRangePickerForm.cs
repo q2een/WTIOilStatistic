@@ -1,18 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WtiOil
 {
+    /// <summary>
+    /// Предоставляет форму для выбора временного промежутка.
+    /// </summary>
     public partial class DateRangePickerForm : Form
     {
         private IData data;
 
+        /// <summary>
+        /// Предоставляет форму для выбора временного промежутка.
+        /// </summary>
+        /// <param name="data">Экземпляр класса, реализующего интерфейс <c>IData</c>, содержащий временной промежуток</param>
         public DateRangePickerForm(IData data)
         {
             InitializeComponent();

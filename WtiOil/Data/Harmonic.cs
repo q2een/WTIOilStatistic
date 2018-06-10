@@ -1,5 +1,8 @@
 ﻿namespace WtiOil
 {
+    /// <summary>
+    /// Предоставляет структуру, содержащий информацию о гармониках ряда Фурье.
+    /// </summary>
     public struct Harmonic
     {   
         /// <summary>

@@ -5,7 +5,7 @@ using System.Linq;
 namespace WtiOil
 {
     /// <summary>
-    /// <c>Statistics</c> - Класс для расчта элементарных статистик.
+    /// Класс для расчта элементарных статистик.
     /// </summary>
     public static class Statistics
     {

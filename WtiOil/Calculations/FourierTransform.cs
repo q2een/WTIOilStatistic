@@ -6,7 +6,7 @@ using System.Text;
 namespace WtiOil
 {
     /// <summary>
-    /// <c>FourierTransform</c> - класс для Фурье-анализа. 
+    /// Предоставляет класс для Фурье-анализа. 
     /// </summary>
     public static class FourierTransform
     {
@@ -69,8 +69,8 @@ namespace WtiOil
         /// <summary>
         /// Возвращает погрешность синтезированной функции, полученной из заданных гармоник.
         /// </summary>
-        /// <param name="xValues">Массив значений x</param>
-        /// <param name="yValues">Массив значений Y(x)</param>
+        /// <param name="yValues">Массив значений  Y(x)</param>
+        /// <param name="fourierY">Массив значений Y*(x)</param>
         /// <returns>Погрешность синтезированной функции</returns>
         public static double GetError(double[] yValues, double[] fourierY)
         {

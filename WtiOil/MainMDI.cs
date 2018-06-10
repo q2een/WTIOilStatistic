@@ -9,10 +9,9 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace WtiOil
 {
-    /* TODO
-     1. Добавить справку
-     2. ShowInformationForm - убрать лишнее методы, сделать все через данный метод. Убрать второй параметр.
-     */
+    /// <summary>
+    /// Предоставляет класс главного MDI окна.
+    /// </summary>
     public partial class MainMDI : Form
     {
         /// <summary>
@@ -31,7 +30,9 @@ namespace WtiOil
         /// <param name="forecastDaysCount">Количество дней, для которых предсказыны данные</param>
         public delegate void DrawFunc(IData data, double[] yValues, int forecastDaysCount);
 
-        // Конструктор класса.
+        /// <summary>
+        /// Предоставляет класс главного MDI окна. 
+        /// </summary>
         public MainMDI()
         {
             InitializeComponent();
@@ -45,7 +46,7 @@ namespace WtiOil
         /// <param name="type">Типк информации для отображения</param>
         /// <param name="chart">Экземпляр класса <c>ChartForm</c>, содержащий функции для отрисовки</param>
         /// <returns>Метод для отрисовки графика</returns>
-        public DrawFunc GetDrawFunctionByType(InformationType type, ChartForm chart)
+        public DrawFunc GetDrawFunctionByInformationType(InformationType type, ChartForm chart)
         {
             switch (type)
             {
@@ -315,13 +316,13 @@ namespace WtiOil
         /// Отображает форму <c>form</c> и отрисовывает данные на графике.
         /// </summary>
         /// <param name="form">Форма для отображения</param>
-        private void ShowInformationForm(InformationForm form, InformationType type)
+        public void ShowInformationForm(InformationForm form)
         {
-            if (form == null || form.Type != type)
+            if (form == null)
                 return;
 
             var chart = GetChartForm(form);
-            GetDrawFunctionByType(type,chart).Invoke(form, form.YValues, form.ForecastDaysCount);
+            GetDrawFunctionByInformationType(form.Type,chart).Invoke(form, form.YValues, form.ForecastDaysCount);
             chart.Show();
             chart.Activate();
 
@@ -329,46 +330,11 @@ namespace WtiOil
             inform.Show();
         }
 
-        /// <summary>
-        /// Отрисовывает линию тренда на графике.
-        /// </summary>
-        /// <param name="showInformation">Флаг, указывающий необходимо ли показывать результат расчетов.</param>
-        /// <param name="coefficients">Коэффициенты полиномиальной регрессии</param>
-        /// <param name="yValues">Рассчетные значения У(х)</param>
-        public void ShowLineTrend(InformationForm regression)
-        {
-            ShowInformationForm(regression, InformationType.Regression);
-        }
-
-        /// <summary>
-        /// Отрисовывает синтезированную функцию при Фурье-анализе.
-        /// </summary>
-        /// <param name="showInformation">Флаг, указывающий необходимо ли показывать результат расчетов.</param>
-        /// <param name="harmonics">Коллекция гармоник.</param>
-        /// <param name="yValues">Рассчетные значения У(х)</param>
-        public void ShowFourier(InformationForm fourier)
-        {
-            ShowInformationForm(fourier, InformationType.Fourier);
-        }
-
-        /// <summary>
-        /// Оторбражает линию тренда, полученную при многофакторной регрессии
-        /// </summary>
-        /// <param name="yValues">Рассчетные значения У(х)</param>
-        /// <param name="coefficients">Коеффициенты многофакторной регрессии</param>
-        public void ShowMultiple(InformationForm multiple)
-        {
-            ShowInformationForm(multiple, InformationType.MultipleRegression);
-        }
-
-        public void ShowWavelet(InformationForm wavelet)
-        {
-            ShowInformationForm(wavelet, InformationType.Wavelet);
-        }
-
         #region Состояние элементов управления.
-        
-        // Начальное состояние элементов управеления.
+
+        /// <summary>
+        /// Устанавливает начальное состояние элементов управеления.
+        /// </summary>
         public void InitialElementsState()
         {
             SetDataMenuitems(false, false, false);
@@ -465,21 +431,30 @@ namespace WtiOil
         /// <returns>Окно для отображения информации</returns>
         private InformationForm GetInformationForm(InformationForm form)
         {
-            var openedFroms = this.MdiChildren.Where(i => i is InformationForm);
-            var opened = openedFroms.Where(i => ((i as InformationForm).Type == form.Type && isIDataEquals((i as InformationForm), form))).FirstOrDefault();
+            var openedFroms = this.MdiChildren.Where(i => i is InformationForm).Select(z=> z as InformationForm);
+
+            var opened = openedFroms.Where(i => i.Type == form.Type && isIDataEquals(i, form)).FirstOrDefault();
 
             if (opened != null)
-                opened.Close();
+            {
+                opened.YValues = form.YValues;
+                opened.Wavelet = form.Wavelet;
+                opened.ForecastDaysCount = form.ForecastDaysCount;
+                opened.Information = form.Information;
+                return opened;
+            }
+                
 
             form.MdiParent = this;
             return form;
         }
 
         /// <summary>
-        /// Возвращает экземпляр открытой формы InformationForm с типом <c>type</c>.
+        /// Возвращает экземпляр открытой формы InformationForm с типом <c>type</c>, который работает с данными <c>data</c>.
         /// В случае отстутствия открытой формы создает новый экземпляр и возвращает его.
         /// </summary>
         /// <param name="type">Тип формы InformationForm</param>
+        /// <param name="data">Экземпляр класса, реализующий интерфейс <c>IData</c></param>
         /// <returns>Экземпляр формы InformationForm</returns>
         private InformationForm GetInformationForm(InformationType type,IData data)
         {            
@@ -661,7 +636,7 @@ namespace WtiOil
             if (ActiveMdiChild is InformationForm)
             {
                 var activeFrom = (ActiveMdiChild as InformationForm);
-                var function = GetDrawFunctionByType(activeFrom.Type, chartForm);
+                var function = GetDrawFunctionByInformationType(activeFrom.Type, chartForm);
                 function.Invoke(activeFrom, activeFrom.YValues, activeFrom.ForecastDaysCount);
             }
             else
@@ -743,7 +718,7 @@ namespace WtiOil
         // Обработка события нажития на пункт меню "Вейвлет-анализ".
         private void waveletMI_Click(object sender, EventArgs e)
         {
-            ShowWavelet(GetWaveletResult(this.ActiveMdiChild as IData));
+            ShowInformationForm(GetWaveletResult(this.ActiveMdiChild as IData));
         }
 
         // Обработка события нажития на пункт меню "Множественная регрессия".
