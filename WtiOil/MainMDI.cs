@@ -774,6 +774,12 @@ namespace WtiOil
         {
             new AboutForm().Show(this);
         }
+
+        // Обработка события нажития на пункт меню "Справка -> Справка".
+        private void helpMeMI_Click(object sender, EventArgs e)
+        {
+            Help.ShowHelp(this, @"help.chm");
+        }
         #endregion
     }
 }

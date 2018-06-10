@@ -100,4 +100,5 @@ E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil
 D:\пацаныскс13м\git\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.AboutForm.resources
 D:\пацаныскс13м\git\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.ParamsSetForm.resources
 E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Debug\WtiOil.ParamsSetForm.resources
-E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\bin\Debug\WtiOil.XML
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\bin\Debug\WtiOil.exe.config
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\bin\Debug\help.chm

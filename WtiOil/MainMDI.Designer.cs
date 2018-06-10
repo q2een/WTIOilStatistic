@@ -39,13 +39,6 @@
             this.saveAsMI = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.exitMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.dateRangeMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.fourierMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.waveletMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataSeparatorMI = new System.Windows.Forms.ToolStripSeparator();
-            this.multipleMI = new System.Windows.Forms.ToolStripMenuItem();
             this.chartMI = new System.Windows.Forms.ToolStripMenuItem();
             this.drawChartMI = new System.Windows.Forms.ToolStripMenuItem();
             this.drawTrendLineMI = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,8 +46,17 @@
             this.showLegendMI = new System.Windows.Forms.ToolStripMenuItem();
             this.scaleMI = new System.Windows.Forms.ToolStripMenuItem();
             this.seriesSeparatorMI = new System.Windows.Forms.ToolStripSeparator();
+            this.dataMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.dateRangeMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.fourierMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.waveletMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataSeparatorMI = new System.Windows.Forms.ToolStripSeparator();
+            this.multipleMI = new System.Windows.Forms.ToolStripMenuItem();
             this.reportMI = new System.Windows.Forms.ToolStripMenuItem();
             this.createReportMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.generateReportMI = new System.Windows.Forms.ToolStripMenuItem();
             this.statisticsMI = new System.Windows.Forms.ToolStripMenuItem();
             this.calculateMI = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -96,8 +98,6 @@
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.lblFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.generateReportMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.menu.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusBar.SuspendLayout();
@@ -193,66 +193,6 @@
             this.exitMI.Text = "В&ыход";
             this.exitMI.Click += new System.EventHandler(this.ExitToolsStripMenuItem_Click);
             // 
-            // dataMI
-            // 
-            this.dataMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dateRangeMI,
-            this.toolStripMenuItem5,
-            this.fourierMI,
-            this.waveletMI,
-            this.dataSeparatorMI,
-            this.multipleMI});
-            this.dataMI.Name = "dataMI";
-            this.dataMI.Size = new System.Drawing.Size(104, 20);
-            this.dataMI.Text = "Временной ряд";
-            this.dataMI.Visible = false;
-            // 
-            // dateRangeMI
-            // 
-            this.dateRangeMI.Image = ((System.Drawing.Image)(resources.GetObject("dateRangeMI.Image")));
-            this.dateRangeMI.Name = "dateRangeMI";
-            this.dateRangeMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.dateRangeMI.Size = new System.Drawing.Size(274, 22);
-            this.dateRangeMI.Text = "Указать период...";
-            this.dateRangeMI.Click += new System.EventHandler(this.dateRangeMI_Click);
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(271, 6);
-            // 
-            // fourierMI
-            // 
-            this.fourierMI.Image = ((System.Drawing.Image)(resources.GetObject("fourierMI.Image")));
-            this.fourierMI.Name = "fourierMI";
-            this.fourierMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.fourierMI.Size = new System.Drawing.Size(274, 22);
-            this.fourierMI.Text = "Фурье-анализ";
-            this.fourierMI.Click += new System.EventHandler(this.fourierMI_Click);
-            // 
-            // waveletMI
-            // 
-            this.waveletMI.Image = ((System.Drawing.Image)(resources.GetObject("waveletMI.Image")));
-            this.waveletMI.Name = "waveletMI";
-            this.waveletMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.waveletMI.Size = new System.Drawing.Size(274, 22);
-            this.waveletMI.Text = "Вейвлет-анализ";
-            this.waveletMI.Click += new System.EventHandler(this.waveletMI_Click);
-            // 
-            // dataSeparatorMI
-            // 
-            this.dataSeparatorMI.Name = "dataSeparatorMI";
-            this.dataSeparatorMI.Size = new System.Drawing.Size(271, 6);
-            // 
-            // multipleMI
-            // 
-            this.multipleMI.Image = ((System.Drawing.Image)(resources.GetObject("multipleMI.Image")));
-            this.multipleMI.Name = "multipleMI";
-            this.multipleMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.multipleMI.Size = new System.Drawing.Size(274, 22);
-            this.multipleMI.Text = "Многофакторная регрессия";
-            this.multipleMI.Click += new System.EventHandler(this.miltipleMI_Click);
-            // 
             // chartMI
             // 
             this.chartMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -314,6 +254,66 @@
             this.seriesSeparatorMI.Name = "seriesSeparatorMI";
             this.seriesSeparatorMI.Size = new System.Drawing.Size(295, 6);
             // 
+            // dataMI
+            // 
+            this.dataMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dateRangeMI,
+            this.toolStripMenuItem5,
+            this.fourierMI,
+            this.waveletMI,
+            this.dataSeparatorMI,
+            this.multipleMI});
+            this.dataMI.Name = "dataMI";
+            this.dataMI.Size = new System.Drawing.Size(104, 20);
+            this.dataMI.Text = "Временной ряд";
+            this.dataMI.Visible = false;
+            // 
+            // dateRangeMI
+            // 
+            this.dateRangeMI.Image = ((System.Drawing.Image)(resources.GetObject("dateRangeMI.Image")));
+            this.dateRangeMI.Name = "dateRangeMI";
+            this.dateRangeMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.dateRangeMI.Size = new System.Drawing.Size(274, 22);
+            this.dateRangeMI.Text = "Указать период...";
+            this.dateRangeMI.Click += new System.EventHandler(this.dateRangeMI_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(271, 6);
+            // 
+            // fourierMI
+            // 
+            this.fourierMI.Image = ((System.Drawing.Image)(resources.GetObject("fourierMI.Image")));
+            this.fourierMI.Name = "fourierMI";
+            this.fourierMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.fourierMI.Size = new System.Drawing.Size(274, 22);
+            this.fourierMI.Text = "Фурье-анализ";
+            this.fourierMI.Click += new System.EventHandler(this.fourierMI_Click);
+            // 
+            // waveletMI
+            // 
+            this.waveletMI.Image = ((System.Drawing.Image)(resources.GetObject("waveletMI.Image")));
+            this.waveletMI.Name = "waveletMI";
+            this.waveletMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.waveletMI.Size = new System.Drawing.Size(274, 22);
+            this.waveletMI.Text = "Вейвлет-анализ";
+            this.waveletMI.Click += new System.EventHandler(this.waveletMI_Click);
+            // 
+            // dataSeparatorMI
+            // 
+            this.dataSeparatorMI.Name = "dataSeparatorMI";
+            this.dataSeparatorMI.Size = new System.Drawing.Size(271, 6);
+            // 
+            // multipleMI
+            // 
+            this.multipleMI.Image = ((System.Drawing.Image)(resources.GetObject("multipleMI.Image")));
+            this.multipleMI.Name = "multipleMI";
+            this.multipleMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.multipleMI.Size = new System.Drawing.Size(274, 22);
+            this.multipleMI.Text = "Многофакторная регрессия";
+            this.multipleMI.Click += new System.EventHandler(this.miltipleMI_Click);
+            // 
             // reportMI
             // 
             this.reportMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -332,6 +332,18 @@
             this.createReportMI.Size = new System.Drawing.Size(191, 22);
             this.createReportMI.Text = "Создать отчет";
             this.createReportMI.Click += new System.EventHandler(this.createReportMI_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(188, 6);
+            // 
+            // generateReportMI
+            // 
+            this.generateReportMI.Name = "generateReportMI";
+            this.generateReportMI.Size = new System.Drawing.Size(191, 22);
+            this.generateReportMI.Text = "Сформировать отчет";
+            this.generateReportMI.Click += new System.EventHandler(this.generateReportMI_Click);
             // 
             // statisticsMI
             // 
@@ -530,6 +542,7 @@
             this.helpMeMI.ShortcutKeys = System.Windows.Forms.Keys.F1;
             this.helpMeMI.Size = new System.Drawing.Size(152, 22);
             this.helpMeMI.Text = "&Справка";
+            this.helpMeMI.Click += new System.EventHandler(this.helpMeMI_Click);
             // 
             // toolStripSeparator8
             // 
@@ -696,18 +709,6 @@
             this.lblFileName.Name = "lblFileName";
             this.lblFileName.Size = new System.Drawing.Size(66, 17);
             this.lblFileName.Text = "Состояние";
-            // 
-            // generateReportMI
-            // 
-            this.generateReportMI.Name = "generateReportMI";
-            this.generateReportMI.Size = new System.Drawing.Size(191, 22);
-            this.generateReportMI.Text = "Сформировать отчет";
-            this.generateReportMI.Click += new System.EventHandler(this.generateReportMI_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(188, 6);
             // 
             // MainMDI
             // 

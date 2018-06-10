@@ -1,0 +1,16 @@
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\bin\Release\WtiOil.exe.config
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\bin\Release\help.chm
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\bin\Release\WtiOil.exe
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\bin\Release\WtiOil.pdb
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Release\WtiOil.ChartForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Release\WtiOil.DataForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Release\WtiOil.AboutForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Release\WtiOil.DateRangePickerForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Release\WtiOil.HTMLReportForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Release\WtiOil.MainMDI.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Release\WtiOil.ParamsSetForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Release\WtiOil.Properties.Resources.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Release\WtiOil.InformationForm.resources
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Release\WtiOil.csproj.GenerateResource.Cache
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Release\WtiOil.exe
+E:\it's my\univer\5-й\КП СМОД\WTIOilStatistic\WtiOil\obj\x86\Release\WtiOil.pdb

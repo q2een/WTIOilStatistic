@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Qzeen")]
 [assembly: AssemblyProduct("WtiOil")]
-[assembly: AssemblyCopyright("Copyright © DSTU 2018")]
+[assembly: AssemblyCopyright("Copyright © Qzeen 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
