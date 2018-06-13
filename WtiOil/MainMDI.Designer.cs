@@ -372,7 +372,7 @@
             this.calculateMI.Name = "calculateMI";
             this.calculateMI.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.calculateMI.Size = new System.Drawing.Size(212, 22);
-            this.calculateMI.Text = "Расчитать";
+            this.calculateMI.Text = "Рассчитать";
             this.calculateMI.Click += new System.EventHandler(this.calculateMI_Click);
             // 
             // toolStripMenuItem1
@@ -540,19 +540,19 @@
             this.helpMeMI.ImageTransparentColor = System.Drawing.Color.Black;
             this.helpMeMI.Name = "helpMeMI";
             this.helpMeMI.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.helpMeMI.Size = new System.Drawing.Size(152, 22);
+            this.helpMeMI.Size = new System.Drawing.Size(149, 22);
             this.helpMeMI.Text = "&Справка";
             this.helpMeMI.Click += new System.EventHandler(this.helpMeMI_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(146, 6);
             // 
             // aboutMI
             // 
             this.aboutMI.Name = "aboutMI";
-            this.aboutMI.Size = new System.Drawing.Size(152, 22);
+            this.aboutMI.Size = new System.Drawing.Size(149, 22);
             this.aboutMI.Text = "&О программе";
             this.aboutMI.Click += new System.EventHandler(this.aboutMI_Click);
             // 
@@ -681,7 +681,7 @@
             this.calculateTSB.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.calculateTSB.Name = "calculateTSB";
             this.calculateTSB.Size = new System.Drawing.Size(23, 22);
-            this.calculateTSB.Text = "Расчитать статистики";
+            this.calculateTSB.Text = "Рассчитать статистики";
             this.calculateTSB.Click += new System.EventHandler(this.calculateMI_Click);
             // 
             // repotTSB

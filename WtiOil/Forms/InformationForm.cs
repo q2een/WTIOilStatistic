@@ -119,8 +119,6 @@ namespace WtiOil
                 regression.Add(new InformationItem("A[" + i + "]", String.Format(format, coefficients[i])));
             }
 
-            regression.Add(new InformationItem("Расчетные значения: ", ""));
-              
             if (forecastDays > 0)
             {
                 var lastDate = Data.Last().Date;
